@@ -63,7 +63,7 @@ export const baseOptions: BaseLayoutProps = {
     {
       type: "menu",
       text: "Documentation",
-      url: "/docs",
+      url: "/",
       items: [
         {
           menu: {
@@ -72,7 +72,7 @@ export const baseOptions: BaseLayoutProps = {
           icon: <Book />,
           text: "Get Started",
           description: "Learn how to get started with Meeting Baas.",
-          url: "/docs",
+          url: "/",
         },
         
       ],
