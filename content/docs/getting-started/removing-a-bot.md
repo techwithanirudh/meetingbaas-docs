@@ -1,5 +1,6 @@
 ---
 title: Removing a bot
+icon: BotOff
 ---
 
 If you want to remove a bot from a meeting, send a DELETE request to [https://api.meetingbaas.com/bots](https://api.meetingbaas.com/bots) with the bot identifier:

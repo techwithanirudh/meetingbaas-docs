@@ -1,5 +1,6 @@
 ---
 title: Sending a bot
+icon: Bot
 ---
 
 You can summon a bot:
