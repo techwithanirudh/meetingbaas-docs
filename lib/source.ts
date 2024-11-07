@@ -1,2 +1,14 @@
-import { createOpenAPI } from "fumadocs-openapi/server";
+import { createMDXSource } from 'fumadocs-mdx';
+import { loader } from 'fumadocs-core/source';
+import { attachFile, createOpenAPI } from 'fumadocs-openapi/server';
+import { docs, meta } from '@/.source';
+
+export const source = loader({
+  baseUrl: '/',
+  source: createMDXSource(docs, meta),
+  pageTree: {
+    attachFile,
+  },
+});
+
 export const openapi = createOpenAPI();
