@@ -1,5 +1,4 @@
 import { createPreset, presets } from "fumadocs-ui/tailwind-plugin";
-import baseConfig from "@meeting-baas/tailwind-config/web";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -8,7 +7,8 @@ export default {
     "./app/**/*.{ts,tsx}",
     "./content/**/*.{md,mdx}",
     "./mdx-components.{ts,tsx}",
-    "./node_modules/fumadocs-ui/dist/**/*.js"
+    "./node_modules/fumadocs-ui/dist/**/*.js",
+    "./node_modules/fumadocs-openapi/dist/**/*.js",
   ],
   presets: [
     createPreset({

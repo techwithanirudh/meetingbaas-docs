@@ -1,0 +1,10 @@
+{
+  "title": "Documentation",
+  "pages": [
+    "index",
+    "sending-a-bot",
+    "removing-a-bot",
+    "getting-the-data",
+    "api-reference"
+  ]
+}

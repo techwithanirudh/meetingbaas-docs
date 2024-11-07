@@ -1,0 +1,1182 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "baas_handler",
+    "version": "0.2.0"
+  },
+  "paths": {
+    "/bots": {
+      "post": {
+        "tags": ["Bots and Meeting Data"],
+        "operationId": "bots_public_join",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JoinRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JoinResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
+          },
+          "404": {
+            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
+          },
+          "422": {
+            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
+          },
+          "500": {
+            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/bots/{uuid}": {
+      "delete": {
+        "tags": ["Bots and Meeting Data"],
+        "operationId": "bots_public_leave",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
+          },
+          "404": {
+            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
+          },
+          "422": {
+            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
+          },
+          "500": {
+            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/bots/meeting_data": {
+      "get": {
+        "tags": ["Bots and Meeting Data"],
+        "operationId": "bots_public_get_meeting_data",
+        "parameters": [
+          {
+            "name": "bot_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Metadata"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
+          },
+          "404": {
+            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
+          },
+          "422": {
+            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
+          },
+          "500": {
+            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/calendars": {
+      "get": {
+        "tags": ["List Calendars"],
+        "operationId": "calendar_calendars_list_calendars",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Calendar"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
+          },
+          "404": {
+            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
+          },
+          "422": {
+            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
+          },
+          "500": {
+            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
+          }
+        },
+        "security": [{}]
+      },
+      "post": {
+        "tags": ["Synchronize Calendars"],
+        "description": "synchronize all events of a new calendar",
+        "operationId": "calendar_calendars_create_calendar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCalendarParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateCalendarResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
+          },
+          "404": {
+            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
+          },
+          "422": {
+            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
+          },
+          "500": {
+            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/calendars/{uuid}": {
+      "get": {
+        "tags": ["Get Calendar"],
+        "operationId": "calendar_calendars_get_calendar",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Calendar"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
+          },
+          "404": {
+            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
+          },
+          "422": {
+            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
+          },
+          "500": {
+            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
+          }
+        },
+        "security": [{}]
+      },
+      "delete": {
+        "tags": ["Delete Calendars"],
+        "description": "Delete a calendar with a given uuid",
+        "operationId": "calendar_calendars_delete_calendar",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "400": {
+            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
+          },
+          "404": {
+            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
+          },
+          "422": {
+            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
+          },
+          "500": {
+            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/raw_calendars": {
+      "get": {
+        "tags": ["List Calendars"],
+        "description": "synchronize all events of a new calendar",
+        "operationId": "calendar_calendars_list_raw_calendars",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCalendarParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListRawCalendarsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
+          },
+          "404": {
+            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
+          },
+          "422": {
+            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
+          },
+          "500": {
+            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/calendar_events": {
+      "get": {
+        "tags": ["List all events of a calendar"],
+        "description": "list all events of a calendar",
+        "operationId": "calendar_calendar_events_list_events",
+        "parameters": [
+          {
+            "name": "calendar_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "updated_at_gte",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Event"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
+          },
+          "404": {
+            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
+          },
+          "422": {
+            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
+          },
+          "500": {
+            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/calendar_events/{uuid}": {
+      "get": {
+        "tags": ["Calendar Events"],
+        "description": "get event with uuid",
+        "operationId": "calendar_calendar_events_get_event",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
+          },
+          "404": {
+            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
+          },
+          "422": {
+            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
+          },
+          "500": {
+            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
+          }
+        },
+        "security": [{}]
+      }
+    },
+    "/calendar_events/{uuid}/bot": {
+      "post": {
+        "tags": ["Add Bot Parameters on Event"],
+        "operationId": "calendar_calendar_events_schedule_record_event",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BotParam2"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
+          },
+          "404": {
+            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
+          },
+          "422": {
+            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
+          },
+          "500": {
+            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
+          }
+        },
+        "security": [{}]
+      },
+      "delete": {
+        "tags": ["Unschedule Record Event"],
+        "operationId": "calendar_calendar_events_unschedule_record_event",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
+          },
+          "404": {
+            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
+          },
+          "422": {
+            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
+          },
+          "500": {
+            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
+          }
+        },
+        "security": [{}]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "JoinResponse": {
+        "type": "object",
+        "required": ["bot_id"],
+        "properties": {
+          "bot_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "JoinRequest": {
+        "type": "object",
+        "required": ["bot_name", "meeting_url", "reserved"],
+        "properties": {
+          "meeting_url": {
+            "type": "string"
+          },
+          "bot_name": {
+            "type": "string"
+          },
+          "bot_image": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "speech_to_text": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SpeechToText"
+              }
+            ],
+            "nullable": true
+          },
+          "streaming": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/StreamingApiParameter"
+              }
+            ],
+            "nullable": true
+          },
+          "reserved": {
+            "type": "boolean"
+          },
+          "entry_message": {
+            "type": "string",
+            "nullable": true
+          },
+          "webhook_url": {
+            "type": "string",
+            "nullable": true
+          },
+          "automatic_leave": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/AutomaticLeaveRequest"
+              }
+            ],
+            "nullable": true
+          },
+          "deduplication_key": {
+            "type": "string",
+            "nullable": true
+          },
+          "recording_mode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecordingMode"
+              }
+            ],
+            "nullable": true
+          },
+          "extra": {
+            "nullable": true
+          },
+          "start_time": {
+            "type": "integer",
+            "format": "uint64",
+            "minimum": 0.0,
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SpeechToText": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/SpeechToTextApiParameter"
+          },
+          {
+            "$ref": "#/components/schemas/SpeechToTextProvider"
+          }
+        ]
+      },
+      "SpeechToTextApiParameter": {
+        "type": "object",
+        "required": ["provider"],
+        "properties": {
+          "provider": {
+            "$ref": "#/components/schemas/SpeechToTextProvider"
+          },
+          "api_key": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "SpeechToTextProvider": {
+        "type": "string",
+        "enum": ["Gladia", "Runpod", "Default"]
+      },
+      "StreamingApiParameter": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "nullable": true
+          },
+          "output": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AutomaticLeaveRequest": {
+        "type": "object",
+        "properties": {
+          "waiting_room_timeout": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0,
+            "nullable": true
+          },
+          "noone_joined_timeout": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0,
+            "nullable": true
+          }
+        }
+      },
+      "RecordingMode": {
+        "type": "string",
+        "enum": ["speaker_view", "gallery_view", "audio_only"]
+      },
+      "LeaveResponse": {
+        "type": "object",
+        "required": ["ok"],
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Metadata": {
+        "type": "object",
+        "required": ["bot_data", "mp4"],
+        "properties": {
+          "bot_data": {
+            "$ref": "#/components/schemas/BotData"
+          },
+          "mp4": {
+            "type": "string"
+          }
+        }
+      },
+      "BotData": {
+        "type": "object",
+        "required": ["bot", "transcripts"],
+        "properties": {
+          "bot": {
+            "$ref": "#/components/schemas/BotWithParams"
+          },
+          "transcripts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Transcript"
+            }
+          }
+        }
+      },
+      "BotWithParams": {
+        "type": "object",
+        "required": [
+          "account_id",
+          "bot_name",
+          "bot_param_id",
+          "created_at",
+          "extra",
+          "id",
+          "meeting_url",
+          "mp4_s3_path",
+          "reserved",
+          "uuid",
+          "webhook_url"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "account_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "meeting_url": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "partial-date-time"
+          },
+          "session_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "reserved": {
+            "type": "boolean"
+          },
+          "errors": {
+            "type": "string",
+            "nullable": true
+          },
+          "ended_at": {
+            "type": "string",
+            "format": "partial-date-time",
+            "nullable": true
+          },
+          "mp4_s3_path": {
+            "type": "string"
+          },
+          "webhook_url": {
+            "type": "string"
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bot_param_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "event_id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "scheduled_bot_id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "bot_name": {
+            "type": "string"
+          },
+          "bot_image": {
+            "type": "string",
+            "nullable": true
+          },
+          "speech_to_text_provider": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SpeechToTextProvider"
+              }
+            ],
+            "nullable": true
+          },
+          "enter_message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recording_mode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecordingMode"
+              }
+            ],
+            "nullable": true
+          },
+          "speech_to_text_api_key": {
+            "type": "string",
+            "nullable": true
+          },
+          "streaming_input": {
+            "type": "string",
+            "nullable": true
+          },
+          "streaming_output": {
+            "type": "string",
+            "nullable": true
+          },
+          "waiting_room_timeout": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "noone_joined_timeout": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deduplication_key": {
+            "type": "string",
+            "nullable": true
+          },
+          "extra": {}
+        }
+      },
+      "Transcript": {
+        "type": "object",
+        "required": [
+          "bot_id",
+          "end_time",
+          "id",
+          "speaker",
+          "start_time",
+          "words"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "speaker": {
+            "type": "string"
+          },
+          "bot_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "start_time": {
+            "type": "number",
+            "format": "double"
+          },
+          "words": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Word"
+            }
+          },
+          "end_time": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Word": {
+        "type": "object",
+        "required": ["end_time", "id", "start_time", "text", "transcript_id"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "text": {
+            "type": "string"
+          },
+          "start_time": {
+            "type": "number",
+            "format": "double"
+          },
+          "end_time": {
+            "type": "number",
+            "format": "double"
+          },
+          "transcript_id": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Calendar": {
+        "type": "object",
+        "required": ["email", "google_id", "name", "uuid"],
+        "properties": {
+          "google_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "resource_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "CreateCalendarResponse": {
+        "type": "object",
+        "required": ["calendar"],
+        "properties": {
+          "calendar": {
+            "$ref": "#/components/schemas/Calendar"
+          }
+        }
+      },
+      "CreateCalendarParams": {
+        "type": "object",
+        "required": [
+          "oauth_client_id",
+          "oauth_client_secret",
+          "oauth_refresh_token",
+          "platform"
+        ],
+        "properties": {
+          "oauth_client_id": {
+            "type": "string"
+          },
+          "oauth_client_secret": {
+            "type": "string"
+          },
+          "oauth_refresh_token": {
+            "type": "string"
+          },
+          "platform": {
+            "$ref": "#/components/schemas/Provider"
+          },
+          "raw_calendar_id": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Provider": {
+        "description": "Fields with value `\"simple\"` parse as `Kind::Simple`. Fields with value `\"fancy\"` parse as `Kind::SoFancy`.",
+        "type": "string",
+        "enum": ["Google", "Microsoft"]
+      },
+      "ListRawCalendarsResponse": {
+        "type": "object",
+        "required": ["calendars"],
+        "properties": {
+          "calendars": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CalendarListEntry"
+            }
+          }
+        }
+      },
+      "CalendarListEntry": {
+        "type": "object",
+        "required": ["email", "id", "is_primary"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "is_primary": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Event": {
+        "type": "object",
+        "required": [
+          "deleted",
+          "end_time",
+          "google_id",
+          "is_organizer",
+          "is_recurring",
+          "last_updated_at",
+          "meeting_url",
+          "name",
+          "raw",
+          "start_time",
+          "uuid"
+        ],
+        "properties": {
+          "google_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "meeting_url": {
+            "type": "string"
+          },
+          "start_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "is_organizer": {
+            "type": "boolean"
+          },
+          "recurring_event_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "is_recurring": {
+            "type": "boolean"
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "raw": {},
+          "bot_param": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BotParam"
+              }
+            ],
+            "nullable": true
+          },
+          "last_updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "BotParam": {
+        "type": "object",
+        "required": ["bot_name", "extra"],
+        "properties": {
+          "bot_name": {
+            "type": "string"
+          },
+          "bot_image": {
+            "type": "string",
+            "nullable": true
+          },
+          "speech_to_text_provider": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SpeechToTextProvider"
+              }
+            ],
+            "nullable": true
+          },
+          "enter_message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recording_mode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecordingMode"
+              }
+            ],
+            "nullable": true
+          },
+          "speech_to_text_api_key": {
+            "type": "string",
+            "nullable": true
+          },
+          "streaming_input": {
+            "type": "string",
+            "nullable": true
+          },
+          "streaming_output": {
+            "type": "string",
+            "nullable": true
+          },
+          "waiting_room_timeout": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "noone_joined_timeout": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deduplication_key": {
+            "type": "string",
+            "nullable": true
+          },
+          "extra": {}
+        }
+      },
+      "BotParam2": {
+        "type": "object",
+        "required": ["bot_name"],
+        "properties": {
+          "bot_name": {
+            "type": "string"
+          },
+          "bot_image": {
+            "type": "string",
+            "nullable": true
+          },
+          "speech_to_text": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SpeechToText"
+              }
+            ],
+            "nullable": true
+          },
+          "streaming_input": {
+            "type": "string",
+            "nullable": true
+          },
+          "streaming_output": {
+            "type": "string",
+            "nullable": true
+          },
+          "enter_message": {
+            "type": "string",
+            "nullable": true
+          },
+          "recording_mode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecordingMode"
+              }
+            ],
+            "nullable": true
+          },
+          "waiting_room_timeout": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "noone_joined_timeout": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deduplication_key": {
+            "type": "string",
+            "nullable": true
+          },
+          "extra": {
+            "nullable": true
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "description": "Use either x-meeting-baas-api-key or x-spoke-api-key (deprecated)",
+        "type": "apiKey",
+        "name": "x-meeting-baas-api-key",
+        "in": ""
+      }
+    }
+  }
+}
