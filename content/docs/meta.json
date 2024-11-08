@@ -2,5 +2,5 @@
   "title:": "Meeting Baas",
   "description": "The docs framework",
   "root": true,
-  "pages": ["index", "getting-started", "api-reference"]
+  "pages": ["index", "getting-started", "api-reference", "community-and-support"]
 }

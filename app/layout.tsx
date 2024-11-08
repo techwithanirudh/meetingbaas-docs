@@ -1,11 +1,30 @@
-import '@/styles/globals.css';
-import { RootProvider } from 'fumadocs-ui/provider';
-import { Inter } from 'next/font/google';
-import type { ReactNode } from 'react';
+import "@/styles/globals.css";
+import { RootProvider } from "fumadocs-ui/provider";
+import { Inter } from "next/font/google";
+import type { ReactNode } from "react";
+import { baseUrl, createMetadata } from "@/lib/metadata";
+import type { Viewport } from "next";
 
 const inter = Inter({
-  subsets: ['latin'],
+  subsets: ["latin"],
 });
+
+export const metadata = createMetadata({
+  title: {
+    template: "%s | Meeting Baas",
+    default: "Meeting Baas",
+  },
+  description:
+    "An open-source transcription playground powered by advanced transcription APIs and meeting bot technology.",
+  metadataBase: baseUrl,
+});
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0A0A0A" },
+    { media: "(prefers-color-scheme: light)", color: "#fff" },
+  ],
+};
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
