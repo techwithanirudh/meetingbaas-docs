@@ -13,7 +13,6 @@ import {
 } from "@radix-ui/react-dialog";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { Info, Loader2, RefreshCw, Send, X } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import {
   type ButtonHTMLAttributes,
   type HTMLAttributes,
