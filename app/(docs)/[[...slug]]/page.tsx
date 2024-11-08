@@ -27,12 +27,12 @@ export default async function Page(props: {
         style: "clerk",
         single: false,
       }}
-      editOnGithub={{
-        repo: "docs",
-        owner: "Meeting-Baas",
-        sha: "main",
-        path,
-      }}
+      // editOnGithub={{
+      //   repo: "docs",
+      //   owner: "Meeting-Baas",
+      //   sha: "main",
+      //   path,
+      // }}
     >
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
