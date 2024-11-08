@@ -1,5 +1,5 @@
 {
   "title": "Getting Started",
   "icon": "Play",
-  "pages": ["sending-a-bot", "removing-a-bot", "getting-the-dataa"]
+  "pages": ["sending-a-bot", "removing-a-bot", "getting-the-data"]
 }
