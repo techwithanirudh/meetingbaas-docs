@@ -1,5 +1,19 @@
 "use client";
+import { cn } from "@/lib/fumadocs/cn";
 import type { AnswerSession, Message } from "@oramacloud/client";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from "@radix-ui/react-dialog";
+import defaultMdxComponents from "fumadocs-ui/mdx";
+import { Info, Loader2, RefreshCw, Send, X } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import {
   type ButtonHTMLAttributes,
   type HTMLAttributes,
@@ -11,19 +25,6 @@ import {
   useRef,
   useState,
 } from "react";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogOverlay,
-  DialogPortal,
-  DialogTitle,
-  DialogTrigger,
-} from "@radix-ui/react-dialog";
-import { Info, Loader2, RefreshCw, Send, X } from "lucide-react";
-import defaultMdxComponents from "fumadocs-ui/mdx";
-import { cn } from "@/lib/fumadocs/cn";
 import { buttonVariants } from "../ui/button";
 import type { Processor } from "./markdown-processor";
 
@@ -411,14 +412,27 @@ Message.displayName = "Message";
 export function Trigger(
   props: ButtonHTMLAttributes<HTMLButtonElement>
 ): React.ReactElement {
+  const [open, setOpen] = useState(false);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    // Check for ai-search-bar parameter
+    if (searchParams.has("ai-search-bar")) {
+      setOpen(true);
+    }
+  }, [searchParams]);
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger {...props} />
       <DialogPortal>
         <DialogOverlay className="fixed inset-0 z-50 bg-fd-background/50 backdrop-blur-sm data-[state=closed]:animate-fd-fade-out data-[state=open]:animate-fd-fade-in" />
         <DialogContent
           onOpenAutoFocus={(e) => {
             document.getElementById("nd-ai-input")?.focus();
+            e.preventDefault();
+          }}
+          onCloseAutoFocus={(e) => {
             e.preventDefault();
           }}
           className="fixed left-1/2 z-50 my-[5vh] flex max-h-[90dvh] w-[98vw] max-w-[860px] origin-left -translate-x-1/2 flex-col rounded-lg border bg-fd-popover text-fd-popover-foreground shadow-lg focus-visible:outline-none data-[state=closed]:animate-fd-dialog-out data-[state=open]:animate-fd-dialog-in"
