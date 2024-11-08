@@ -1,4 +1,4 @@
-import { source, openapi } from '@/lib/source';
+import { source, openapi } from "@/lib/source";
 import {
   DocsPage,
   DocsBody,
@@ -15,10 +15,25 @@ export default async function Page(props: {
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
+  const path = `content/docs/${page.file.path}`;
+
   const MDX = page.data.body;
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
+    <DocsPage
+      toc={page.data.toc}
+      full={page.data.full}
+      tableOfContent={{
+        style: "clerk",
+        single: false,
+      }}
+      editOnGithub={{
+        repo: "docs",
+        owner: "Meeting-Baas",
+        sha: "main",
+        path,
+      }}
+    >
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
