@@ -2,6 +2,7 @@ import { createPreset, presets } from "fumadocs-ui/tailwind-plugin";
 
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: "class",
   content: [
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
@@ -40,8 +41,11 @@ export default {
           ring: "197 100% 44%",
         },
         css: {
-          ...presets.vitepress.css
-        }
+          ...presets.vitepress.css,
+          "button[data-ai-search-full]": {
+            backgroundColor: "theme(colors.fd-background)",
+          },
+        },
       },
     }),
   ],
