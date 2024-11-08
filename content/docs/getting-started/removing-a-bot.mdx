@@ -1,0 +1,69 @@
+---
+title: Removing a bot
+description: Learn how to remove a bot from an ongoing meeting using the API
+---
+
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
+If you want to remove a bot from a meeting, send a DELETE request to [https://api.meetingbaas.com/bots](https://api.meetingbaas.com/bots) with the bot identifier:
+
+<Tabs items={['Bash', 'Python', 'JavaScript']}>
+  <Tab value="Bash">
+    ```bash title="leave_meeting.sh"
+    curl -X DELETE "https://api.meetingbaas.com/bots/YOUR_BOT_ID" \
+         -H "Content-Type: application/json" \
+         -H "x-meeting-baas-api-key: YOUR-API-KEY"
+    ```
+  </Tab>
+  <Tab value="Python">
+    ```python title="leave_meeting.py"
+    import requests
+
+    bot_id = "YOUR_BOT_ID"
+    url = f"https://api.meetingbaas.com/bots/{bot_id}"
+    headers = {
+        "Content-Type": "application/json",
+        "x-meeting-baas-api-key": "YOUR-API-KEY",
+    }
+
+    response = requests.delete(url, headers=headers)
+    if response.status_code == 200:
+        print("Bot successfully removed from the meeting.")
+    else:
+        print("Failed to remove the bot:", response.json())
+    ```
+  </Tab>
+  <Tab value="JavaScript">
+    ```javascript title="leave_meeting.js"
+    const botId = "YOUR_BOT_ID";
+    fetch(`https://api.meetingbaas.com/bots/${botId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "x-meeting-baas-api-key": "YOUR-API-KEY",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Bot successfully removed from the meeting.");
+        } else {
+          console.error("Failed to remove the bot:", response.statusText);
+        }
+      })
+      .catch((error) => console.error("Error:", error));
+    ```
+  </Tab>
+</Tabs>
+
+Both API key and bot ID are mandatory.
+
+The bot will leave the meeting and you will get the meeting data up to this point.
+
+Expect us to reply simply with:
+
+```http
+HTTP/2 200
+Content-Type: application/json
+
+{ "ok": true }
+```
