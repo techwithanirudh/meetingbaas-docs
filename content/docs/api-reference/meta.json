@@ -1,5 +1,16 @@
 {
   "title": "API Reference",
   "icon": "Webhook",
-  "pages": ["bots-and--meeting--data", "list--calendars", "synchronize--calendars", "get--calendar", "delete--calendars", "list-all-events-of-a-calendar", "calendar--events", "add--bot--parameters-on--event", "unschedule--record--event"]
+  "pages": [
+    "bots-and--meeting--data",
+    "list--calendars",
+    "synchronize--calendars",
+    "get--calendar",
+    "delete--calendars",
+    "list-all-events-of-a-calendar",
+    "calendar--events",
+    "add--bot--parameters-on--event",
+    "unschedule--record--event",
+    "..."
+  ]
 }
