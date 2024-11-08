@@ -25,7 +25,7 @@
     "fumadocs-mdx": "11.1.1",
     "fumadocs-openapi": "^5.5.7",
     "fumadocs-typescript": "^3.0.2",
-    "fumadocs-ui": "14.2.1",
+    "fumadocs-ui": "14.3.0",
     "hast": "^1.0.0",
     "hast-util-to-jsx-runtime": "^2.3.2",
     "lucide-react": "^0.454.0",
