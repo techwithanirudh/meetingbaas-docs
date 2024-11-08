@@ -3,9 +3,7 @@ import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import type { ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
 import { source } from "@/lib/source";
-import { Slot } from "@radix-ui/react-slot";
 import { Trigger } from "@/components/fumadocs/ai/search-ai";
-import { logo } from "@/app/layout.config";
 import { cn } from "@/lib/cn";
 import { buttonVariants } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
@@ -13,10 +11,6 @@ import { MessageCircle } from "lucide-react";
 const docsOptions: DocsLayoutProps = {
   ...baseOptions,
   tree: source.pageTree,
-  nav: {
-    ...baseOptions.nav,
-    title: logo,
-  },
   sidebar: {
     banner: (
       <Trigger
