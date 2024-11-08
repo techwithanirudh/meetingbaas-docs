@@ -1,17 +1,17 @@
-import { DocsLayout } from 'fumadocs-ui/layouts/docs';
-import type { ReactNode } from 'react';
-import { baseOptions } from '@/app/layout.config';
-import { source } from '@/lib/source';
-import { Trigger } from '@/components/fumadocs/ai/search-ai';
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/cn';
-import { MessageCircle } from 'lucide-react';
+import { DocsLayout } from "fumadocs-ui/layouts/docs";
+import type { ReactNode } from "react";
+import { baseOptions } from "@/app/layout.config";
+import { source } from "@/lib/source";
+// import { Trigger } from '@/components/fumadocs/ai/search-ai';
+// import { buttonVariants } from '@/components/ui/button';
+// import { cn } from '@/lib/cn';
+// import { MessageCircle } from 'lucide-react';
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <DocsLayout tree={source.pageTree} {...baseOptions}>
       {children}
-      <Trigger
+      {/* <Trigger
         className={cn(
           buttonVariants({
             variant: 'secondary',
@@ -21,7 +21,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       >
         <MessageCircle className="size-4" />
         Ask AI
-      </Trigger>
+      </Trigger> */}
     </DocsLayout>
   );
 }

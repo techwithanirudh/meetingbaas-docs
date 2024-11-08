@@ -1,5 +1,4 @@
 import { createPreset, presets } from "fumadocs-ui/tailwind-plugin";
-import baseConfig from "@meeting-baas/tailwind-config/web";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -63,9 +62,6 @@ export default {
           },
         },
       },
-    },
-    animation: {
-      meteor: "meteor 5s linear infinite",
     },
   },
   plugins: [require("tailwindcss-animate")],
