@@ -1,5 +1,5 @@
-'use client';
-import type { AnswerSession, Message } from '@oramacloud/client';
+"use client";
+import type { AnswerSession, Message } from "@oramacloud/client";
 import {
   type ButtonHTMLAttributes,
   type HTMLAttributes,
@@ -10,7 +10,7 @@ import {
   useEffect,
   useRef,
   useState,
-} from 'react';
+} from "react";
 import {
   Dialog,
   DialogClose,
@@ -20,12 +20,12 @@ import {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-} from '@radix-ui/react-dialog';
-import { Info, Loader2, RefreshCw, Send, X } from 'lucide-react';
-import defaultMdxComponents from 'fumadocs-ui/mdx';
-import { cn } from '@/lib/fumadocs/cn';
-import { buttonVariants } from '../ui/button';
-import type { Processor } from './markdown-processor';
+} from "@radix-ui/react-dialog";
+import { Info, Loader2, RefreshCw, Send, X } from "lucide-react";
+import defaultMdxComponents from "fumadocs-ui/mdx";
+import { cn } from "@/lib/fumadocs/cn";
+import { buttonVariants } from "../ui/button";
+import type { Processor } from "./markdown-processor";
 
 type RelatedQueryListener = (queries: string[]) => void;
 type MessageChangeListener = (messages: Message[]) => void;
@@ -34,15 +34,14 @@ let relatedQueryListeners: RelatedQueryListener[] = [];
 let messageListeners: MessageChangeListener[] = [];
 let messageLoadingListeners: MessageLoadingListener[] = [];
 
-// todo: change context
 const context =
-  'The user is a web developer who knows some Next.js and React.js, but is new to Fumadocs.';
+  "The user is a web developer who knows some Next.js and React.js, but is new to Fumadocs.";
 const endpoint = process.env.NEXT_PUBLIC_ORAMA_AI_ENDPOINT;
 const apiKey = process.env.NEXT_PUBLIC_ORAMA_AI_API_KEY;
 
-export async function createClient(): Promise<AnswerSession> {
-  const { OramaClient } = await import('@oramacloud/client');
-  if (!endpoint || !apiKey) throw new Error('Failed to find api keys');
+export async function createClient(): Promise<AnswerSession<boolean>> {
+  const { OramaClient } = await import("@oramacloud/client");
+  if (!endpoint || !apiKey) throw new Error("Failed to find api keys");
 
   const client = new OramaClient({
     endpoint,
@@ -68,16 +67,16 @@ export async function createClient(): Promise<AnswerSession> {
         });
       },
     },
-    inferenceType: 'documentation',
+    inferenceType: "documentation",
   });
 
   return instance;
 }
 
-let session: AnswerSession | undefined;
+let session: AnswerSession<boolean> | undefined;
 
 export function AIDialog(): React.ReactElement {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [_, update] = useState<unknown>();
@@ -86,7 +85,7 @@ export function AIDialog(): React.ReactElement {
 
   useEffect(() => {
     // preload processor
-    void import('./markdown-processor');
+    void import("./markdown-processor");
 
     if (!session) {
       void createClient().then((res) => {
@@ -116,10 +115,10 @@ export function AIDialog(): React.ReactElement {
     return () => {
       messageListeners = messageListeners.filter((l) => l !== onMessageChange);
       relatedQueryListeners = relatedQueryListeners.filter(
-        (l) => l !== onRelatedQuery,
+        (l) => l !== onRelatedQuery
       );
       messageLoadingListeners = messageLoadingListeners.filter(
-        (l) => l !== onMessageLoading,
+        (l) => l !== onMessageLoading
       );
     };
   }, []);
@@ -133,13 +132,13 @@ export function AIDialog(): React.ReactElement {
         term: message,
         related: {
           howMany: 3,
-          format: 'query',
+          format: "query",
         },
       });
 
-      setMessage('');
+      setMessage("");
     },
-    [message],
+    [message]
   );
 
   const onTry = useCallback(() => {
@@ -156,7 +155,7 @@ export function AIDialog(): React.ReactElement {
 
   useEffect(() => {
     if (shouldFocus.current) {
-      document.getElementById('nd-ai-input')?.focus();
+      document.getElementById("nd-ai-input")?.focus();
       shouldFocus.current = false;
     }
   });
@@ -165,20 +164,20 @@ export function AIDialog(): React.ReactElement {
 
   return (
     <>
-      <List className={cn(messages.length === 0 && 'hidden')}>
+      <List className={cn(messages.length === 0 && "hidden")}>
         {messages.map((item, i) => (
           <Message key={i} {...item}>
             {!loading &&
-            item.role === 'assistant' &&
+            item.role === "assistant" &&
             i === messages.length - 1 ? (
               <div className="mt-2 flex flex-row items-center gap-2">
                 <button
                   type="button"
                   className={cn(
                     buttonVariants({
-                      color: 'secondary',
-                      className: 'gap-1.5',
-                    }),
+                      color: "secondary",
+                      className: "gap-1.5",
+                    })
                   )}
                   onClick={onTry}
                 >
@@ -189,8 +188,8 @@ export function AIDialog(): React.ReactElement {
                   type="button"
                   className={cn(
                     buttonVariants({
-                      color: 'ghost',
-                    }),
+                      color: "ghost",
+                    })
                   )}
                   onClick={onClear}
                 >
@@ -206,9 +205,9 @@ export function AIDialog(): React.ReactElement {
           type="button"
           className={cn(
             buttonVariants({
-              color: 'secondary',
-              className: 'rounded-full mx-auto my-1',
-            }),
+              color: "secondary",
+              className: "rounded-full mx-auto my-1",
+            })
           )}
           onClick={() => {
             session?.abortAnswer();
@@ -225,9 +224,9 @@ export function AIDialog(): React.ReactElement {
               type="button"
               className={cn(
                 buttonVariants({
-                  color: 'secondary',
-                  className: 'py-1 text-nowrap',
-                }),
+                  color: "secondary",
+                  className: "py-1 text-nowrap",
+                })
               )}
               onClick={() => {
                 shouldFocus.current = true;
@@ -241,20 +240,20 @@ export function AIDialog(): React.ReactElement {
       ) : null}
       <form
         className={cn(
-          'flex flex-row rounded-b-lg border-t pe-2 transition-colors',
-          loading && 'bg-fd-muted',
+          "flex flex-row rounded-b-lg border-t pe-2 transition-colors",
+          loading && "bg-fd-muted"
         )}
         onSubmit={onStart}
       >
         <Input
           value={message}
-          placeholder={loading ? 'AI is answering...' : 'Ask AI something'}
+          placeholder={loading ? "AI is answering..." : "Ask AI something"}
           disabled={loading}
           onChange={(e) => {
             setMessage(e.target.value);
           }}
           onKeyDown={(event) => {
-            if (!event.shiftKey && event.key === 'Enter') {
+            if (!event.shiftKey && event.key === "Enter") {
               onStart();
               event.preventDefault();
             }
@@ -267,10 +266,10 @@ export function AIDialog(): React.ReactElement {
             type="submit"
             className={cn(
               buttonVariants({
-                size: 'sm',
-                color: 'ghost',
-                className: 'rounded-full p-1',
-              }),
+                size: "sm",
+                color: "ghost",
+                className: "rounded-full p-1",
+              })
             )}
             disabled={message.length === 0}
           >
@@ -294,7 +293,7 @@ function List(props: HTMLAttributes<HTMLDivElement>): React.ReactElement {
 
       container.scrollTo({
         top: container.scrollHeight,
-        behavior: 'instant',
+        behavior: "instant",
       });
     });
 
@@ -319,7 +318,7 @@ function List(props: HTMLAttributes<HTMLDivElement>): React.ReactElement {
     <div
       {...props}
       ref={containerRef}
-      className={cn('min-h-0 flex-1 overflow-auto px-2 pb-2', props.className)}
+      className={cn("min-h-0 flex-1 overflow-auto px-2 pb-2", props.className)}
     >
       <div className="flex flex-col gap-1">{props.children}</div>
     </div>
@@ -327,10 +326,10 @@ function List(props: HTMLAttributes<HTMLDivElement>): React.ReactElement {
 }
 
 function Input(
-  props: TextareaHTMLAttributes<HTMLTextAreaElement>,
+  props: TextareaHTMLAttributes<HTMLTextAreaElement>
 ): React.ReactElement {
   const ref = useRef<HTMLDivElement>(null);
-  const shared = cn('col-start-1 row-start-1 max-h-60 min-h-12 px-3 py-1.5');
+  const shared = cn("col-start-1 row-start-1 max-h-60 min-h-12 px-3 py-1.5");
 
   return (
     <div className="grid flex-1">
@@ -338,12 +337,12 @@ function Input(
         id="nd-ai-input"
         className={cn(
           shared,
-          'resize-none bg-transparent placeholder:text-fd-muted-foreground focus-visible:outline-none',
+          "resize-none bg-transparent placeholder:text-fd-muted-foreground focus-visible:outline-none"
         )}
         {...props}
       />
-      <div ref={ref} className={cn(shared, 'invisible whitespace-pre-wrap')}>
-        {`${props.value?.toString() ?? ''}\n`}
+      <div ref={ref} className={cn(shared, "invisible whitespace-pre-wrap")}>
+        {`${props.value?.toString() ?? ""}\n`}
       </div>
     </div>
   );
@@ -355,12 +354,12 @@ const map = new Map<string, ReactNode>();
 const Message = memo(
   ({ children, ...message }: Message & { children: ReactNode }) => {
     const [rendered, setRendered] = useState<ReactNode>(
-      map.get(message.content) ?? message.content,
+      map.get(message.content) ?? message.content
     );
 
     useEffect(() => {
       const run = async (): Promise<void> => {
-        const { createProcessor } = await import('./markdown-processor');
+        const { createProcessor } = await import("./markdown-processor");
 
         processor ??= createProcessor();
         const result = await processor.process(
@@ -369,7 +368,7 @@ const Message = memo(
           {
             ...defaultMdxComponents,
             img: undefined, // use JSX
-          },
+          }
         );
 
         map.set(message.content, result);
@@ -380,22 +379,22 @@ const Message = memo(
     }, [message.content]);
 
     const roleName = {
-      user: 'you',
-      assistant: 'bot',
+      user: "you",
+      assistant: "bot",
     };
 
     return (
       <div
         className={cn(
-          'rounded-lg border bg-fd-card px-2 py-1.5 text-fd-card-foreground',
-          message.role === 'user' &&
-            'bg-fd-secondary text-fd-secondary-foreground',
+          "rounded-lg border bg-fd-card px-2 py-1.5 text-fd-card-foreground",
+          message.role === "user" &&
+            "bg-fd-secondary text-fd-secondary-foreground"
         )}
       >
         <p
           className={cn(
-            'mb-1 text-xs font-medium text-fd-muted-foreground',
-            message.role === 'assistant' && 'text-fd-primary',
+            "mb-1 text-xs font-medium text-fd-muted-foreground",
+            message.role === "assistant" && "text-fd-primary"
           )}
         >
           {roleName[message.role]}
@@ -404,13 +403,13 @@ const Message = memo(
         {children}
       </div>
     );
-  },
+  }
 );
 
-Message.displayName = 'Message';
+Message.displayName = "Message";
 
 export function Trigger(
-  props: ButtonHTMLAttributes<HTMLButtonElement>,
+  props: ButtonHTMLAttributes<HTMLButtonElement>
 ): React.ReactElement {
   return (
     <Dialog>
@@ -419,7 +418,7 @@ export function Trigger(
         <DialogOverlay className="fixed inset-0 z-50 bg-fd-background/50 backdrop-blur-sm data-[state=closed]:animate-fd-fade-out data-[state=open]:animate-fd-fade-in" />
         <DialogContent
           onOpenAutoFocus={(e) => {
-            document.getElementById('nd-ai-input')?.focus();
+            document.getElementById("nd-ai-input")?.focus();
             e.preventDefault();
           }}
           className="fixed left-1/2 z-50 my-[5vh] flex max-h-[90dvh] w-[98vw] max-w-[860px] origin-left -translate-x-1/2 flex-col rounded-lg border bg-fd-popover text-fd-popover-foreground shadow-lg focus-visible:outline-none data-[state=closed]:animate-fd-dialog-out data-[state=open]:animate-fd-dialog-in"
@@ -432,7 +431,7 @@ export function Trigger(
             aria-label="Close Dialog"
             tabIndex={-1}
             className={cn(
-              'absolute right-1 top-1 rounded-full bg-fd-muted p-1 text-fd-muted-foreground hover:bg-fd-accent hover:text-fd-accent-foreground',
+              "absolute right-1 top-1 rounded-full bg-fd-muted p-1 text-fd-muted-foreground hover:bg-fd-accent hover:text-fd-accent-foreground"
             )}
           >
             <X className="size-4" />
