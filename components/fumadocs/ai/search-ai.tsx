@@ -27,6 +27,7 @@ import {
 } from "react";
 import { buttonVariants } from "../ui/button";
 import type { Processor } from "./markdown-processor";
+import { parseAsString, useQueryState } from "nuqs";
 
 type RelatedQueryListener = (queries: string[]) => void;
 type MessageChangeListener = (messages: Message[]) => void;
@@ -76,8 +77,10 @@ export async function createClient(): Promise<AnswerSession<boolean>> {
 
 let session: AnswerSession<boolean> | undefined;
 
-export function AIDialog(): React.ReactElement {
-  const [message, setMessage] = useState("");
+export function AIDialog({ message, setMessage }: {
+  message: string;
+  setMessage: (content?: string) => void;
+}): React.ReactElement {
   const [loading, setLoading] = useState(false);
 
   const [_, update] = useState<unknown>();
@@ -412,15 +415,10 @@ Message.displayName = "Message";
 export function Trigger(
   props: ButtonHTMLAttributes<HTMLButtonElement>
 ): React.ReactElement {
-  const [open, setOpen] = useState(false);
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    // Check for ai-search-bar parameter
-    if (searchParams.has("ai-search-bar")) {
-      setOpen(true);
-    }
-  }, [searchParams]);
+  const [query, setQuery] = useQueryState("query", parseAsString.withDefault('').withOptions({
+    shallow: false
+  }));
+  const [open, setOpen] = useState(query ? true : false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -456,7 +454,7 @@ export function Trigger(
               Answers from AI may be inaccurate, please verify the information.
             </span>
           </p>
-          <AIDialog />
+          <AIDialog message={query} setMessage={setQuery} />
         </DialogContent>
       </DialogPortal>
     </Dialog>
