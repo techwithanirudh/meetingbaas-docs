@@ -15,7 +15,7 @@ export const metadata = createMetadata({
     default: "Meeting Baas",
   },
   description:
-    "An open-source transcription playground powered by advanced transcription APIs and meeting bot technology.",
+    "Deploy AI for video meetings through a single unified API.",
   metadataBase: baseUrl,
 });
 
