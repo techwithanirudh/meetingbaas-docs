@@ -79,7 +79,7 @@ let session: AnswerSession<boolean> | undefined;
 
 export function AIDialog({ message, setMessage }: {
   message: string;
-  setMessage: (content?: string) => void;
+  setMessage: (content: string) => void;
 }): React.ReactElement {
   const [loading, setLoading] = useState(false);
 
