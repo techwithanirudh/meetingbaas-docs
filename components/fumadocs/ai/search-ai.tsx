@@ -34,6 +34,7 @@ let relatedQueryListeners: RelatedQueryListener[] = [];
 let messageListeners: MessageChangeListener[] = [];
 let messageLoadingListeners: MessageLoadingListener[] = [];
 
+// todo: change context
 const context =
   'The user is a web developer who knows some Next.js and React.js, but is new to Fumadocs.';
 const endpoint = process.env.NEXT_PUBLIC_ORAMA_AI_ENDPOINT;
@@ -380,7 +381,7 @@ const Message = memo(
 
     const roleName = {
       user: 'you',
-      assistant: 'fuma bot',
+      assistant: 'bot',
     };
 
     return (
