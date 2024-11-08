@@ -1,6 +1,6 @@
 import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
 import { source } from "@/lib/source";
 import { Trigger } from "@/components/fumadocs/ai/search-ai";
@@ -13,19 +13,21 @@ const docsOptions: DocsLayoutProps = {
   tree: source.pageTree,
   sidebar: {
     banner: (
-      <Trigger
-        className={cn(
-          buttonVariants({
-            variant: "secondary",
-            className:
-              "shadow-none gap-2 border bg-fd-secondary/50 p-1.5 text-sm text-fd-muted-foreground justify-start hover:bg-fd-accent hover:text-fd-accent-foreground rounded-lg max-md:hidden",
-          })
-        )}
-        data-ai-search-full
-      >
-        <MessageCircle className="ms-1" />
-        Ask AI
-      </Trigger>
+      <Suspense>
+        <Trigger
+          className={cn(
+            buttonVariants({
+              variant: "secondary",
+              className:
+                "shadow-none gap-2 border bg-fd-secondary/50 p-1.5 text-sm text-fd-muted-foreground justify-start hover:bg-fd-accent hover:text-fd-accent-foreground rounded-lg max-md:hidden",
+            })
+          )}
+          data-ai-search-full
+        >
+          <MessageCircle className="ms-1" />
+          Ask AI
+        </Trigger>
+      </Suspense>
     ),
   },
 };

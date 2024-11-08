@@ -18,7 +18,6 @@ import {
   type HTMLAttributes,
   memo,
   type ReactNode,
-  Suspense,
   type TextareaHTMLAttributes,
   useCallback,
   useEffect,
@@ -460,9 +459,7 @@ export function Trigger(
               Answers from AI may be inaccurate, please verify the information.
             </span>
           </p>
-          <Suspense>
             <AIDialog message={query} setMessage={setQuery} />
-          </Suspense>
         </DialogContent>
       </DialogPortal>
     </Dialog>
