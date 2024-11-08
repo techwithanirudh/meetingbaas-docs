@@ -16,7 +16,7 @@ import remarkMdx from "remark-mdx";
 
 export async function updateOramaAi(): Promise<void> {
   const apiKey = process.env.ORAMA_PRIVATE_API_KEY;
-  const index = process.env.ORAMA_INDEX_ID;
+  const index = process.env.ORAMA_AI_INDEX_ID;
 
   if (!apiKey || !index) {
     console.log("no api key for Orama found, skipping");

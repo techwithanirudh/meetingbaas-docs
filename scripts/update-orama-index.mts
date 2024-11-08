@@ -4,7 +4,7 @@ import { CloudManager } from "@oramacloud/client";
 
 export async function updateSearchIndexes(): Promise<void> {
   const apiKey = process.env.ORAMA_PRIVATE_API_KEY;
-  const index = process.env.ORAMA_INDEX_ID;
+  const index = process.env.ORAMA_SEARCH_INDEX_ID;
 
   if (!apiKey || !index) {
     console.log("no api key for Orama found, skipping");

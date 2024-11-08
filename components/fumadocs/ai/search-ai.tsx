@@ -36,8 +36,8 @@ let messageLoadingListeners: MessageLoadingListener[] = [];
 
 const context =
   'The user is a web developer who knows some Next.js and React.js, but is new to Fumadocs.';
-const endpoint = process.env.NEXT_PUBLIC_ORAMA_ENDPOINT;
-const apiKey = process.env.NEXT_PUBLIC_ORAMA_API_KEY;
+const endpoint = process.env.NEXT_PUBLIC_ORAMA_AI_ENDPOINT;
+const apiKey = process.env.NEXT_PUBLIC_ORAMA_AI_API_KEY;
 
 export async function createClient(): Promise<AnswerSession> {
   const { OramaClient } = await import('@oramacloud/client');
