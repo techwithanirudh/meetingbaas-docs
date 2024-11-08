@@ -18,6 +18,7 @@ import {
   type HTMLAttributes,
   memo,
   type ReactNode,
+  Suspense,
   type TextareaHTMLAttributes,
   useCallback,
   useEffect,
@@ -76,7 +77,10 @@ export async function createClient(): Promise<AnswerSession<boolean>> {
 
 let session: AnswerSession<boolean> | undefined;
 
-export function AIDialog({ message, setMessage }: {
+export function AIDialog({
+  message,
+  setMessage,
+}: {
   message: string;
   setMessage: (content: string) => void;
 }): React.ReactElement {
@@ -414,9 +418,12 @@ Message.displayName = "Message";
 export function Trigger(
   props: ButtonHTMLAttributes<HTMLButtonElement>
 ): React.ReactElement {
-  const [query, setQuery] = useQueryState("query", parseAsString.withDefault('').withOptions({
-    shallow: false
-  }));
+  const [query, setQuery] = useQueryState(
+    "query",
+    parseAsString.withDefault("").withOptions({
+      shallow: false,
+    })
+  );
   const [open, setOpen] = useState(query ? true : false);
 
   return (
@@ -453,7 +460,9 @@ export function Trigger(
               Answers from AI may be inaccurate, please verify the information.
             </span>
           </p>
-          <AIDialog message={query} setMessage={setQuery} />
+          <Suspense>
+            <AIDialog message={query} setMessage={setQuery} />
+          </Suspense>
         </DialogContent>
       </DialogPortal>
     </Dialog>
