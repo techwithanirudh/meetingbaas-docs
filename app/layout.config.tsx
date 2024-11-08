@@ -29,7 +29,7 @@ export const linkItems: LinkItemType[] = [
   // },
   {
     type: "icon",
-    url: "https://github.com/Meeting-Baas/transcript-seeker",
+    url: "https://github.com/Meeting-Baas/docs",
     text: "Github",
     icon: (
       <svg role="img" viewBox="0 0 24 24" fill="currentColor">
