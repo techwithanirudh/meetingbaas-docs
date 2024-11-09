@@ -13,6 +13,7 @@ import {
 } from "@radix-ui/react-dialog";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { Info, Loader2, RefreshCw, Send, X } from "lucide-react";
+import { parseAsString, useQueryState } from "nuqs";
 import {
   type ButtonHTMLAttributes,
   type HTMLAttributes,
@@ -26,7 +27,6 @@ import {
 } from "react";
 import { buttonVariants } from "../ui/button";
 import type { Processor } from "./markdown-processor";
-import { parseAsString, useQueryState } from "nuqs";
 
 type RelatedQueryListener = (queries: string[]) => void;
 type MessageChangeListener = (messages: Message[]) => void;
@@ -335,12 +335,22 @@ function Input(
   props: TextareaHTMLAttributes<HTMLTextAreaElement>
 ): React.ReactElement {
   const ref = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const shared = cn("col-start-1 row-start-1 max-h-60 min-h-12 px-3 py-1.5");
+
+  // Move cursor to end when value is set initially
+  useEffect(() => {
+    if (props.value && textareaRef.current) {
+      textareaRef.current.selectionStart = textareaRef.current.selectionEnd =
+        props.value.toString().length;
+    }
+  }, [props.value]);
 
   return (
     <div className="grid flex-1">
       <textarea
         id="nd-ai-input"
+        ref={textareaRef}
         className={cn(
           shared,
           "resize-none bg-transparent placeholder:text-fd-muted-foreground focus-visible:outline-none"
@@ -456,7 +466,7 @@ export function Trigger(
               Answers from AI may be inaccurate, please verify the information.
             </span>
           </p>
-            <AIDialog message={query} setMessage={setQuery} />
+          <AIDialog message={query} setMessage={setQuery} />
         </DialogContent>
       </DialogPortal>
     </Dialog>
