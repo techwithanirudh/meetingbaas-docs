@@ -435,9 +435,6 @@ export function Trigger(
             document.getElementById("nd-ai-input")?.focus();
             e.preventDefault();
           }}
-          onCloseAutoFocus={(e) => {
-            e.preventDefault();
-          }}
           className="fixed left-1/2 z-50 my-[5vh] flex max-h-[90dvh] w-[98vw] max-w-[860px] origin-left -translate-x-1/2 flex-col rounded-lg border bg-fd-popover text-fd-popover-foreground shadow-lg focus-visible:outline-none data-[state=closed]:animate-fd-dialog-out data-[state=open]:animate-fd-dialog-in"
         >
           <DialogTitle className="sr-only">Search AI</DialogTitle>

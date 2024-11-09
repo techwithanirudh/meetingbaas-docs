@@ -2,9 +2,7 @@ import { baseUrl, createMetadata } from "@/lib/metadata";
 import "@/styles/globals.css";
 import type { Viewport } from "next";
 import { Inter } from "next/font/google";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
 import type { ReactNode } from "react";
-import { Suspense } from "react";
 import { Providers } from "./providers";
 
 const inter = Inter({
