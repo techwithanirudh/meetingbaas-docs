@@ -2,8 +2,11 @@
   "title": "API Reference",
   "icon": "Webhook",
   "pages": [
-    "bots-and--meeting--data",
-    "list--calendars",
+    "bots_public_join",
+    "bots_public_leave",
+    "bots_public_get_meeting_data",
+    "calendar_calendars_list_calendars",
+    "calendar_calendars_list_raw_calendars",
     "synchronize--calendars",
     "get--calendar",
     "delete--calendars",

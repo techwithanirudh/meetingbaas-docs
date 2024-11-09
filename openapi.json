@@ -13,6 +13,7 @@
     "/bots": {
       "post": {
         "tags": ["Bots and Meeting Data"],
+        "summary": "Join Meeting",
         "operationId": "bots_public_join",
         "requestBody": {
           "content": {
@@ -54,6 +55,7 @@
     "/bots/{uuid}": {
       "delete": {
         "tags": ["Bots and Meeting Data"],
+        "summary": "Leave Meeting",
         "operationId": "bots_public_leave",
         "parameters": [
           {
@@ -95,6 +97,7 @@
     "/bots/meeting_data": {
       "get": {
         "tags": ["Bots and Meeting Data"],
+        "summary": "Get Meeting Data",
         "operationId": "bots_public_get_meeting_data",
         "parameters": [
           {
@@ -136,6 +139,7 @@
     "/calendars": {
       "get": {
         "tags": ["List Calendars"],
+        "summary": "List Calendars",
         "operationId": "calendar_calendars_list_calendars",
         "responses": {
           "200": {
@@ -168,6 +172,7 @@
       },
       "post": {
         "tags": ["Synchronize Calendars"],
+        "summary": "Synchronize Calendars Events",
         "description": "synchronize all events of a new calendar",
         "operationId": "calendar_calendars_create_calendar",
         "requestBody": {
@@ -210,6 +215,7 @@
     "/calendars/{uuid}": {
       "get": {
         "tags": ["Get Calendar"],
+        "summary": "Get Calendar",
         "operationId": "calendar_calendars_get_calendar",
         "parameters": [
           {
@@ -249,6 +255,7 @@
       },
       "delete": {
         "tags": ["Delete Calendars"],
+        "summary": "Delete Calendar",
         "description": "Delete a calendar with a given uuid",
         "operationId": "calendar_calendars_delete_calendar",
         "parameters": [
@@ -284,6 +291,7 @@
     "/raw_calendars": {
       "get": {
         "tags": ["List Calendars"],
+        "summary": "List Raw Calendars",
         "description": "synchronize all events of a new calendar",
         "operationId": "calendar_calendars_list_raw_calendars",
         "requestBody": {
@@ -326,6 +334,7 @@
     "/calendar_events": {
       "get": {
         "tags": ["List all events of a calendar"],
+        "summary": "List All Calendars Events",
         "description": "list all events of a calendar",
         "operationId": "calendar_calendar_events_list_events",
         "parameters": [
@@ -397,6 +406,7 @@
     "/calendar_events/{uuid}": {
       "get": {
         "tags": ["Calendar Events"],
+        "summary": "Get Calendar Event",
         "description": "get event with uuid",
         "operationId": "calendar_calendar_events_get_event",
         "parameters": [
@@ -439,6 +449,7 @@
     "/calendar_events/{uuid}/bot": {
       "post": {
         "tags": ["Add Bot Parameters on Event"],
+        "summary": "Add Meeting Bot Parameters on Event",
         "operationId": "calendar_calendar_events_schedule_record_event",
         "parameters": [
           {
@@ -488,6 +499,7 @@
       },
       "delete": {
         "tags": ["Unschedule Record Event"],
+        "summary": "Unschedule Meeting Bot on Event",
         "operationId": "calendar_calendar_events_unschedule_record_event",
         "parameters": [
           {

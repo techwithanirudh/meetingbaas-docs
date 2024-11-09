@@ -1,9 +1,0 @@
-{
-  "title": "Bots and meeting data",
-  "pages": [
-    "bots_public_join",
-    "bots_public_leave",
-    "bots_public_get_meeting_data",
-    "..."
-  ]
-}
