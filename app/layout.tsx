@@ -1,8 +1,8 @@
+import { baseUrl, createMetadata } from "@/lib/metadata";
 import "@/styles/globals.css";
+import type { Viewport } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
-import { baseUrl, createMetadata } from "@/lib/metadata";
-import type { Viewport } from "next";
 import { Providers } from "./providers";
 
 const inter = Inter({
@@ -14,8 +14,7 @@ export const metadata = createMetadata({
     template: "%s | Meeting Baas",
     default: "Meeting Baas",
   },
-  description:
-    "Deploy AI for video meetings through a single unified API.",
+  description: "Deploy AI for video meetings through a single unified API.",
   metadataBase: baseUrl,
 });
 
