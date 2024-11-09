@@ -1,9 +1,9 @@
+import { baseUrl, createMetadata } from "@/lib/metadata";
 import "@/styles/globals.css";
-import { RootProvider } from "fumadocs-ui/provider";
+import type { Viewport } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
-import { baseUrl, createMetadata } from "@/lib/metadata";
-import type { Viewport } from "next";
+import { Providers } from "./providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -14,8 +14,7 @@ export const metadata = createMetadata({
     template: "%s | Meeting Baas",
     default: "Meeting Baas",
   },
-  description:
-    "Deploy AI for video meetings through a single unified API.",
+  description: "Deploy AI for video meetings through a single unified API.",
   metadataBase: baseUrl,
 });
 
@@ -30,7 +29,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen">
-        <RootProvider>{children}</RootProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

@@ -70,11 +70,10 @@ export const baseOptions: BaseLayoutProps = {
             className: "md:row-span-2",
           },
           icon: <Book />,
-          text: "Get Started",
-          description: "Learn how to get started with Meeting Baas.",
+          text: "Introduction",
+          description: "Learn more about Meeting Baas.",
           url: "/",
         },
-        
       ],
     },
     ...linkItems,
