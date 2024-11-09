@@ -7,6 +7,8 @@ import {
 } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
 import defaultMdxComponents from "fumadocs-ui/mdx";
+import { createMetadata } from "@/lib/metadata";
+import { metadataImage } from "@/lib/metadata-image";
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -56,8 +58,17 @@ export async function generateMetadata(props: {
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
-  return {
-    title: page.data.title,
-    description: page.data.description,
-  };
+  const description =
+    page.data.description ??
+    "Deploy AI for video meetings through a single unified API.";
+
+  return createMetadata(
+    metadataImage.withImage(page.slugs, {
+      title: page.data.title,
+      description,
+      openGraph: {
+        url: `/docs/${page.slugs.join("/")}`,
+      },
+    })
+  );
 }
