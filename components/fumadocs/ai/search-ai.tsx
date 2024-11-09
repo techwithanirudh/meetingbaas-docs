@@ -13,7 +13,6 @@ import {
 } from "@radix-ui/react-dialog";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { Info, Loader2, RefreshCw, Send, X } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import {
   type ButtonHTMLAttributes,
   type HTMLAttributes,
@@ -27,6 +26,7 @@ import {
 } from "react";
 import { buttonVariants } from "../ui/button";
 import type { Processor } from "./markdown-processor";
+import { parseAsString, useQueryState } from "nuqs";
 
 type RelatedQueryListener = (queries: string[]) => void;
 type MessageChangeListener = (messages: Message[]) => void;
@@ -76,12 +76,13 @@ export async function createClient(): Promise<AnswerSession<boolean>> {
 
 let session: AnswerSession<boolean> | undefined;
 
-export function AIDialog(): React.ReactElement {
-  const searchParams = useSearchParams();
-  const [message, setMessage] = useState(() => {
-    const query = searchParams.get("ai-search-bar");
-    return query?.startsWith(":") ? decodeURIComponent(query.slice(1)) : "";
-  });
+export function AIDialog({
+  message,
+  setMessage,
+}: {
+  message: string;
+  setMessage: (content: string) => void;
+}): React.ReactElement {
   const [loading, setLoading] = useState(false);
 
   const [_, update] = useState<unknown>();
@@ -126,14 +127,6 @@ export function AIDialog(): React.ReactElement {
         (l) => l !== onMessageLoading
       );
     };
-  }, []);
-
-  useEffect(() => {
-    const input = document.getElementById("nd-ai-input") as HTMLTextAreaElement;
-    if (input) {
-      input.focus();
-      input.setSelectionRange(input.value.length, input.value.length);
-    }
   }, []);
 
   const onStart = useCallback(
@@ -260,15 +253,7 @@ export function AIDialog(): React.ReactElement {
       >
         <Input
           value={message}
-          placeholder={
-            loading
-              ? "AI is answering..."
-              : searchParams.get("ai-search-bar")?.startsWith(":")
-                ? decodeURIComponent(
-                    searchParams.get("ai-search-bar")!.slice(1)
-                  )
-                : "Ask AI something"
-          }
+          placeholder={loading ? "AI is answering..." : "Ask AI something"}
           disabled={loading}
           onChange={(e) => {
             setMessage(e.target.value);
@@ -432,28 +417,13 @@ Message.displayName = "Message";
 export function Trigger(
   props: ButtonHTMLAttributes<HTMLButtonElement>
 ): React.ReactElement {
-  const [open, setOpen] = useState(false);
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    if (searchParams.has("ai-search-bar")) {
-      setOpen(true);
-      const query = searchParams.get("ai-search-bar");
-
-      if (query?.startsWith(":")) {
-        const searchQuery = decodeURIComponent(query.slice(1));
-        if (searchQuery && session) {
-          session.ask({
-            term: searchQuery,
-            related: {
-              howMany: 3,
-              format: "query",
-            },
-          });
-        }
-      }
-    }
-  }, [searchParams]);
+  const [query, setQuery] = useQueryState(
+    "query",
+    parseAsString.withDefault("").withOptions({
+      shallow: false,
+    })
+  );
+  const [open, setOpen] = useState(query ? true : false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -489,25 +459,9 @@ export function Trigger(
               Answers from AI may be inaccurate, please verify the information.
             </span>
           </p>
-          <AIDialog />
+            <AIDialog message={query} setMessage={setQuery} />
         </DialogContent>
       </DialogPortal>
     </Dialog>
   );
 }
-
-function sendBot(query?: string): string {
-  const baseUrl = "http://localhost:3000";
-  if (!query) {
-    return `${baseUrl}/?ai-search-bar`;
-  }
-  const encodedQuery = encodeURIComponent(query);
-  return `${baseUrl}/?ai-search-bar=:${encodedQuery}`;
-}
-
-// Usage examples:
-console.log(sendBot());
-// Output: "http://localhost:3000/?ai-search-bar"
-
-console.log(sendBot("How do I use Fumadocs?"));
-// Output: "http://localhost:3000/?ai-search-bar=:How%20do%20I%20use%20Fumadocs%3F"
