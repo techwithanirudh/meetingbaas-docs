@@ -338,7 +338,7 @@ function Input(
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const shared = cn("col-start-1 row-start-1 max-h-60 min-h-12 px-3 py-1.5");
 
-  // Move cursor to end when value is set initially
+  // todo: merge this in later with shadcn v2
   useEffect(() => {
     if (props.value && textareaRef.current) {
       textareaRef.current.selectionStart = textareaRef.current.selectionEnd =
