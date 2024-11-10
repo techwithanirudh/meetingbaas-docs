@@ -17,7 +17,6 @@
         "description": "Initiates a bot to join a meeting either immediately or at a scheduled future time. Returns a bot ID.",
         "operationId": "join",
         "requestBody": {
-          "description": "Have a bot join a meeting, now or in the future",
           "content": {
             "application/json": {
               "schema": { "$ref": "#/components/schemas/JoinRequest" }
@@ -212,7 +211,7 @@
     },
     "/calendar_events/{uuid}/bot": {
       "post": {
-        "summary": "Schedule Calendar Recording",
+        "summary": "Schedule Record Event",
         "description": "Configures a bot to automatically join and record a specific calendar event at its scheduled time.",
         "operationId": "schedule_record_event",
         "requestBody": {
@@ -252,7 +251,7 @@
     },
     "/calendar_events/": {
       "get": {
-        "summary": "List Calendars Events",
+        "summary": "List Events",
         "description": "Retrieves all calendar events within the configured time range, including their recording status and bot assignments.",
         "operationId": "list_events",
         "parameters": [
@@ -712,7 +711,6 @@
         "properties": { "redirect_url": { "type": ["string", "null"] } }
       },
       "JoinRequest": {
-        "description": "Have a bot join a meeting, now or in the future",
         "type": "object",
         "required": ["botName", "meetingUrl", "reserved"],
         "properties": {
@@ -723,10 +721,7 @@
             ]
           },
           "botImage": { "type": ["string", "null"], "format": "uri" },
-          "botName": {
-            "description": "The name of the bot to join the meeting.",
-            "type": "string"
-          },
+          "botName": { "type": "string" },
           "deduplicationKey": {
             "description": "We prevent multiple bots with same API key joining a meeting within 5 mins, unless overridden by deduplication_key.",
             "type": ["string", "null"]
