@@ -2,10 +2,14 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Meeting BaaS API",
+    "summary": "API for recording and transcribing video meetings across Zoom, Google Meet, and Microsoft Teams. Features include bot management, calendar integration, and transcription services.",
     "description": "Meeting BaaS API",
     "termsOfService": "https://meetingbaas.com/terms-and-conditions",
     "version": "1.1"
   },
+  "servers": [
+    { "url": "https://api.meetingbaas.com", "description": "Production server" }
+  ],
   "paths": {
     "/bots/": {
       "post": {
@@ -14,9 +18,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/JoinRequest"
-              }
+              "schema": { "$ref": "#/components/schemas/JoinRequest" }
             }
           },
           "required": true
@@ -26,21 +28,12 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JoinResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/JoinResponse" }
               }
             }
           }
         },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          },
-          {
-            "LegacyApiKeyAuth": []
-          }
-        ]
+        "security": [{ "ApiKeyAuth": [] }, { "LegacyApiKeyAuth": [] }]
       }
     },
     "/bots/{uuid}": {
@@ -52,9 +45,7 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Bot"
-                }
+                "schema": { "$ref": "#/components/schemas/Bot" }
               }
             }
           }
@@ -68,9 +59,7 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LeaveResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/LeaveResponse" }
               }
             }
           }
@@ -86,9 +75,7 @@
             "in": "query",
             "name": "bot_id",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string", "required": true },
             "style": "form"
           }
         ],
@@ -97,9 +84,7 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Metadata"
-                }
+                "schema": { "$ref": "#/components/schemas/Metadata" }
               }
             }
           }
@@ -145,9 +130,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Calendar"
-                  }
+                  "items": { "$ref": "#/components/schemas/Calendar" }
                 }
               }
             }
@@ -160,9 +143,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCalendarParams"
-              }
+              "schema": { "$ref": "#/components/schemas/CreateCalendarParams" }
             }
           },
           "required": true
@@ -190,9 +171,7 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Calendar"
-                }
+                "schema": { "$ref": "#/components/schemas/Calendar" }
               }
             }
           }
@@ -201,11 +180,7 @@
       "delete": {
         "description": "Delete a calendar",
         "operationId": "delete_calendar",
-        "responses": {
-          "200": {
-            "description": "no content"
-          }
-        }
+        "responses": { "200": { "description": "no content" } }
       }
     },
     "/calendar_events/{uuid}": {
@@ -217,9 +192,7 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Event"
-                }
+                "schema": { "$ref": "#/components/schemas/Event" }
               }
             }
           }
@@ -233,9 +206,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BotParam2"
-              }
+              "schema": { "$ref": "#/components/schemas/BotParam2" }
             }
           },
           "required": true
@@ -245,9 +216,7 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Event"
-                }
+                "schema": { "$ref": "#/components/schemas/Event" }
               }
             }
           }
@@ -261,9 +230,7 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Event"
-                }
+                "schema": { "$ref": "#/components/schemas/Event" }
               }
             }
           }
@@ -279,37 +246,27 @@
             "in": "query",
             "name": "calendar_id",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string", "required": true },
             "style": "form"
           },
           {
             "in": "query",
             "name": "limit",
             "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
+            "schema": { "type": "integer", "required": true, "format": "int32" },
             "style": "form"
           },
           {
             "in": "query",
             "name": "offset",
             "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
+            "schema": { "type": "integer", "required": true, "format": "int32" },
             "style": "form"
           },
           {
             "in": "query",
             "name": "updated_at_gte",
-            "schema": {
-              "type": ["string", "null"]
-            },
+            "schema": { "type": "string" },
             "style": "form"
           }
         ],
@@ -320,9 +277,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Event"
-                  }
+                  "items": { "$ref": "#/components/schemas/Event" }
                 }
               }
             }
@@ -352,65 +307,41 @@
         "type": "object",
         "required": ["created_at", "email", "id", "status"],
         "properties": {
-          "company_name": {
-            "type": ["string", "null"]
-          },
-          "created_at": {
-            "$ref": "#/components/schemas/SystemTime"
-          },
-          "email": {
-            "type": "string"
-          },
-          "firstname": {
-            "type": ["string", "null"]
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "lastname": {
-            "type": ["string", "null"]
-          },
-          "phone": {
-            "type": ["string", "null"]
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32"
-          }
+          "company_name": { "type": "string" },
+          "created_at": { "$ref": "#/components/schemas/SystemTime" },
+          "email": { "type": "string", "required": true },
+          "firstname": { "type": "string" },
+          "id": { "type": "integer", "required": true, "format": "int32" },
+          "lastname": { "type": "string" },
+          "phone": { "type": "string" },
+          "status": { "type": "integer", "required": true, "format": "int32" }
         }
       },
       "AccountInfos": {
         "description": "Structure consisting account information.",
         "type": "object",
         "required": ["account"],
-        "properties": {
-          "account": {
-            "$ref": "#/components/schemas/Account"
-          }
-        }
+        "properties": { "account": { "$ref": "#/components/schemas/Account" } }
       },
       "ApiKeyResponse": {
         "type": "object",
         "required": ["api_key"],
-        "properties": {
-          "api_key": {
-            "type": "string"
-          }
-        }
+        "properties": { "api_key": { "type": "string", "required": true } }
       },
       "AutomaticLeaveRequest": {
         "type": "object",
         "properties": {
           "noone_joined_timeout": {
-            "type": ["integer", "null"],
+            "description": "The timeout for the bot to wait for participants to join before leaving the meeting, defaults to 10 minutes",
+            "type": "integer",
             "format": "uint32",
-            "minimum": 0
+            "minimum": 0.0
           },
           "waiting_room_timeout": {
-            "type": ["integer", "null"],
+            "description": "The timeout for the bot to wait in the waiting room before leaving the meeting, defaults to 10 minutes",
+            "type": "integer",
             "format": "uint32",
-            "minimum": 0
+            "minimum": 0.0
           }
         }
       },
@@ -418,16 +349,9 @@
         "type": "object",
         "required": ["bot", "duration", "params"],
         "properties": {
-          "bot": {
-            "$ref": "#/components/schemas/Bot2"
-          },
-          "duration": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "params": {
-            "$ref": "#/components/schemas/BotParam"
-          }
+          "bot": { "$ref": "#/components/schemas/Bot2" },
+          "duration": { "type": "integer", "required": true, "format": "int64" },
+          "params": { "$ref": "#/components/schemas/BotParam" }
         }
       },
       "Bot2": {
@@ -444,65 +368,32 @@
           "uuid"
         ],
         "properties": {
-          "account_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "bot_param_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "created_at": {
-            "$ref": "#/components/schemas/DateTime"
-          },
-          "ended_at": {
-            "$ref": "#/components/schemas/OptionalDateTime"
-          },
-          "errors": {
-            "type": ["string", "null"]
-          },
-          "event_id": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "meeting_url": {
-            "type": "string"
-          },
-          "mp4_s3_path": {
-            "type": "string"
-          },
-          "reserved": {
-            "type": "boolean"
-          },
+          "account_id": { "type": "integer", "required": true, "format": "int32" },
+          "bot_param_id": { "type": "integer", "required": true, "format": "int32" },
+          "created_at": { "$ref": "#/components/schemas/DateTime" },
+          "ended_at": { "$ref": "#/components/schemas/OptionalDateTime" },
+          "errors": { "type": "string" },
+          "event_id": { "type": "integer", "format": "int32" },
+          "id": { "type": "integer", "required": true, "format": "int32" },
+          "meeting_url": { "type": "string", "required": true },
+          "mp4_s3_path": { "type": "string", "required": true },
+          "reserved": { "type": "boolean" },
           "scheduled_bot_id": {
-            "type": ["integer", "null"],
+            "type": "integer",
             "format": "int32"
           },
-          "session_id": {
-            "type": ["string", "null"]
-          },
-          "uuid": {
-            "type": "string",
-            "format": "uuid"
-          }
+          "session_id": { "type": "string" },
+          "uuid": { "type": "string", "required": true, "format": "uuid" }
         }
       },
       "BotData": {
         "type": "object",
         "required": ["bot", "transcripts"],
         "properties": {
-          "bot": {
-            "$ref": "#/components/schemas/BotWithParams"
-          },
+          "bot": { "$ref": "#/components/schemas/BotWithParams" },
           "transcripts": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Transcript"
-            }
+            "items": { "$ref": "#/components/schemas/Transcript" }
           }
         }
       },
@@ -512,129 +403,77 @@
         "properties": {
           "bots": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Bot"
-            }
+            "items": { "$ref": "#/components/schemas/Bot" }
           },
-          "has_more": {
-            "type": "boolean"
-          }
+          "has_more": { "type": "boolean" }
         }
       },
       "BotParam": {
         "type": "object",
         "required": ["bot_name", "extra", "webhook_url"],
         "properties": {
-          "bot_image": {
-            "type": ["string", "null"]
-          },
-          "bot_name": {
-            "type": "string"
-          },
-          "deduplication_key": {
-            "type": ["string", "null"]
-          },
-          "enter_message": {
-            "type": ["string", "null"]
-          },
-          "extra": {
-            "$ref": "#/components/schemas/ExtraJsonSchema"
-          },
+          "bot_image": { "type": "string" },
+          "bot_name": { "type": "string", "required": true },
+          "deduplication_key": { "type": "string" },
+          "enter_message": { "type": "string" },
+          "extra": { "$ref": "#/components/schemas/ExtraJsonSchema" },
           "noone_joined_timeout": {
-            "type": ["integer", "null"],
+            "type": "integer",
             "format": "int32"
           },
           "recording_mode": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/RecordingMode"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/RecordingMode" },
+              { "type": "null" }
             ]
           },
           "speech_to_text": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/SpeechToText2"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/SpeechToText2" },
+              { "type": "null" }
             ]
           },
-          "streaming_input": {
-            "type": ["string", "null"]
-          },
-          "streaming_output": {
-            "type": ["string", "null"]
-          },
+          "streaming_input": { "type": "string" },
+          "streaming_output": { "type": "string" },
           "waiting_room_timeout": {
-            "type": ["integer", "null"],
+            "type": "integer",
             "format": "int32"
           },
-          "webhook_url": {
-            "type": "string"
-          }
+          "webhook_url": { "type": "string", "required": true }
         }
       },
       "BotParam2": {
         "type": "object",
         "required": ["bot_name", "extra", "webhook_url"],
         "properties": {
-          "bot_image": {
-            "type": ["string", "null"]
-          },
-          "bot_name": {
-            "type": "string"
-          },
-          "deduplication_key": {
-            "type": ["string", "null"]
-          },
-          "enter_message": {
-            "type": ["string", "null"]
-          },
-          "extra": {
-            "$ref": "#/components/schemas/ExtraJsonSchema"
-          },
+          "bot_image": { "type": "string" },
+          "bot_name": { "type": "string", "required": true },
+          "deduplication_key": { "type": "string" },
+          "enter_message": { "type": "string" },
+          "extra": { "$ref": "#/components/schemas/ExtraJsonSchema" },
           "noone_joined_timeout": {
-            "type": ["integer", "null"],
+            "type": "integer",
             "format": "int32"
           },
           "recording_mode": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/RecordingMode"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/RecordingMode" },
+              { "type": "null" }
             ]
           },
           "speech_to_text": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/SpeechToText"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/SpeechToText" },
+              { "type": "null" }
             ]
           },
-          "streaming_input": {
-            "type": ["string", "null"]
-          },
-          "streaming_output": {
-            "type": ["string", "null"]
-          },
+          "streaming_input": { "type": "string" },
+          "streaming_output": { "type": "string" },
           "waiting_room_timeout": {
-            "type": ["integer", "null"],
+            "type": "integer",
             "format": "int32"
           },
-          "webhook_url": {
-            "type": "string"
-          }
+          "webhook_url": { "type": "string", "required": true }
         }
       },
       "BotWithParams": {
@@ -654,143 +493,71 @@
           "webhook_url"
         ],
         "properties": {
-          "account_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "bot_image": {
-            "type": ["string", "null"]
-          },
-          "bot_name": {
-            "type": "string"
-          },
-          "bot_param_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "created_at": {
-            "$ref": "#/components/schemas/DateTime"
-          },
-          "deduplication_key": {
-            "type": ["string", "null"]
-          },
-          "ended_at": {
-            "$ref": "#/components/schemas/OptionalDateTime"
-          },
-          "enter_message": {
-            "type": ["string", "null"]
-          },
-          "errors": {
-            "type": ["string", "null"]
-          },
-          "event_id": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          },
-          "extra": {
-            "$ref": "#/components/schemas/ExtraJsonSchema"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "meeting_url": {
-            "type": "string"
-          },
-          "mp4_s3_path": {
-            "type": "string"
-          },
+          "account_id": { "type": "integer", "required": true, "format": "int32" },
+          "bot_image": { "type": "string" },
+          "bot_name": { "type": "string", "required": true },
+          "bot_param_id": { "type": "integer", "required": true, "format": "int32" },
+          "created_at": { "$ref": "#/components/schemas/DateTime" },
+          "deduplication_key": { "type": "string" },
+          "ended_at": { "$ref": "#/components/schemas/OptionalDateTime" },
+          "enter_message": { "type": "string" },
+          "errors": { "type": "string" },
+          "event_id": { "type": "integer", "format": "int32" },
+          "extra": { "$ref": "#/components/schemas/ExtraJsonSchema" },
+          "id": { "type": "integer", "required": true, "format": "int32" },
+          "meeting_url": { "type": "string", "required": true },
+          "mp4_s3_path": { "type": "string", "required": true },
           "noone_joined_timeout": {
-            "type": ["integer", "null"],
+            "type": "integer",
             "format": "int32"
           },
           "recording_mode": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/RecordingMode"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/RecordingMode" },
+              { "type": "null" }
             ]
           },
-          "reserved": {
-            "type": "boolean"
-          },
+          "reserved": { "type": "boolean" },
           "scheduled_bot_id": {
-            "type": ["integer", "null"],
+            "type": "integer",
             "format": "int32"
           },
-          "session_id": {
-            "type": ["string", "null"]
-          },
-          "speech_to_text_api_key": {
-            "type": ["string", "null"]
-          },
+          "session_id": { "type": "string" },
+          "speech_to_text_api_key": { "type": "string" },
           "speech_to_text_provider": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/SpeechToTextProvider"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/SpeechToTextProvider" },
+              { "type": "null" }
             ]
           },
-          "streaming_input": {
-            "type": ["string", "null"]
-          },
-          "streaming_output": {
-            "type": ["string", "null"]
-          },
-          "uuid": {
-            "type": "string",
-            "format": "uuid"
-          },
+          "streaming_input": { "type": "string" },
+          "streaming_output": { "type": "string" },
+          "uuid": { "type": "string", "required": true, "format": "uuid" },
           "waiting_room_timeout": {
-            "type": ["integer", "null"],
+            "type": "integer",
             "format": "int32"
           },
-          "webhook_url": {
-            "type": "string"
-          }
+          "webhook_url": { "type": "string", "required": true }
         }
       },
       "Calendar": {
         "type": "object",
         "required": ["email", "google_id", "name", "uuid"],
         "properties": {
-          "email": {
-            "type": "string"
-          },
-          "google_id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "resource_id": {
-            "type": ["string", "null"]
-          },
-          "uuid": {
-            "type": "string",
-            "format": "uuid"
-          }
+          "email": { "type": "string", "required": true },
+          "google_id": { "type": "string", "required": true },
+          "name": { "type": "string", "required": true },
+          "resource_id": { "type": "string" },
+          "uuid": { "type": "string", "required": true, "format": "uuid" }
         }
       },
       "CalendarListEntry": {
         "type": "object",
         "required": ["email", "id", "is_primary"],
         "properties": {
-          "email": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "is_primary": {
-            "type": "boolean"
-          }
+          "email": { "type": "string", "required": true },
+          "id": { "type": "string", "required": true },
+          "is_primary": { "type": "boolean" }
         }
       },
       "Consumption": {
@@ -798,9 +565,9 @@
         "required": ["consumption"],
         "properties": {
           "consumption": {
-            "type": "integer",
+            "type": "integer", "required": true,
             "format": "uint32",
-            "minimum": 0
+            "minimum": 0.0
           }
         }
       },
@@ -808,16 +575,8 @@
         "type": "object",
         "required": ["end", "start"],
         "properties": {
-          "end": {
-            "type": "integer",
-            "format": "uint32",
-            "minimum": 0
-          },
-          "start": {
-            "type": "integer",
-            "format": "uint32",
-            "minimum": 0
-          }
+          "end": { "type": "integer", "required": true, "format": "uint32", "minimum": 0.0 },
+          "start": { "type": "integer", "required": true, "format": "uint32", "minimum": 0.0 }
         }
       },
       "CreateCalendarParams": {
@@ -829,53 +588,30 @@
           "platform"
         ],
         "properties": {
-          "oauth_client_id": {
-            "type": "string"
-          },
-          "oauth_client_secret": {
-            "type": "string"
-          },
-          "oauth_refresh_token": {
-            "type": "string"
-          },
-          "platform": {
-            "$ref": "#/components/schemas/Provider"
-          },
-          "raw_calendar_id": {
-            "type": ["string", "null"]
-          }
+          "oauth_client_id": { "type": "string", "required": true },
+          "oauth_client_secret": { "type": "string", "required": true },
+          "oauth_refresh_token": { "type": "string", "required": true },
+          "platform": { "$ref": "#/components/schemas/Provider" },
+          "raw_calendar_id": { "type": "string" }
         }
       },
       "CreateCalendarResponse": {
         "type": "object",
         "required": ["calendar"],
         "properties": {
-          "calendar": {
-            "$ref": "#/components/schemas/Calendar"
-          }
+          "calendar": { "$ref": "#/components/schemas/Calendar" }
         }
       },
-      "DateTime": {
-        "type": "string",
-        "format": "date-time"
-      },
+      "DateTime": { "type": "string", "required": true, "format": "date-time" },
       "EndMeetingQuery": {
         "type": "object",
         "required": ["bot_uuid"],
-        "properties": {
-          "bot_uuid": {
-            "type": "string"
-          }
-        }
+        "properties": { "bot_uuid": { "type": "string", "required": true } }
       },
       "EndMeetingTrampolineQuery": {
         "type": "object",
         "required": ["bot_uuid"],
-        "properties": {
-          "bot_uuid": {
-            "type": "string"
-          }
-        }
+        "properties": { "bot_uuid": { "type": "string", "required": true } }
       },
       "Event": {
         "type": "object",
@@ -895,54 +631,22 @@
         "properties": {
           "bot_param": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/BotParam"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/BotParam" },
+              { "type": "null" }
             ]
           },
-          "deleted": {
-            "type": "boolean"
-          },
-          "end_time": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "google_id": {
-            "type": "string"
-          },
-          "is_organizer": {
-            "type": "boolean"
-          },
-          "is_recurring": {
-            "type": "boolean"
-          },
-          "last_updated_at": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "meeting_url": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "raw": {
-            "$ref": "#/components/schemas/ExtraJsonSchema"
-          },
-          "recurring_event_id": {
-            "type": ["string", "null"]
-          },
-          "start_time": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "uuid": {
-            "type": "string",
-            "format": "uuid"
-          }
+          "deleted": { "type": "boolean" },
+          "end_time": { "type": "string", "required": true, "format": "date-time" },
+          "google_id": { "type": "string", "required": true },
+          "is_organizer": { "type": "boolean" },
+          "is_recurring": { "type": "boolean" },
+          "last_updated_at": { "type": "string", "required": true, "format": "date-time" },
+          "meeting_url": { "type": "string", "required": true },
+          "name": { "type": "string", "required": true },
+          "raw": { "$ref": "#/components/schemas/ExtraJsonSchema" },
+          "recurring_event_id": { "type": "string" },
+          "start_time": { "type": "string", "required": true, "format": "date-time" },
+          "uuid": { "type": "string", "required": true, "format": "uuid" }
         }
       },
       "ExtraJsonSchema": {
@@ -954,157 +658,105 @@
         "type": "object",
         "required": ["meeting_url"],
         "properties": {
-          "event_id": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          },
-          "meeting_url": {
-            "type": "string"
-          },
-          "message": {
-            "type": ["string", "null"]
-          },
-          "project_name": {
-            "type": ["string", "null"]
-          },
-          "reserved_instance": {
-            "type": ["boolean", "null"]
-          }
+          "event_id": { "type": "integer", "format": "int32" },
+          "meeting_url": { "type": "string", "required": true },
+          "message": { "type": "string" },
+          "project_name": { "type": "string" },
+          "reserved_instance": { "type": ["boolean", "null"] }
         }
       },
       "GetAllBotsQuery": {
         "type": "object",
         "required": ["limit", "offset"],
         "properties": {
-          "limit": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "offset": {
-            "type": "integer",
-            "format": "int32"
-          }
+          "limit": { "type": "integer", "required": true, "format": "int32" },
+          "offset": { "type": "integer", "required": true, "format": "int32" }
         }
       },
       "GetMeetingDataQuery": {
         "type": "object",
         "required": ["bot_id"],
-        "properties": {
-          "bot_id": {
-            "type": "string"
-          }
-        }
+        "properties": { "bot_id": { "type": "string", "required": true } }
       },
       "GetStartedAccount": {
         "type": "object",
         "required": ["email"],
         "properties": {
-          "email": {
-            "type": "string"
-          },
-          "firstname": {
-            "type": ["string", "null"]
-          },
-          "google_token_id": {
-            "type": ["string", "null"]
-          },
-          "lastname": {
-            "type": ["string", "null"]
-          },
-          "microsoft_token_id": {
-            "type": ["string", "null"]
-          }
+          "email": { "type": "string", "required": true },
+          "firstname": { "type": "string" },
+          "google_token_id": { "type": "string" },
+          "lastname": { "type": "string" },
+          "microsoft_token_id": { "type": "string" }
         }
       },
       "GetWebhookUrlResponse": {
         "type": "object",
-        "properties": {
-          "webhook_url": {
-            "type": ["string", "null"]
-          }
-        }
+        "properties": { "webhook_url": { "type": "string" } }
       },
       "GetstartedQuery": {
         "type": "object",
-        "properties": {
-          "redirect_url": {
-            "type": ["string", "null"]
-          }
-        }
+        "properties": { "redirect_url": { "type": "string" } }
       },
       "JoinRequest": {
         "type": "object",
-        "required": ["botName", "extra", "meetingUrl", "reserved"],
+        "required": ["botName", "meetingUrl", "reserved"],
         "properties": {
           "automaticLeave": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/AutomaticLeaveRequest"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/AutomaticLeaveRequest" },
+              { "type": "null" }
             ]
           },
-          "botImage": {
-            "type": ["string", "null"],
-            "format": "uri"
-          },
-          "botName": {
-            "type": "string"
-          },
+          "botImage": { "type": "string", "format": "uri" },
+          "botName": { "type": "string", "required": true },
           "deduplicationKey": {
-            "type": ["string", "null"]
+            "description": "We prevent multiple bots with same API key joining a meeting within 5 mins, unless overridden by deduplication_key.",
+            "type": "string"
           },
           "entryMessage": {
-            "type": ["string", "null"]
+            "description": "There are no entry messages on Microsoft Teams as guests outside of an organization do not have access to the chat.",
+            "type": "string"
           },
           "extra": {
-            "$ref": "#/components/schemas/ExtraJsonSchema"
+            "description": "A Json object that allows you to add custom data to a bot for your convenience, e.g. your end user's ID."
           },
           "meetingUrl": {
-            "type": "string"
+            "description": "A valid meeting URL for: Google Meet, Zoom, Microsoft Teams (except 'live' URLs from free accounts).",
+            "type": "string", "required": true
           },
           "recordingMode": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/RecordingMode"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/RecordingMode" },
+              { "type": "null" }
             ]
           },
           "reserved": {
+            "description": "Whether or not the bot should come from the available pool of bots or be a dedicated bot. Reserved bots come in exactly 4 minutes after the request.",
             "type": "boolean"
           },
           "speechToText": {
+            "description": "The default speech to text provider is Whisper Large V3, running on Runpod.",
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/SpeechToText"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/SpeechToText" },
+              { "type": "null" }
             ]
           },
           "startTime": {
-            "type": ["integer", "null"],
+            "description": "ISO Start time for the bot to join the meeting. For security, the bot joins 4 minutes before the start time.",
+            "type": "integer",
             "format": "uint64",
-            "minimum": 0
+            "minimum": 0.0
           },
           "streaming": {
+            "description": "WebSocket streams for 16kHz audio. Input stream receives audio sent to the bot. Output stream receives audio from the bot.",
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/StreamingApiParameter"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/StreamingApiParameter" },
+              { "type": "null" }
             ]
           },
           "webhookUrl": {
-            "type": ["string", "null"]
+            "description": "A webhook URL to send events to, overrides the webhook URL set in your account settings.",
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -1113,47 +765,26 @@
         "type": "object",
         "required": ["bot_param_id", "meeting_url", "schedule_origin"],
         "properties": {
-          "bot_param_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "meeting_url": {
-            "type": "string"
-          },
-          "schedule_origin": {
-            "$ref": "#/components/schemas/ScheduleOrigin"
-          }
+          "bot_param_id": { "type": "integer", "required": true, "format": "int32" },
+          "meeting_url": { "type": "string", "required": true },
+          "schedule_origin": { "$ref": "#/components/schemas/ScheduleOrigin" }
         },
         "additionalProperties": false
       },
       "JoinResponse": {
         "type": "object",
         "required": ["bot_id"],
-        "properties": {
-          "bot_id": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
+        "properties": { "bot_id": { "type": "string", "required": true, "format": "uuid" } }
       },
       "JoinResponse2": {
         "type": "object",
         "required": ["bot_id"],
-        "properties": {
-          "bot_id": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
+        "properties": { "bot_id": { "type": "string", "required": true, "format": "uuid" } }
       },
       "LeaveResponse": {
         "type": "object",
         "required": ["ok"],
-        "properties": {
-          "ok": {
-            "type": "boolean"
-          }
-        }
+        "properties": { "ok": { "type": "boolean" } }
       },
       "ListRawCalendarsParams": {
         "type": "object",
@@ -1164,18 +795,10 @@
           "platform"
         ],
         "properties": {
-          "oauth_client_id": {
-            "type": "string"
-          },
-          "oauth_client_secret": {
-            "type": "string"
-          },
-          "oauth_refresh_token": {
-            "type": "string"
-          },
-          "platform": {
-            "$ref": "#/components/schemas/Provider"
-          }
+          "oauth_client_id": { "type": "string", "required": true },
+          "oauth_client_secret": { "type": "string", "required": true },
+          "oauth_refresh_token": { "type": "string", "required": true },
+          "platform": { "$ref": "#/components/schemas/Provider" }
         }
       },
       "ListRawCalendarsResponse": {
@@ -1184,9 +807,7 @@
         "properties": {
           "calendars": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CalendarListEntry"
-            }
+            "items": { "$ref": "#/components/schemas/CalendarListEntry" }
           }
         }
       },
@@ -1194,122 +815,85 @@
         "type": "object",
         "required": ["password", "pseudo"],
         "properties": {
-          "app_signin_token": {
-            "type": ["string", "null"]
-          },
-          "google_chrome_token_id": {
-            "type": ["string", "null"]
-          },
-          "google_token_id": {
-            "type": ["string", "null"]
-          },
-          "microsoft_token_id": {
-            "type": ["string", "null"]
-          },
-          "password": {
-            "type": "string"
-          },
-          "pseudo": {
-            "type": "string"
-          }
+          "app_signin_token": { "type": "string" },
+          "google_chrome_token_id": { "type": "string" },
+          "google_token_id": { "type": "string" },
+          "microsoft_token_id": { "type": "string" },
+          "password": { "type": "string", "required": true },
+          "pseudo": { "type": "string", "required": true }
         }
       },
       "LoginQuery": {
         "type": "object",
-        "properties": {
-          "redirect_url": {
-            "type": ["string", "null"]
-          }
-        }
+        "properties": { "redirect_url": { "type": "string" } }
       },
       "Metadata": {
         "type": "object",
         "required": ["bot_data", "mp4"],
         "properties": {
-          "bot_data": {
-            "$ref": "#/components/schemas/BotData"
-          },
-          "mp4": {
-            "type": "string"
-          }
+          "bot_data": { "$ref": "#/components/schemas/BotData" },
+          "mp4": { "type": "string", "required": true }
         }
       },
-      "OptionalDateTime": {
-        "type": ["string", "null"],
-        "format": "date-time"
-      },
+      "OptionalDateTime": { "type": "string", "format": "date-time" },
       "PostWebhookUrlRequest": {
         "type": "object",
         "required": ["webhook_url"],
-        "properties": {
-          "webhook_url": {
-            "type": "string"
-          }
-        }
+        "properties": { "webhook_url": { "type": "string", "required": true } }
       },
       "Provider": {
         "description": "Fields with value `\"simple\"` parse as `Kind::Simple`. Fields with value `\"fancy\"` parse as `Kind::SoFancy`.",
-        "type": "string",
+        "type": "string", "required": true,
         "enum": ["Google", "Microsoft"]
       },
       "QueryListEvent": {
         "type": "object",
         "required": ["calendar_id", "limit", "offset"],
         "properties": {
-          "calendar_id": {
-            "type": "string"
-          },
-          "limit": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "offset": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "updated_at_gte": {
-            "type": ["string", "null"]
-          }
+          "calendar_id": { "type": "string", "required": true },
+          "limit": { "type": "integer", "required": true, "format": "int32" },
+          "offset": { "type": "integer", "required": true, "format": "int32" },
+          "updated_at_gte": { "type": "string" }
         }
       },
       "ReceivedMessageQuery": {
         "type": "object",
         "required": ["session_id"],
-        "properties": {
-          "session_id": {
-            "type": "string"
-          }
-        }
+        "properties": { "session_id": { "type": "string", "required": true } }
       },
       "RecognizerWord": {
         "type": "object",
         "required": ["end_ts", "ts", "value"],
         "properties": {
-          "end_ts": {
-            "type": "number",
-            "format": "double"
-          },
-          "ts": {
-            "type": "number",
-            "format": "double"
-          },
-          "value": {
-            "type": "string"
-          }
+          "end_ts": { "type": "number", "format": "double" },
+          "ts": { "type": "number", "format": "double" },
+          "value": { "type": "string", "required": true }
         }
       },
       "RecordingMode": {
-        "type": "string",
-        "enum": ["speaker_view", "gallery_view", "audio_only"]
+        "description": "Recording mode for the bot",
+        "oneOf": [
+          {
+            "description": "Records the active speaker view",
+            "type": "string", "required": true,
+            "enum": ["speaker_view"]
+          },
+          {
+            "description": "Records the gallery view showing multiple participants",
+            "type": "string", "required": true,
+            "enum": ["gallery_view"]
+          },
+          {
+            "description": "Records only the audio from the meeting",
+            "type": "string", "required": true,
+            "enum": ["audio_only"]
+          }
+        ]
       },
       "RetryWebhookQuery": {
         "type": "object",
         "required": ["bot_uuid"],
-        "properties": {
-          "bot_uuid": {
-            "type": "string"
-          }
-        }
+        "properties": { "bot_uuid": { "type": "string", "required": true } }
       },
       "ScheduleOrigin": {
         "oneOf": [
@@ -1320,12 +904,7 @@
               "Event": {
                 "type": "object",
                 "required": ["id"],
-                "properties": {
-                  "id": {
-                    "type": "integer",
-                    "format": "int32"
-                  }
-                }
+                "properties": { "id": { "type": "integer", "required": true, "format": "int32" } }
               }
             },
             "additionalProperties": false
@@ -1337,12 +916,7 @@
               "ScheduledBot": {
                 "type": "object",
                 "required": ["id"],
-                "properties": {
-                  "id": {
-                    "type": "integer",
-                    "format": "int32"
-                  }
-                }
+                "properties": { "id": { "type": "integer", "required": true, "format": "int32" } }
               }
             },
             "additionalProperties": false
@@ -1351,59 +925,39 @@
       },
       "SpeechToText": {
         "anyOf": [
-          {
-            "$ref": "#/components/schemas/SpeechToTextApiParameter"
-          },
-          {
-            "$ref": "#/components/schemas/SpeechToTextProvider"
-          }
+          { "$ref": "#/components/schemas/SpeechToTextApiParameter" },
+          { "$ref": "#/components/schemas/SpeechToTextProvider" }
         ]
       },
       "SpeechToText2": {
         "type": "object",
         "required": ["provider"],
         "properties": {
-          "api_key": {
-            "type": ["string", "null"]
-          },
-          "provider": {
-            "$ref": "#/components/schemas/SpeechToTextProvider"
-          }
+          "api_key": { "type": "string" },
+          "provider": { "$ref": "#/components/schemas/SpeechToTextProvider" }
         }
       },
       "SpeechToTextApiParameter": {
         "type": "object",
         "required": ["provider"],
         "properties": {
-          "api_key": {
-            "type": ["string", "null"]
-          },
-          "provider": {
-            "$ref": "#/components/schemas/SpeechToTextProvider"
-          }
+          "api_key": { "type": "string" },
+          "provider": { "$ref": "#/components/schemas/SpeechToTextProvider" }
         }
       },
       "SpeechToTextProvider": {
-        "type": "string",
+        "type": "string", "required": true,
         "enum": ["Gladia", "Runpod", "Default"]
       },
       "StartRecordFailedQuery": {
         "type": "object",
-        "properties": {
-          "bot_uuid": {
-            "type": ["string", "null"]
-          }
-        }
+        "properties": { "bot_uuid": { "type": "string" } }
       },
       "StreamingApiParameter": {
         "type": "object",
         "properties": {
-          "input": {
-            "type": ["string", "null"]
-          },
-          "output": {
-            "type": ["string", "null"]
-          }
+          "input": { "type": "string" },
+          "output": { "type": "string" }
         }
       },
       "SyncResponse": {
@@ -1411,7 +965,7 @@
         "properties": {
           "has_updates": {
             "description": "timestamp of last updated event if some events has been updated.",
-            "type": ["string", "null"],
+            "type": "string",
             "format": "date-time"
           }
         }
@@ -1421,14 +975,14 @@
         "required": ["nanos_since_epoch", "secs_since_epoch"],
         "properties": {
           "nanos_since_epoch": {
-            "type": "integer",
+            "type": "integer", "required": true,
             "format": "uint32",
-            "minimum": 0
+            "minimum": 0.0
           },
           "secs_since_epoch": {
-            "type": "integer",
+            "type": "integer", "required": true,
             "format": "uint64",
-            "minimum": 0
+            "minimum": 0.0
           }
         }
       },
@@ -1436,30 +990,14 @@
         "type": "object",
         "required": ["bot_id", "id", "speaker", "start_time", "words"],
         "properties": {
-          "bot_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "end_time": {
-            "type": ["number", "null"],
-            "format": "double"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "speaker": {
-            "type": "string"
-          },
-          "start_time": {
-            "type": "number",
-            "format": "double"
-          },
+          "bot_id": { "type": "integer", "required": true, "format": "int32" },
+          "end_time": { "type": ["number", "null"], "format": "double" },
+          "id": { "type": "integer", "required": true, "format": "int32" },
+          "speaker": { "type": "string", "required": true },
+          "start_time": { "type": "number", "format": "double" },
           "words": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Word"
-            }
+            "items": { "$ref": "#/components/schemas/Word" }
           }
         }
       },
@@ -1467,127 +1005,57 @@
         "type": "object",
         "required": ["bot_id", "speaker", "start_time"],
         "properties": {
-          "bot_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "end_time": {
-            "type": ["number", "null"],
-            "format": "double"
-          },
-          "lang": {
-            "type": ["string", "null"]
-          },
-          "speaker": {
-            "type": "string"
-          },
-          "start_time": {
-            "type": "number",
-            "format": "double"
-          }
+          "bot_id": { "type": "integer", "required": true, "format": "int32" },
+          "end_time": { "type": ["number", "null"], "format": "double" },
+          "lang": { "type": "string" },
+          "speaker": { "type": "string", "required": true },
+          "start_time": { "type": "number", "format": "double" }
         }
       },
       "Transcript3": {
         "type": "object",
         "required": ["bot_id", "id", "speaker", "start_time"],
         "properties": {
-          "bot_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "end_time": {
-            "type": ["number", "null"],
-            "format": "double"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "lang": {
-            "type": ["string", "null"]
-          },
-          "speaker": {
-            "type": "string"
-          },
-          "start_time": {
-            "type": "number",
-            "format": "double"
-          }
+          "bot_id": { "type": "integer", "required": true, "format": "int32" },
+          "end_time": { "type": ["number", "null"], "format": "double" },
+          "id": { "type": "integer", "required": true, "format": "int32" },
+          "lang": { "type": "string" },
+          "speaker": { "type": "string", "required": true },
+          "start_time": { "type": "number", "format": "double" }
         }
       },
       "Transcript4": {
         "type": "object",
         "required": ["id"],
         "properties": {
-          "bot_id": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          },
-          "end_time": {
-            "type": ["number", "null"],
-            "format": "double"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "lang": {
-            "type": ["string", "null"]
-          },
-          "speaker": {
-            "type": ["string", "null"]
-          },
-          "start_time": {
-            "type": ["number", "null"],
-            "format": "double"
-          }
+          "bot_id": { "type": "integer", "format": "int32" },
+          "end_time": { "type": ["number", "null"], "format": "double" },
+          "id": { "type": "integer", "required": true, "format": "int32" },
+          "lang": { "type": "string" },
+          "speaker": { "type": "string" },
+          "start_time": { "type": ["number", "null"], "format": "double" }
         }
       },
       "Version": {
         "type": "object",
         "required": ["build_date", "location"],
         "properties": {
-          "build_date": {
-            "type": "string"
-          },
-          "location": {
-            "type": "string"
-          }
+          "build_date": { "type": "string", "required": true },
+          "location": { "type": "string", "required": true }
         }
       },
       "Word": {
         "type": "object",
         "required": ["bot_id", "end_time", "id", "start_time", "text"],
         "properties": {
-          "bot_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "end_time": {
-            "type": "number",
-            "format": "double"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "start_time": {
-            "type": "number",
-            "format": "double"
-          },
-          "text": {
-            "type": "string"
-          }
+          "bot_id": { "type": "integer", "required": true, "format": "int32" },
+          "end_time": { "type": "number", "format": "double" },
+          "id": { "type": "integer", "required": true, "format": "int32" },
+          "start_time": { "type": "number", "format": "double" },
+          "text": { "type": "string", "required": true }
         }
       }
     }
   },
-  "security": [
-    {
-      "ApiKeyAuth": []
-    },
-    {
-      "LegacyApiKeyAuth": []
-    }
-  ]
+  "security": [{ "ApiKeyAuth": [] }, { "LegacyApiKeyAuth": [] }]
 }
