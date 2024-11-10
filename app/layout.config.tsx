@@ -60,22 +60,6 @@ export const baseOptions: BaseLayoutProps = {
     transparentMode: "top",
   },
   links: [
-    {
-      type: "menu",
-      text: "Documentation",
-      url: "/",
-      items: [
-        {
-          menu: {
-            className: "md:row-span-2",
-          },
-          icon: <Book />,
-          text: "Introduction",
-          description: "Learn more about Meeting Baas.",
-          url: "/",
-        },
-      ],
-    },
     ...linkItems,
   ],
 };
