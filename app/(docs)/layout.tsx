@@ -19,7 +19,7 @@ const docsOptions: DocsLayoutProps = {
             buttonVariants({
               variant: "secondary",
               className:
-                "shadow-none gap-2 border bg-fd-secondary/50 p-1.5 text-sm text-fd-muted-foreground justify-start hover:bg-fd-accent hover:text-fd-accent-foreground rounded-lg max-md:hidden",
+                "shadow-none gap-2 border bg-fd-secondary/50 p-1.5 text-sm text-fd-muted-foreground justify-start hover:bg-fd-accent hover:text-fd-accent-foreground rounded-lg",
             })
           )}
           data-ai-search-full
