@@ -1,20 +1,16 @@
 {
-  "openapi": "3.0.0",
+  "openapi": "3.1.0",
   "info": {
-    "title": "baas_handler",
-    "version": "0.2.0"
+    "title": "Meeting BaaS API",
+    "description": "Meeting BaaS API",
+    "termsOfService": "https://meetingbaas.com/terms-and-conditions",
+    "version": "1.1"
   },
-  "servers": [
-    {
-      "url": "https://api.meetingbaas.com"
-    }
-  ],
   "paths": {
-    "/bots": {
+    "/bots/": {
       "post": {
-        "tags": ["Bots and Meeting Data"],
-        "summary": "Join Meeting",
-        "operationId": "bots_public_join",
+        "description": "Have a bot join a meeting, now or in the future",
+        "operationId": "join",
         "requestBody": {
           "content": {
             "application/json": {
@@ -35,38 +31,38 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
-          },
-          "404": {
-            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
-          },
-          "422": {
-            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
-          },
-          "500": {
-            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
           }
         },
-        "security": [{}]
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "LegacyApiKeyAuth": []
+          }
+        ]
       }
     },
     "/bots/{uuid}": {
-      "delete": {
-        "tags": ["Bots and Meeting Data"],
-        "summary": "Leave Meeting",
-        "operationId": "bots_public_leave",
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+      "get": {
+        "description": "Get bot",
+        "operationId": "get_bot",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bot"
+                }
+              }
             }
           }
-        ],
+        }
+      },
+      "delete": {
+        "description": "Leave",
+        "operationId": "leave",
         "responses": {
           "200": {
             "description": "",
@@ -77,36 +73,23 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
-          },
-          "404": {
-            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
-          },
-          "422": {
-            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
-          },
-          "500": {
-            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
           }
-        },
-        "security": [{}]
+        }
       }
     },
     "/bots/meeting_data": {
       "get": {
-        "tags": ["Bots and Meeting Data"],
-        "summary": "Get Meeting Data",
-        "operationId": "bots_public_get_meeting_data",
+        "description": "Get meeting data",
+        "operationId": "get_meeting_data",
         "parameters": [
           {
-            "name": "bot_id",
             "in": "query",
+            "name": "bot_id",
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "style": "form"
           }
         ],
         "responses": {
@@ -119,28 +102,42 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
-          },
-          "404": {
-            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
-          },
-          "422": {
-            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
-          },
-          "500": {
-            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
           }
-        },
-        "security": [{}]
+        }
       }
     },
-    "/calendars": {
+    "/calendars/raw": {
+      "post": {
+        "description": "List raw calendars",
+        "operationId": "list_raw_calendars",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListRawCalendarsParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListRawCalendarsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/calendars/": {
       "get": {
-        "tags": ["List Calendars"],
-        "summary": "List Calendars",
-        "operationId": "calendar_calendars_list_calendars",
+        "description": "List calendars",
+        "operationId": "list_calendars",
         "responses": {
           "200": {
             "description": "",
@@ -154,27 +151,12 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
-          },
-          "404": {
-            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
-          },
-          "422": {
-            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
-          },
-          "500": {
-            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
           }
-        },
-        "security": [{}]
+        }
       },
       "post": {
-        "tags": ["Synchronize Calendars"],
-        "summary": "Synchronize Calendars Events",
-        "description": "synchronize all events of a new calendar",
-        "operationId": "calendar_calendars_create_calendar",
+        "description": "Create a calendar",
+        "operationId": "create_calendar",
         "requestBody": {
           "content": {
             "application/json": {
@@ -195,38 +177,14 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
-          },
-          "404": {
-            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
-          },
-          "422": {
-            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
-          },
-          "500": {
-            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
           }
-        },
-        "security": [{}]
+        }
       }
     },
     "/calendars/{uuid}": {
       "get": {
-        "tags": ["Get Calendar"],
-        "summary": "Get Calendar",
-        "operationId": "calendar_calendars_get_calendar",
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "description": "Get a calendar",
+        "operationId": "get_calendar",
         "responses": {
           "200": {
             "description": "",
@@ -237,188 +195,23 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
-          },
-          "404": {
-            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
-          },
-          "422": {
-            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
-          },
-          "500": {
-            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
           }
-        },
-        "security": [{}]
+        }
       },
       "delete": {
-        "tags": ["Delete Calendars"],
-        "summary": "Delete Calendar",
-        "description": "Delete a calendar with a given uuid",
-        "operationId": "calendar_calendars_delete_calendar",
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "description": "Delete a calendar",
+        "operationId": "delete_calendar",
         "responses": {
           "200": {
-            "description": ""
-          },
-          "400": {
-            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
-          },
-          "404": {
-            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
-          },
-          "422": {
-            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
-          },
-          "500": {
-            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
+            "description": "no content"
           }
-        },
-        "security": [{}]
-      }
-    },
-    "/raw_calendars": {
-      "get": {
-        "tags": ["List Calendars"],
-        "summary": "List Raw Calendars",
-        "description": "synchronize all events of a new calendar",
-        "operationId": "calendar_calendars_list_raw_calendars",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCalendarParams"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListRawCalendarsResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
-          },
-          "404": {
-            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
-          },
-          "422": {
-            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
-          },
-          "500": {
-            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
-          }
-        },
-        "security": [{}]
-      }
-    },
-    "/calendar_events": {
-      "get": {
-        "tags": ["List all events of a calendar"],
-        "summary": "List All Calendars Events",
-        "description": "list all events of a calendar",
-        "operationId": "calendar_calendar_events_list_events",
-        "parameters": [
-          {
-            "name": "calendar_id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "offset",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "updated_at_gte",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Event"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
-          },
-          "404": {
-            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
-          },
-          "422": {
-            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
-          },
-          "500": {
-            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
-          }
-        },
-        "security": [{}]
+        }
       }
     },
     "/calendar_events/{uuid}": {
       "get": {
-        "tags": ["Calendar Events"],
-        "summary": "Get Calendar Event",
-        "description": "get event with uuid",
-        "operationId": "calendar_calendar_events_get_event",
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "description": "Get a calendar event",
+        "operationId": "get_event",
         "responses": {
           "200": {
             "description": "",
@@ -429,38 +222,14 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
-          },
-          "404": {
-            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
-          },
-          "422": {
-            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
-          },
-          "500": {
-            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
           }
-        },
-        "security": [{}]
+        }
       }
     },
     "/calendar_events/{uuid}/bot": {
       "post": {
-        "tags": ["Add Bot Parameters on Event"],
-        "summary": "Add Meeting Bot Parameters on Event",
-        "operationId": "calendar_calendar_events_schedule_record_event",
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "description": "Schedule a record event",
+        "operationId": "schedule_record_event",
         "requestBody": {
           "content": {
             "application/json": {
@@ -481,36 +250,12 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
-          },
-          "404": {
-            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
-          },
-          "422": {
-            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
-          },
-          "500": {
-            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
           }
-        },
-        "security": [{}]
+        }
       },
       "delete": {
-        "tags": ["Unschedule Record Event"],
-        "summary": "Unschedule Meeting Bot on Event",
-        "operationId": "calendar_calendar_events_unschedule_record_event",
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "description": "Unschedule a record event",
+        "operationId": "unschedule_record_event",
         "responses": {
           "200": {
             "description": "",
@@ -521,189 +266,228 @@
                 }
               }
             }
-          },
-          "400": {
-            "description": "# [400 Bad Request](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400)\nThe request given is wrongly formatted or data asked could not be fulfilled. "
-          },
-          "404": {
-            "description": "# [404 Not Found](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404)\nThis response is given when you request a page that does not exists."
-          },
-          "422": {
-            "description": "# [422 Unprocessable Entity](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422)\nThis response is given when you request body is not correctly formatted. "
-          },
-          "500": {
-            "description": "# [500 Internal Server Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500)\nThis response is given when something wend wrong on the server. "
           }
-        },
-        "security": [{}]
+        }
+      }
+    },
+    "/calendar_events/": {
+      "get": {
+        "description": "List events",
+        "operationId": "list_events",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "calendar_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "style": "form"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "style": "form"
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "style": "form"
+          },
+          {
+            "in": "query",
+            "name": "updated_at_gte",
+            "schema": {
+              "type": ["string", "null"]
+            },
+            "style": "form"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Event"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
   "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-meeting-baas-api-key",
+        "description": "API key for authentication"
+      },
+      "LegacyApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-spoke-api-key",
+        "description": "Legacy API key for authentication (deprecated)"
+      }
+    },
     "schemas": {
-      "JoinResponse": {
+      "Account": {
+        "description": "This structure represents the user's account information.",
         "type": "object",
-        "required": ["bot_id"],
+        "required": ["created_at", "email", "id", "status"],
         "properties": {
-          "bot_id": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
-      },
-      "JoinRequest": {
-        "type": "object",
-        "required": ["bot_name", "meeting_url", "reserved"],
-        "properties": {
-          "meeting_url": {
+          "company_name": {
+            "type": ["string", "null"]
+          },
+          "created_at": {
+            "$ref": "#/components/schemas/SystemTime"
+          },
+          "email": {
             "type": "string"
           },
-          "bot_name": {
-            "type": "string"
+          "firstname": {
+            "type": ["string", "null"]
           },
-          "bot_image": {
-            "type": "string",
-            "format": "uri",
-            "nullable": true
-          },
-          "speech_to_text": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/SpeechToText"
-              }
-            ],
-            "nullable": true
-          },
-          "streaming": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/StreamingApiParameter"
-              }
-            ],
-            "nullable": true
-          },
-          "reserved": {
-            "type": "boolean"
-          },
-          "entry_message": {
-            "type": "string",
-            "nullable": true
-          },
-          "webhook_url": {
-            "type": "string",
-            "nullable": true
-          },
-          "automatic_leave": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/AutomaticLeaveRequest"
-              }
-            ],
-            "nullable": true
-          },
-          "deduplication_key": {
-            "type": "string",
-            "nullable": true
-          },
-          "recording_mode": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RecordingMode"
-              }
-            ],
-            "nullable": true
-          },
-          "extra": {
-            "nullable": true
-          },
-          "start_time": {
+          "id": {
             "type": "integer",
-            "format": "uint64",
-            "minimum": 0,
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "SpeechToText": {
-        "anyOf": [
-          {
-            "$ref": "#/components/schemas/SpeechToTextApiParameter"
+            "format": "int32"
           },
-          {
-            "$ref": "#/components/schemas/SpeechToTextProvider"
-          }
-        ]
-      },
-      "SpeechToTextApiParameter": {
-        "type": "object",
-        "required": ["provider"],
-        "properties": {
-          "provider": {
-            "$ref": "#/components/schemas/SpeechToTextProvider"
+          "lastname": {
+            "type": ["string", "null"]
           },
-          "api_key": {
-            "type": "string",
-            "nullable": true
+          "phone": {
+            "type": ["string", "null"]
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
-      "SpeechToTextProvider": {
-        "type": "string",
-        "enum": ["Gladia", "Runpod", "Default"]
-      },
-      "StreamingApiParameter": {
+      "AccountInfos": {
+        "description": "Structure consisting account information.",
         "type": "object",
+        "required": ["account"],
         "properties": {
-          "input": {
-            "type": "string",
-            "nullable": true
-          },
-          "output": {
-            "type": "string",
-            "nullable": true
+          "account": {
+            "$ref": "#/components/schemas/Account"
+          }
+        }
+      },
+      "ApiKeyResponse": {
+        "type": "object",
+        "required": ["api_key"],
+        "properties": {
+          "api_key": {
+            "type": "string"
           }
         }
       },
       "AutomaticLeaveRequest": {
         "type": "object",
         "properties": {
-          "waiting_room_timeout": {
-            "type": "integer",
-            "format": "uint32",
-            "minimum": 0,
-            "nullable": true
-          },
           "noone_joined_timeout": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "format": "uint32",
-            "minimum": 0,
-            "nullable": true
-          }
-        }
-      },
-      "RecordingMode": {
-        "type": "string",
-        "enum": ["speaker_view", "gallery_view", "audio_only"]
-      },
-      "LeaveResponse": {
-        "type": "object",
-        "required": ["ok"],
-        "properties": {
-          "ok": {
-            "type": "boolean"
-          }
-        }
-      },
-      "Metadata": {
-        "type": "object",
-        "required": ["bot_data", "mp4"],
-        "properties": {
-          "bot_data": {
-            "$ref": "#/components/schemas/BotData"
+            "minimum": 0
           },
-          "mp4": {
+          "waiting_room_timeout": {
+            "type": ["integer", "null"],
+            "format": "uint32",
+            "minimum": 0
+          }
+        }
+      },
+      "Bot": {
+        "type": "object",
+        "required": ["bot", "duration", "params"],
+        "properties": {
+          "bot": {
+            "$ref": "#/components/schemas/Bot2"
+          },
+          "duration": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "params": {
+            "$ref": "#/components/schemas/BotParam"
+          }
+        }
+      },
+      "Bot2": {
+        "type": "object",
+        "required": [
+          "account_id",
+          "bot_param_id",
+          "created_at",
+          "ended_at",
+          "id",
+          "meeting_url",
+          "mp4_s3_path",
+          "reserved",
+          "uuid"
+        ],
+        "properties": {
+          "account_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bot_param_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created_at": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "ended_at": {
+            "$ref": "#/components/schemas/OptionalDateTime"
+          },
+          "errors": {
+            "type": ["string", "null"]
+          },
+          "event_id": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "meeting_url": {
             "type": "string"
+          },
+          "mp4_s3_path": {
+            "type": "string"
+          },
+          "reserved": {
+            "type": "boolean"
+          },
+          "scheduled_bot_id": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "session_id": {
+            "type": ["string", "null"]
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -722,6 +506,137 @@
           }
         }
       },
+      "BotPagined": {
+        "type": "object",
+        "required": ["bots", "has_more"],
+        "properties": {
+          "bots": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Bot"
+            }
+          },
+          "has_more": {
+            "type": "boolean"
+          }
+        }
+      },
+      "BotParam": {
+        "type": "object",
+        "required": ["bot_name", "extra", "webhook_url"],
+        "properties": {
+          "bot_image": {
+            "type": ["string", "null"]
+          },
+          "bot_name": {
+            "type": "string"
+          },
+          "deduplication_key": {
+            "type": ["string", "null"]
+          },
+          "enter_message": {
+            "type": ["string", "null"]
+          },
+          "extra": {
+            "$ref": "#/components/schemas/ExtraJsonSchema"
+          },
+          "noone_joined_timeout": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "recording_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RecordingMode"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "speech_to_text": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SpeechToText2"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "streaming_input": {
+            "type": ["string", "null"]
+          },
+          "streaming_output": {
+            "type": ["string", "null"]
+          },
+          "waiting_room_timeout": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "webhook_url": {
+            "type": "string"
+          }
+        }
+      },
+      "BotParam2": {
+        "type": "object",
+        "required": ["bot_name", "extra", "webhook_url"],
+        "properties": {
+          "bot_image": {
+            "type": ["string", "null"]
+          },
+          "bot_name": {
+            "type": "string"
+          },
+          "deduplication_key": {
+            "type": ["string", "null"]
+          },
+          "enter_message": {
+            "type": ["string", "null"]
+          },
+          "extra": {
+            "$ref": "#/components/schemas/ExtraJsonSchema"
+          },
+          "noone_joined_timeout": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "recording_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RecordingMode"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "speech_to_text": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SpeechToText"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "streaming_input": {
+            "type": ["string", "null"]
+          },
+          "streaming_output": {
+            "type": ["string", "null"]
+          },
+          "waiting_room_timeout": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "webhook_url": {
+            "type": "string"
+          }
+        }
+      },
       "BotWithParams": {
         "type": "object",
         "required": [
@@ -729,6 +644,7 @@
           "bot_name",
           "bot_param_id",
           "created_at",
+          "ended_at",
           "extra",
           "id",
           "meeting_url",
@@ -738,177 +654,105 @@
           "webhook_url"
         ],
         "properties": {
-          "id": {
+          "account_id": {
             "type": "integer",
             "format": "int32"
           },
-          "account_id": {
+          "bot_image": {
+            "type": ["string", "null"]
+          },
+          "bot_name": {
+            "type": "string"
+          },
+          "bot_param_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created_at": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "deduplication_key": {
+            "type": ["string", "null"]
+          },
+          "ended_at": {
+            "$ref": "#/components/schemas/OptionalDateTime"
+          },
+          "enter_message": {
+            "type": ["string", "null"]
+          },
+          "errors": {
+            "type": ["string", "null"]
+          },
+          "event_id": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "extra": {
+            "$ref": "#/components/schemas/ExtraJsonSchema"
+          },
+          "id": {
             "type": "integer",
             "format": "int32"
           },
           "meeting_url": {
             "type": "string"
           },
-          "created_at": {
-            "type": "string",
-            "format": "partial-date-time"
+          "mp4_s3_path": {
+            "type": "string"
           },
-          "session_id": {
-            "type": "string",
-            "nullable": true
+          "noone_joined_timeout": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "recording_mode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RecordingMode"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "reserved": {
             "type": "boolean"
           },
-          "errors": {
-            "type": "string",
-            "nullable": true
+          "scheduled_bot_id": {
+            "type": ["integer", "null"],
+            "format": "int32"
           },
-          "ended_at": {
-            "type": "string",
-            "format": "partial-date-time",
-            "nullable": true
+          "session_id": {
+            "type": ["string", "null"]
           },
-          "mp4_s3_path": {
-            "type": "string"
+          "speech_to_text_api_key": {
+            "type": ["string", "null"]
           },
-          "webhook_url": {
-            "type": "string"
+          "speech_to_text_provider": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SpeechToTextProvider"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "streaming_input": {
+            "type": ["string", "null"]
+          },
+          "streaming_output": {
+            "type": ["string", "null"]
           },
           "uuid": {
             "type": "string",
             "format": "uuid"
           },
-          "bot_param_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "event_id": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "scheduled_bot_id": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "bot_name": {
-            "type": "string"
-          },
-          "bot_image": {
-            "type": "string",
-            "nullable": true
-          },
-          "speech_to_text_provider": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/SpeechToTextProvider"
-              }
-            ],
-            "nullable": true
-          },
-          "enter_message": {
-            "type": "string",
-            "nullable": true
-          },
-          "recording_mode": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RecordingMode"
-              }
-            ],
-            "nullable": true
-          },
-          "speech_to_text_api_key": {
-            "type": "string",
-            "nullable": true
-          },
-          "streaming_input": {
-            "type": "string",
-            "nullable": true
-          },
-          "streaming_output": {
-            "type": "string",
-            "nullable": true
-          },
           "waiting_room_timeout": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "noone_joined_timeout": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "deduplication_key": {
-            "type": "string",
-            "nullable": true
-          },
-          "extra": {}
-        }
-      },
-      "Transcript": {
-        "type": "object",
-        "required": [
-          "bot_id",
-          "end_time",
-          "id",
-          "speaker",
-          "start_time",
-          "words"
-        ],
-        "properties": {
-          "id": {
-            "type": "integer",
+            "type": ["integer", "null"],
             "format": "int32"
           },
-          "speaker": {
+          "webhook_url": {
             "type": "string"
-          },
-          "bot_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "start_time": {
-            "type": "number",
-            "format": "double"
-          },
-          "words": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Word"
-            }
-          },
-          "end_time": {
-            "type": "number",
-            "format": "double"
-          }
-        }
-      },
-      "Word": {
-        "type": "object",
-        "required": ["end_time", "id", "start_time", "text", "transcript_id"],
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "text": {
-            "type": "string"
-          },
-          "start_time": {
-            "type": "number",
-            "format": "double"
-          },
-          "end_time": {
-            "type": "number",
-            "format": "double"
-          },
-          "transcript_id": {
-            "type": "integer",
-            "format": "int32"
           }
         }
       },
@@ -916,18 +760,17 @@
         "type": "object",
         "required": ["email", "google_id", "name", "uuid"],
         "properties": {
+          "email": {
+            "type": "string"
+          },
           "google_id": {
             "type": "string"
           },
           "name": {
             "type": "string"
           },
-          "email": {
-            "type": "string"
-          },
           "resource_id": {
-            "type": "string",
-            "nullable": true
+            "type": ["string", "null"]
           },
           "uuid": {
             "type": "string",
@@ -935,12 +778,45 @@
           }
         }
       },
-      "CreateCalendarResponse": {
+      "CalendarListEntry": {
         "type": "object",
-        "required": ["calendar"],
+        "required": ["email", "id", "is_primary"],
         "properties": {
-          "calendar": {
-            "$ref": "#/components/schemas/Calendar"
+          "email": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "is_primary": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Consumption": {
+        "type": "object",
+        "required": ["consumption"],
+        "properties": {
+          "consumption": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          }
+        }
+      },
+      "ConsumptionQuery": {
+        "type": "object",
+        "required": ["end", "start"],
+        "properties": {
+          "end": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          },
+          "start": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
           }
         }
       },
@@ -966,40 +842,38 @@
             "$ref": "#/components/schemas/Provider"
           },
           "raw_calendar_id": {
-            "type": "string",
-            "nullable": true
+            "type": ["string", "null"]
           }
         }
       },
-      "Provider": {
-        "description": "Fields with value `\"simple\"` parse as `Kind::Simple`. Fields with value `\"fancy\"` parse as `Kind::SoFancy`.",
+      "CreateCalendarResponse": {
+        "type": "object",
+        "required": ["calendar"],
+        "properties": {
+          "calendar": {
+            "$ref": "#/components/schemas/Calendar"
+          }
+        }
+      },
+      "DateTime": {
         "type": "string",
-        "enum": ["Google", "Microsoft"]
+        "format": "date-time"
       },
-      "ListRawCalendarsResponse": {
+      "EndMeetingQuery": {
         "type": "object",
-        "required": ["calendars"],
+        "required": ["bot_uuid"],
         "properties": {
-          "calendars": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CalendarListEntry"
-            }
+          "bot_uuid": {
+            "type": "string"
           }
         }
       },
-      "CalendarListEntry": {
+      "EndMeetingTrampolineQuery": {
         "type": "object",
-        "required": ["email", "id", "is_primary"],
+        "required": ["bot_uuid"],
         "properties": {
-          "id": {
+          "bot_uuid": {
             "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "is_primary": {
-            "type": "boolean"
           }
         }
       },
@@ -1019,181 +893,701 @@
           "uuid"
         ],
         "properties": {
-          "google_id": {
-            "type": "string"
+          "bot_param": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BotParam"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
-          "name": {
-            "type": "string"
-          },
-          "meeting_url": {
-            "type": "string"
-          },
-          "start_time": {
-            "type": "string",
-            "format": "date-time"
+          "deleted": {
+            "type": "boolean"
           },
           "end_time": {
             "type": "string",
             "format": "date-time"
           },
+          "google_id": {
+            "type": "string"
+          },
           "is_organizer": {
             "type": "boolean"
           },
-          "recurring_event_id": {
-            "type": "string",
-            "nullable": true
-          },
           "is_recurring": {
             "type": "boolean"
-          },
-          "uuid": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "raw": {},
-          "bot_param": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/BotParam"
-              }
-            ],
-            "nullable": true
           },
           "last_updated_at": {
             "type": "string",
             "format": "date-time"
           },
-          "deleted": {
+          "meeting_url": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "raw": {
+            "$ref": "#/components/schemas/ExtraJsonSchema"
+          },
+          "recurring_event_id": {
+            "type": ["string", "null"]
+          },
+          "start_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "uuid": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "ExtraJsonSchema": {
+        "description": "An object that can contain any valid JSON value",
+        "type": "object",
+        "additionalProperties": true
+      },
+      "FailedRecordRequest": {
+        "type": "object",
+        "required": ["meeting_url"],
+        "properties": {
+          "event_id": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "meeting_url": {
+            "type": "string"
+          },
+          "message": {
+            "type": ["string", "null"]
+          },
+          "project_name": {
+            "type": ["string", "null"]
+          },
+          "reserved_instance": {
+            "type": ["boolean", "null"]
+          }
+        }
+      },
+      "GetAllBotsQuery": {
+        "type": "object",
+        "required": ["limit", "offset"],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "offset": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "GetMeetingDataQuery": {
+        "type": "object",
+        "required": ["bot_id"],
+        "properties": {
+          "bot_id": {
+            "type": "string"
+          }
+        }
+      },
+      "GetStartedAccount": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "firstname": {
+            "type": ["string", "null"]
+          },
+          "google_token_id": {
+            "type": ["string", "null"]
+          },
+          "lastname": {
+            "type": ["string", "null"]
+          },
+          "microsoft_token_id": {
+            "type": ["string", "null"]
+          }
+        }
+      },
+      "GetWebhookUrlResponse": {
+        "type": "object",
+        "properties": {
+          "webhook_url": {
+            "type": ["string", "null"]
+          }
+        }
+      },
+      "GetstartedQuery": {
+        "type": "object",
+        "properties": {
+          "redirect_url": {
+            "type": ["string", "null"]
+          }
+        }
+      },
+      "JoinRequest": {
+        "type": "object",
+        "required": ["botName", "extra", "meetingUrl", "reserved"],
+        "properties": {
+          "automaticLeave": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AutomaticLeaveRequest"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "botImage": {
+            "type": ["string", "null"],
+            "format": "uri"
+          },
+          "botName": {
+            "type": "string"
+          },
+          "deduplicationKey": {
+            "type": ["string", "null"]
+          },
+          "entryMessage": {
+            "type": ["string", "null"]
+          },
+          "extra": {
+            "$ref": "#/components/schemas/ExtraJsonSchema"
+          },
+          "meetingUrl": {
+            "type": "string"
+          },
+          "recordingMode": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RecordingMode"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reserved": {
+            "type": "boolean"
+          },
+          "speechToText": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SpeechToText"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "startTime": {
+            "type": ["integer", "null"],
+            "format": "uint64",
+            "minimum": 0
+          },
+          "streaming": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StreamingApiParameter"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "webhookUrl": {
+            "type": ["string", "null"]
+          }
+        },
+        "additionalProperties": false
+      },
+      "JoinRequestScheduled": {
+        "type": "object",
+        "required": ["bot_param_id", "meeting_url", "schedule_origin"],
+        "properties": {
+          "bot_param_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "meeting_url": {
+            "type": "string"
+          },
+          "schedule_origin": {
+            "$ref": "#/components/schemas/ScheduleOrigin"
+          }
+        },
+        "additionalProperties": false
+      },
+      "JoinResponse": {
+        "type": "object",
+        "required": ["bot_id"],
+        "properties": {
+          "bot_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "JoinResponse2": {
+        "type": "object",
+        "required": ["bot_id"],
+        "properties": {
+          "bot_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "LeaveResponse": {
+        "type": "object",
+        "required": ["ok"],
+        "properties": {
+          "ok": {
             "type": "boolean"
           }
         }
       },
-      "BotParam": {
+      "ListRawCalendarsParams": {
         "type": "object",
-        "required": ["bot_name", "extra"],
+        "required": [
+          "oauth_client_id",
+          "oauth_client_secret",
+          "oauth_refresh_token",
+          "platform"
+        ],
         "properties": {
-          "bot_name": {
+          "oauth_client_id": {
             "type": "string"
           },
-          "bot_image": {
-            "type": "string",
-            "nullable": true
+          "oauth_client_secret": {
+            "type": "string"
           },
-          "speech_to_text_provider": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/SpeechToTextProvider"
-              }
-            ],
-            "nullable": true
+          "oauth_refresh_token": {
+            "type": "string"
           },
-          "enter_message": {
-            "type": "string",
-            "nullable": true
-          },
-          "recording_mode": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RecordingMode"
-              }
-            ],
-            "nullable": true
-          },
-          "speech_to_text_api_key": {
-            "type": "string",
-            "nullable": true
-          },
-          "streaming_input": {
-            "type": "string",
-            "nullable": true
-          },
-          "streaming_output": {
-            "type": "string",
-            "nullable": true
-          },
-          "waiting_room_timeout": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "noone_joined_timeout": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "deduplication_key": {
-            "type": "string",
-            "nullable": true
-          },
-          "extra": {}
+          "platform": {
+            "$ref": "#/components/schemas/Provider"
+          }
         }
       },
-      "BotParam2": {
+      "ListRawCalendarsResponse": {
         "type": "object",
-        "required": ["bot_name"],
+        "required": ["calendars"],
         "properties": {
-          "bot_name": {
+          "calendars": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CalendarListEntry"
+            }
+          }
+        }
+      },
+      "LoginAccount": {
+        "type": "object",
+        "required": ["password", "pseudo"],
+        "properties": {
+          "app_signin_token": {
+            "type": ["string", "null"]
+          },
+          "google_chrome_token_id": {
+            "type": ["string", "null"]
+          },
+          "google_token_id": {
+            "type": ["string", "null"]
+          },
+          "microsoft_token_id": {
+            "type": ["string", "null"]
+          },
+          "password": {
             "type": "string"
           },
-          "bot_image": {
-            "type": "string",
-            "nullable": true
+          "pseudo": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginQuery": {
+        "type": "object",
+        "properties": {
+          "redirect_url": {
+            "type": ["string", "null"]
+          }
+        }
+      },
+      "Metadata": {
+        "type": "object",
+        "required": ["bot_data", "mp4"],
+        "properties": {
+          "bot_data": {
+            "$ref": "#/components/schemas/BotData"
           },
-          "speech_to_text": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/SpeechToText"
-              }
-            ],
-            "nullable": true
+          "mp4": {
+            "type": "string"
+          }
+        }
+      },
+      "OptionalDateTime": {
+        "type": ["string", "null"],
+        "format": "date-time"
+      },
+      "PostWebhookUrlRequest": {
+        "type": "object",
+        "required": ["webhook_url"],
+        "properties": {
+          "webhook_url": {
+            "type": "string"
+          }
+        }
+      },
+      "Provider": {
+        "description": "Fields with value `\"simple\"` parse as `Kind::Simple`. Fields with value `\"fancy\"` parse as `Kind::SoFancy`.",
+        "type": "string",
+        "enum": ["Google", "Microsoft"]
+      },
+      "QueryListEvent": {
+        "type": "object",
+        "required": ["calendar_id", "limit", "offset"],
+        "properties": {
+          "calendar_id": {
+            "type": "string"
           },
-          "streaming_input": {
-            "type": "string",
-            "nullable": true
-          },
-          "streaming_output": {
-            "type": "string",
-            "nullable": true
-          },
-          "enter_message": {
-            "type": "string",
-            "nullable": true
-          },
-          "recording_mode": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/RecordingMode"
-              }
-            ],
-            "nullable": true
-          },
-          "waiting_room_timeout": {
+          "limit": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
-          "noone_joined_timeout": {
+          "offset": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
-          "deduplication_key": {
-            "type": "string",
-            "nullable": true
+          "updated_at_gte": {
+            "type": ["string", "null"]
+          }
+        }
+      },
+      "ReceivedMessageQuery": {
+        "type": "object",
+        "required": ["session_id"],
+        "properties": {
+          "session_id": {
+            "type": "string"
+          }
+        }
+      },
+      "RecognizerWord": {
+        "type": "object",
+        "required": ["end_ts", "ts", "value"],
+        "properties": {
+          "end_ts": {
+            "type": "number",
+            "format": "double"
           },
-          "extra": {
-            "nullable": true
+          "ts": {
+            "type": "number",
+            "format": "double"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "RecordingMode": {
+        "type": "string",
+        "enum": ["speaker_view", "gallery_view", "audio_only"]
+      },
+      "RetryWebhookQuery": {
+        "type": "object",
+        "required": ["bot_uuid"],
+        "properties": {
+          "bot_uuid": {
+            "type": "string"
+          }
+        }
+      },
+      "ScheduleOrigin": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": ["Event"],
+            "properties": {
+              "Event": {
+                "type": "object",
+                "required": ["id"],
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": ["ScheduledBot"],
+            "properties": {
+              "ScheduledBot": {
+                "type": "object",
+                "required": ["id"],
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "SpeechToText": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/SpeechToTextApiParameter"
+          },
+          {
+            "$ref": "#/components/schemas/SpeechToTextProvider"
+          }
+        ]
+      },
+      "SpeechToText2": {
+        "type": "object",
+        "required": ["provider"],
+        "properties": {
+          "api_key": {
+            "type": ["string", "null"]
+          },
+          "provider": {
+            "$ref": "#/components/schemas/SpeechToTextProvider"
+          }
+        }
+      },
+      "SpeechToTextApiParameter": {
+        "type": "object",
+        "required": ["provider"],
+        "properties": {
+          "api_key": {
+            "type": ["string", "null"]
+          },
+          "provider": {
+            "$ref": "#/components/schemas/SpeechToTextProvider"
+          }
+        }
+      },
+      "SpeechToTextProvider": {
+        "type": "string",
+        "enum": ["Gladia", "Runpod", "Default"]
+      },
+      "StartRecordFailedQuery": {
+        "type": "object",
+        "properties": {
+          "bot_uuid": {
+            "type": ["string", "null"]
+          }
+        }
+      },
+      "StreamingApiParameter": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": ["string", "null"]
+          },
+          "output": {
+            "type": ["string", "null"]
+          }
+        }
+      },
+      "SyncResponse": {
+        "type": "object",
+        "properties": {
+          "has_updates": {
+            "description": "timestamp of last updated event if some events has been updated.",
+            "type": ["string", "null"],
+            "format": "date-time"
+          }
+        }
+      },
+      "SystemTime": {
+        "type": "object",
+        "required": ["nanos_since_epoch", "secs_since_epoch"],
+        "properties": {
+          "nanos_since_epoch": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0
+          },
+          "secs_since_epoch": {
+            "type": "integer",
+            "format": "uint64",
+            "minimum": 0
+          }
+        }
+      },
+      "Transcript": {
+        "type": "object",
+        "required": ["bot_id", "id", "speaker", "start_time", "words"],
+        "properties": {
+          "bot_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "end_time": {
+            "type": ["number", "null"],
+            "format": "double"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "speaker": {
+            "type": "string"
+          },
+          "start_time": {
+            "type": "number",
+            "format": "double"
+          },
+          "words": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Word"
+            }
+          }
+        }
+      },
+      "Transcript2": {
+        "type": "object",
+        "required": ["bot_id", "speaker", "start_time"],
+        "properties": {
+          "bot_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "end_time": {
+            "type": ["number", "null"],
+            "format": "double"
+          },
+          "lang": {
+            "type": ["string", "null"]
+          },
+          "speaker": {
+            "type": "string"
+          },
+          "start_time": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Transcript3": {
+        "type": "object",
+        "required": ["bot_id", "id", "speaker", "start_time"],
+        "properties": {
+          "bot_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "end_time": {
+            "type": ["number", "null"],
+            "format": "double"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lang": {
+            "type": ["string", "null"]
+          },
+          "speaker": {
+            "type": "string"
+          },
+          "start_time": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Transcript4": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "bot_id": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "end_time": {
+            "type": ["number", "null"],
+            "format": "double"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lang": {
+            "type": ["string", "null"]
+          },
+          "speaker": {
+            "type": ["string", "null"]
+          },
+          "start_time": {
+            "type": ["number", "null"],
+            "format": "double"
+          }
+        }
+      },
+      "Version": {
+        "type": "object",
+        "required": ["build_date", "location"],
+        "properties": {
+          "build_date": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          }
+        }
+      },
+      "Word": {
+        "type": "object",
+        "required": ["bot_id", "end_time", "id", "start_time", "text"],
+        "properties": {
+          "bot_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "end_time": {
+            "type": "number",
+            "format": "double"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "start_time": {
+            "type": "number",
+            "format": "double"
+          },
+          "text": {
+            "type": "string"
           }
         }
       }
-    },
-    "securitySchemes": {
-      "ApiKey": {
-        "description": "Use either x-meeting-baas-api-key or x-spoke-api-key (deprecated)",
-        "type": "apiKey",
-        "name": "x-meeting-baas-api-key",
-        "in": ""
-      }
     }
-  }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    },
+    {
+      "LegacyApiKeyAuth": []
+    }
+  ]
 }
