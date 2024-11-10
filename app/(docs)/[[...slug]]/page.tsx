@@ -17,7 +17,7 @@ export default async function Page(props: {
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
-  const path = `content/docs/${page.file.path}`;
+  // const path = `content/docs/${page.file.path}`;
 
   const MDX = page.data.body;
 
