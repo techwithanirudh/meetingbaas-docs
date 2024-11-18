@@ -1,0 +1,37 @@
+---
+title: Ngrok setup for local development
+description: Set-up ngrok to send multiple bots in the same time on your dev machine
+icon: Settings
+---
+
+## Local Setup
+
+For running multiple bots locally on macOS, you'll need to configure ngrok on your machine to allow each bot to have its own WebSocket connection through a unique tunnel.
+
+## Configuration Steps
+
+Create/edit the ngrok configuration file:
+
+```bash
+vim ~/Library/Application\ Support/ngrok/ngrok.yml
+```
+
+Add this configuration:
+
+```yaml
+version: "3"
+agent:
+  authtoken: YOUR_AUTH_TOKEN
+
+tunnels:
+  proxy1:
+    proto: http
+    addr: 8766
+  proxy2:
+    proto: http
+    addr: 8768
+```
+
+## Usage
+
+This sets up two separate tunnels (proxy1 and proxy2) that will be used by your bots to establish WebSocket connections with the meeting platforms.
