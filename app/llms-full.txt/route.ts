@@ -28,10 +28,8 @@ export async function GET() {
 
     const dir = path.dirname(file).split(path.sep).at(3);
     const category = {
-      ui: 'Fumadocs Framework',
-      headless: 'Fumadocs Core (core library of framework)',
-      mdx: 'Fumadocs MDX (the built-in content source)',
-      cli: 'Fumadocs CLI (the CLI tool for automating Fumadocs apps)',
+      api: 'API Documentation',
+      "speaking-bots": 'Speaking Bots Documentation'
     }[dir ?? ''];
 
     if (data._mdx?.mirror) {

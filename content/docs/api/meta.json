@@ -1,5 +1,6 @@
 {
-    "title:": "API",
+    "title": "API",
+    "icon": "Webhook",
     "description": "Learn how to use the MeetingBaas API.",
     "root": true,
     "pages": ["index", "getting-started", "api-reference", "community-and-support"]
