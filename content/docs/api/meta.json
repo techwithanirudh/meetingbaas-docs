@@ -1,7 +1,7 @@
 {
-    "title": "API",
-    "icon": "Webhook",
-    "description": "The MeetingBaas API",
-    "root": true,
-    "pages": ["index", "getting-started", "reference", "community-and-support"]
-  }
+  "title": "MeetingBaas API",
+  "icon": "Webhook",
+  "description": "Reference and guides.",
+  "root": true,
+  "pages": ["index", "getting-started", "reference", "community-and-support"]
+}

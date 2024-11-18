@@ -1,7 +1,7 @@
 {
   "title": "Transcript Seeker",
   "icon": "Captions",
-  "description": "The open-source transcription playground",
+  "description": "Open-source transcription playground.",
   "root": true,
   "pages": ["index", "getting-started", "concepts", "guides"]
 }
