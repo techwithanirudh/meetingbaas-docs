@@ -4,6 +4,7 @@ import type { Viewport } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 import { Providers } from "./providers";
+import { Body } from "./layout.client";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,9 +29,9 @@ export const viewport: Viewport = {
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
-      <body className="flex flex-col min-h-screen">
+      <Body className="flex flex-col min-h-screen">
         <Providers>{children}</Providers>
-      </body>
+      </Body>
     </html>
   );
 }

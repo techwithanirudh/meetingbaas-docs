@@ -40,10 +40,9 @@ export async function updateOramaAi(): Promise<void> {
 
     const dir = path.dirname(file).split(path.sep).at(3);
     const category = {
-      ui: "Fumadocs and the default docs theme",
-      headless: "Fumadocs Core, the headless library of Fumadocs",
-      mdx: "Fumadocs MDX, the built-in content source",
-      cli: "Fumadocs CLI, the CLI tool for setting up Fumadocs projects",
+      api: "MeetingBaas API, the main purpose of the documentation",
+      "transcript-seeker": "Transcript Seeker, the open-source transcription playground",
+      "speaking-bots": "Speaking Bots, the Pipecat-powered bots",
     }[dir ?? ""];
 
     if (data._mdx?.mirror) {

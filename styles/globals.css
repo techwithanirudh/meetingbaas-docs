@@ -7,7 +7,6 @@
 }
 
 .transcript-seeker {
-  /* todo: fix primary not appied */
   --primary: var(--transcript-seeker-color);
 }
 
