@@ -30,7 +30,7 @@ export default function DocsPage(): React.ReactElement {
                         <CloudIcon className="size-full" />
                     </Icon>
                     <h2 className="mb-2 text-lg font-semibold">
-                        Access the Speaking Bots
+                        Speaking Bots
                     </h2>
                     <p className="text-sm">Pipecat-powered Speaking Bots</p>
                 </Item>

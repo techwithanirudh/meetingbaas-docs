@@ -15,7 +15,7 @@ export const logo = (
       src={Logo}
       sizes="100px"
       className="size-4 [header_&]:size-5"
-      aria-label="Fumadocs"
+      aria-label="MeetingBaas"
     />
   </>
 );
@@ -57,10 +57,7 @@ export const baseOptions: BaseLayoutProps = {
         </span>
       </>
     ),
-    banner: (
-      <>
-      hi</>
-    ),
+    transparentMode: 'top'
   },
   links: [
     ...linkItems,
