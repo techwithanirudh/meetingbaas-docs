@@ -2,12 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-.ui {
-  --primary: var(--ui-color);
-}
-
 .api {
   --primary: var(--api-color);
+}
+
+.transcript-seeker {
+  /* todo: fix primary not appied */
+  --primary: var(--transcript-seeker-color);
 }
 
 .speaking-bots {

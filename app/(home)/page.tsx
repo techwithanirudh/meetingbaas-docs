@@ -19,7 +19,7 @@ export default function DocsPage(): React.ReactElement {
           </Icon>
           <h2 className="mb-2 text-lg font-semibold">MeetingBaas API</h2>
           <p className="text-sm  text-fd-muted-foreground ">
-            Learn how to use the MeetingBaas API
+            The MeetingBaas API
           </p>
         </Item>
 
@@ -29,7 +29,7 @@ export default function DocsPage(): React.ReactElement {
           </Icon>
           <h2 className="mb-2 text-lg font-semibold">Transcript Seeker</h2>
           <p className="text-sm text-fd-muted-foreground">
-            An open-source transcription playground.
+            The open-source transcription playground
           </p>
         </Item>
         <Item href="/docs/speaking-bots">
