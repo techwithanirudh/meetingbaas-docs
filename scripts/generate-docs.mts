@@ -4,7 +4,7 @@ import * as path from 'node:path';
 import { rimraf } from 'rimraf';
 
 export async function generateDocs() {
-  await rimraf('./content/docs/api-reference', {
+  await rimraf('./content/docs/api/api-reference', {
     filter(v) {
       return !v.endsWith('index.mdx') && !v.endsWith('meta.json');
     },
@@ -16,7 +16,7 @@ export async function generateDocs() {
   await Promise.all([
     OpenAPI.generateFiles({
       input: ['./openapi.json'],
-      output: './content/docs/api-reference',
+      output: './content/docs/api/reference',
       per: 'operation',
       // grouping
       // groupBy: 'tag',

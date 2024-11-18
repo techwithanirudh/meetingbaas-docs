@@ -16,7 +16,7 @@ export default function DocsPage(): React.ReactElement {
                 Choose which documentation you would like to explore.
             </p>
             <div className="mt-8 grid grid-cols-1 gap-4 text-left md:grid-cols-2">
-                <Item href="/api">
+                <Item href="/docs/api">
                     <Icon>
                         <LibraryIcon className="size-full" />
                     </Icon>
@@ -25,7 +25,7 @@ export default function DocsPage(): React.ReactElement {
                     </h2>
                     <p className="text-sm">Learn how to use the MeetingBaas API</p>
                 </Item>
-                <Item href="/speaking-bots">
+                <Item href="/docs/speaking-bots">
                     <Icon>
                         <CloudIcon className="size-full" />
                     </Icon>

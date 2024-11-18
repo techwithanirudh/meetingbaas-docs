@@ -19,7 +19,7 @@ export async function GET() {
   const files = await fg([
     './content/docs/**/*.mdx',
     '!*.model.mdx',
-    '!./content/docs/api-reference/**/*',
+    '!./content/docs/api/reference/**/*',
   ]);
 
   const scan = files.map(async (file) => {
