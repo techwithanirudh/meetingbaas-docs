@@ -1,4 +1,4 @@
-import { Building2, CloudIcon, LibraryIcon } from "lucide-react";
+import { Building2, CloudIcon, LibraryIcon, MicVocalIcon, WebhookIcon } from "lucide-react";
 import Link from "next/link";
 import type { LinkProps } from "next/link";
 import Image from "next/image";
@@ -18,7 +18,7 @@ export default function DocsPage(): React.ReactElement {
             <div className="mt-8 grid grid-cols-1 gap-4 text-left md:grid-cols-2">
                 <Item href="/docs/api">
                     <Icon>
-                        <LibraryIcon className="size-full" />
+                        <WebhookIcon className="size-full" />
                     </Icon>
                     <h2 className="mb-2 text-lg font-semibold">
                         MeetingBaas API
@@ -27,7 +27,7 @@ export default function DocsPage(): React.ReactElement {
                 </Item>
                 <Item href="/docs/speaking-bots">
                     <Icon>
-                        <CloudIcon className="size-full" />
+                        <MicVocalIcon className="size-full" />
                     </Icon>
                     <h2 className="mb-2 text-lg font-semibold">
                         Speaking Bots
