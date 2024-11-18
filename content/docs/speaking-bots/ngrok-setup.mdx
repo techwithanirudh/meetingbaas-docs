@@ -6,17 +6,25 @@ icon: Settings
 
 ## Local Setup
 
-For running multiple bots locally on macOS, you'll need to configure ngrok on your machine to allow each bot to have its own WebSocket connection through a unique tunnel.
+For running multiple bots locally, you'll need to configure ngrok on your machine to allow each bot to have its own WebSocket connection through a unique tunnel.
 
 ## Configuration Steps
 
-Create/edit the ngrok configuration file:
+We provide a ready-to-use configuration file in the repository at `config/ngrok/config.yml`. You can either use this file directly or create your own configuration.
+
+The default location for the ngrok configuration file varies by operating system:
+
+- Linux: `~/.config/ngrok/ngrok.yml`
+- macOS: `~/Library/Application Support/ngrok/ngrok.yml`
+- Windows: `%HOMEPATH%\AppData\Local\ngrok\ngrok.yml`
+
+To verify your configuration file location, you can run:
 
 ```bash
-vim ~/Library/Application\ Support/ngrok/ngrok.yml
+ngrok config check
 ```
 
-Add this configuration:
+If you want to create or edit your own configuration file, here's what it should contain:
 
 ```yaml
 version: "3"
@@ -32,6 +40,12 @@ tunnels:
     addr: 8768
 ```
 
+For more detailed information about ngrok configuration options, see the [official ngrok configuration documentation](https://ngrok.com/docs/agent/config/).
+
 ## Usage
 
-This sets up two separate tunnels (proxy1 and proxy2) that will be used by your bots to establish WebSocket connections with the meeting platforms.
+This sets up two separate tunnels (proxy1 and proxy2) that will be used by your bots to establish WebSocket connections with the meeting platforms. To start both tunnels simultaneously, run:
+
+```bash
+ngrok start --all
+```
