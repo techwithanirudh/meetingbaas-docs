@@ -1,8 +1,7 @@
 {
     "title": "Speaking Bots",
-    "icon": "Building2",
-
-    "description": "Learn how to use the MeetingBaas Speaking Bots Example.",
+    "icon": "MicVocal",
+    "description": "Pipecat powered Speaking Bots framework.",
     "root": true,
     "pages": ["index", "getting-started", "api-reference", "community-and-support"]
   }
