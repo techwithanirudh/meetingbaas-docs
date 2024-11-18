@@ -3,5 +3,5 @@
   "icon": "Bot",
   "description": "Pipecat and MeetingBaas powered speaking bots.",
   "root": true,
-  "pages": ["index", "ngrok-setup"]
+  "pages": ["index", "..."]
 }
