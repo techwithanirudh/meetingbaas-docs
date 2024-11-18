@@ -3,5 +3,5 @@
     "icon": "Webhook",
     "description": "The MeetingBaas API",
     "root": true,
-    "pages": ["index", "getting-started", "api-reference", "community-and-support"]
+    "pages": ["index", "getting-started", "reference", "community-and-support"]
   }
