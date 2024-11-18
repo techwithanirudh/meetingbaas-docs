@@ -8,7 +8,7 @@ import { createElement } from "react";
 import { IconContainer } from "@/components/ui/icon";
 
 export const source = loader({
-  baseUrl: '/',
+  baseUrl: '/docs',
   source: createMDXSource(docs, meta),
   icon(icon) {
     if (icon && icon in icons)
