@@ -29,7 +29,7 @@ export const viewport: Viewport = {
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
-      <Body className="flex flex-col min-h-screen">
+      <Body>
         <Providers>{children}</Providers>
       </Body>
     </html>
