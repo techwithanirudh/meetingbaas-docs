@@ -57,6 +57,10 @@ export const baseOptions: BaseLayoutProps = {
         </span>
       </>
     ),
+    banner: (
+      <>
+      hi</>
+    ),
   },
   links: [
     ...linkItems,

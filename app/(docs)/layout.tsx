@@ -1,5 +1,5 @@
-import type { DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
-import { DocsLayout } from "fumadocs-ui/layouts/notebook";
+import type { DocsLayoutProps } from "fumadocs-ui/layouts/docs";
+import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import { Suspense, type ReactNode } from "react";
 import { baseOptions } from "@/app/layout.config";
 import { source } from "@/lib/source";
@@ -11,25 +11,6 @@ import { MessageCircle } from "lucide-react";
 const docsOptions: DocsLayoutProps = {
   ...baseOptions,
   tree: source.pageTree,
-  sidebar: {
-    banner: (
-      <Suspense>
-        <Trigger
-          className={cn(
-            buttonVariants({
-              variant: "secondary",
-              className:
-                "shadow-none gap-2 border bg-fd-secondary/50 p-1.5 text-sm text-fd-muted-foreground justify-start hover:bg-fd-accent hover:text-fd-accent-foreground rounded-lg",
-            })
-          )}
-          data-ai-search-full
-        >
-          <MessageCircle className="ms-1" />
-          Ask AI
-        </Trigger>
-      </Suspense>
-    ),
-  },
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
