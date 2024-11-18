@@ -1,0 +1,6 @@
+{
+    "title:": "Speaking Bots",
+    "description": "Learn how to use the MeetingBaas Speaking Bots Example.",
+    "root": true,
+    "pages": ["index", "getting-started", "api-reference", "community-and-support"]
+  }
