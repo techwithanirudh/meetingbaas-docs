@@ -1,6 +1,6 @@
 {
   "title": "Speaking Bots",
-  "icon": "MicVocal",
+  "icon": "Bot",
   "description": "Pipecat powered Speaking Bots framework.",
   "root": true,
   "pages": ["index"]

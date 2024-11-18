@@ -1,4 +1,4 @@
-import { MicVocalIcon, WebhookIcon } from "lucide-react";
+import { BotIcon, CaptionsIcon, MicVocalIcon, WebhookIcon } from "lucide-react";
 import Link from "next/link";
 import type { LinkProps } from "next/link";
 import { cn } from "@/lib/cn";
@@ -22,9 +22,19 @@ export default function DocsPage(): React.ReactElement {
             Learn how to use the MeetingBaas API
           </p>
         </Item>
+
+        <Item href="/docs/transcript-seeker">
+          <Icon>
+            <CaptionsIcon className="size-full" />
+          </Icon>
+          <h2 className="mb-2 text-lg font-semibold">Transcript Seeker</h2>
+          <p className="text-sm text-fd-muted-foreground">
+            An open-source transcription playground.
+          </p>
+        </Item>
         <Item href="/docs/speaking-bots">
           <Icon>
-            <MicVocalIcon className="size-full" />
+            <BotIcon className="size-full" />
           </Icon>
           <h2 className="mb-2 text-lg font-semibold">Speaking Bots</h2>
           <p className="text-sm text-fd-muted-foreground">
