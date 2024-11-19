@@ -17,6 +17,7 @@
     "@inkeep/ai-api": "^0.8.0",
     "@next/env": "^15.0.3",
     "@oramacloud/client": "^1.3.20",
+    "@radix-ui/react-collapsible": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@shikijs/rehype": "^1.23.1",

@@ -1,14 +1,26 @@
 ---
 title: Ngrok setup
-description: How to create ngrok tunnel(s) for running several bots at once on your local machine
+description: We create ngrok tunnel(s) for running several bots at once on your local machine
 icon: Settings
 ---
 
+import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
+
 ## Local Setup
 
-For running multiple bots locally, you'll need to configure ngrok on your machine to allow each bot to have its own WebSocket connection through a unique tunnel.
+To run any bot locally, you'll need an ngrok authtoken.
+You can get one directly for free by signing up on the ngrok [website](https://dashboard.ngrok.com/signup).
 
-## Configuration Steps
+Once you have your token, add it to your `.env` file or set it as an environment variable:
+
+```bash
+NGROK_AUTHTOKEN=your_ngrok_auth_token_here
+```
+
+That's it folks :)
+
+<Accordions>
+  <Accordion title="Configuration modification">
 
 We provide a ready-to-use configuration file in the repository at `config/ngrok/config.yml`. You can either use this file directly or create your own configuration.
 
@@ -49,3 +61,6 @@ This sets up two separate tunnels (proxy1 and proxy2) that will be used by your 
 ```bash
 ngrok start --all
 ```
+
+  </Accordion>
+</Accordions>
