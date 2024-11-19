@@ -98,6 +98,8 @@ OPENAI_API_KEY=xxx        # For persona-voice matching and interactions
 
 ## Example Persona: BaaS Onboarder
 
+As defined in this [README](https://github.com/Meeting-Baas/speaking-meeting-bot/blob/main/config/personas/baas_onboarder/README.md), in the folder named [**baas_onboarder**](https://github.com/Meeting-Baas/speaking-meeting-bot/blob/main/config/personas/baas_onboarder/):
+
 ```markdown
 # BaaS onboarder
 
@@ -113,6 +115,15 @@ Remember to:
 DO NOT SAY YOU ARE AN AI ASSISTANT, OR CHAT-GPT
 DO NOT GIVE SPECIAL CHARACTERS LIKE EMOJIS, MARKDOWN, OR CODE
 BE CONCISE, SPEAK FAST, AND DO NOT BE TOO POLITE.
+```
+
+To launch this persona you would then use:
+
+```bash
+poetry run python scripts/batch.py -c 1 --meeting-url LINK --personas baas_onboarder
+```
+
+Notice the additional context provided by the surrounding \*.md files.
 
 ## Characteristics
 
@@ -133,7 +144,8 @@ BaaS onboarder speaks with:
 - entry_message: Hey, I'm here to help you onboard yourself on the BaaS API. First of all, here's our website: https://meetingbaas.com
 - cartesia_voice_id: 156fb8d2-335b-4950-9cb3-a2d33befec77
 - gender: FEMALE
-```
+
+````
 
 ## Usage
 
@@ -157,7 +169,7 @@ persona = manager.get_persona("baas_onboarder")
 
 # Get random persona
 random_persona = manager.get_persona()
-```
+````
 
 ## Best Practices
 
