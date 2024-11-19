@@ -49,7 +49,7 @@ Protocol Buffers is here the backbone of consistent data serialization across se
 cp env.example .env
 ```
 
-Edit `.env` with at least the required credentials:
+Edit `.env` with the required credentials:
 
 ```bash
 # MeetingBaas API Key - Used for sending meeting bots as personas
@@ -65,6 +65,11 @@ GLADIA_API_KEY=your_gladia_api_key_here
 
 # Text-to-Speech
 CARTESIA_API_KEY=your_cartesia_api_key_here
+
+# Ngrok Auth Token - Required for local development and automated CLI
+NGROK_AUTHTOKEN=your_ngrok_auth_token_here
 ```
 
 These are the core credentials needed to run a single Speaking Bot. Additional variables are required for multiple bots or persona management features.
+
+For more information on ngrok configuration and how the multi-bot setup works, see our [ngrok configuration guide](/docs/speaking-bots/ngrok-setup).
