@@ -4,12 +4,96 @@ description: Deploy AI-powered speaking agents in video meetings
 icon: Book
 ---
 
+import { Files, File, Folder } from "@/components/fumadocs/files";
+
 This repository demonstrates the capabilities of [MeetingBaas](https://meetingbaas.com) 🐟's video meeting APIs by integrating with [Pipecat](https://github.com/pipecat-ai/pipecat)'s Python framework for building voice and multimodal conversational agents.
 
 Our implementation creates AI meeting agents that can join and participate in Google Meet and Microsoft Teams meetings with distinct personalities and context defined in Markdown files.
 
-This implementation extends [Pipecat's WebSocket server implementation](https://github.com/pipecat-ai/pipecat/tree/main/examples/websocket-server) to create:
+This implementation extends Pipecat's [WebSocket server implementation](https://github.com/pipecat-ai/pipecat/tree/main/examples/websocket-server) to create:
 
 - Meeting agents that can join Google Meet, Zoom or Microsoft Teams through the [MeetingBaas API](https://meetingbaas.com)
 - Customizable personas with unique context
 - Support for running multiple instances locally or at scale
+
+You can clone the Speaking Meeting Bot repo [here](https://github.com/Meeting-Baas/speaking-meeting-bot).
+
+## Directory Structure
+
+<Files>
+  <Folder name="config" description="Core configuration and persona management">
+    <Folder name="personas" description="Persona definitions and behaviors">
+      <Folder
+        name="baas_onboarder"
+        description="MeetingBaas API presentation persona"
+      >
+        <File
+          name="README.md"
+          description="Core persona definition and behavior"
+        />
+        <File
+          name="Content.md"
+          description="Knowledge and contextual information"
+        />
+        <File
+          name="Rules.md"
+          description="Interaction and behavior guidelines"
+        />
+      </Folder>
+      <Folder
+        name="noota_assistant"
+        description="Noota software sales persona"
+      />
+      <Folder name="gladia_sales" description="Gladia API sales persona" />
+    </Folder>
+    <File
+      name="persona_types.py"
+      description="Data structures and type definitions for personas"
+    />
+    <File
+      name="persona_utils.py"
+      description="Persona management and utility functions"
+    />
+    <File name="prompts.py" description="Default prompts and system messages" />
+    <File
+      name="create_persona.py"
+      description="Tools for creating new personas"
+    />
+    <File
+      name="migrate_personas.py"
+      description="Migration utilities for persona updates"
+    />
+  </Folder>
+  <Folder
+    name="meetingbaas_pipecat"
+    description="Core bot functionality and communications"
+  >
+    <Folder name="bot" description="Bot implementation and behavior">
+      <File
+        name="bot.py"
+        description="Main bot class and meeting interactions"
+      />
+      <File
+        name="runner.py"
+        description="Bot execution and lifecycle management"
+      />
+      <File name="__init__.py" />
+    </Folder>
+    <Folder
+      name="proxy"
+      description="Proxy handling for multiple bot instances"
+    />
+    <Folder name="utils" description="Shared utilities">
+      <File name="logger.py" description="Logging configuration" />
+      <File name="__init__.py" />
+    </Folder>
+    <File name="__init__.py" />
+  </Folder>
+  <Folder name="scripts" description="Command-line tools and utilities">
+    <File
+      name="meetingbaas.py"
+      description="MeetingBaas API interaction script"
+    />
+    <File name="batch.py" description="Multiple bot deployment script" />
+  </Folder>
+</Files>
