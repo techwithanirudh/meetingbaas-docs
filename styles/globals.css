@@ -15,11 +15,13 @@
 }
 
 :root {
-  --api-color: 220deg 91% 54%;
+  --api-color: 176 100% 43%;
+  --transcript-seeker-color: 220deg 91% 54%;
   --speaking-bots-color: 250 80% 54%;
 }
 
 .dark {
-  --api-color: 217deg 92% 76%;
+  --api-color: 176 100% 43%;
+  --transcript-seeker-color: 217deg 92% 76%;
   --speaking-bots-color: 250 100% 80%;
 }
