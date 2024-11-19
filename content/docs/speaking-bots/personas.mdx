@@ -4,21 +4,52 @@ description: AI meeting participants with distinct personalities
 icon: Users
 ---
 
+import { Files, File, Folder } from "@/components/fumadocs/files";
+
 The personas system enables AI-powered meeting participants with distinct personalities and behaviors for video meetings through the Meeting Baas API and the Pipecat framework.
 
 ## Directory Structure
 
-```
-config/
-├── personas/                 # Directory containing all persona definitions
-│   ├── baas_onboarder/      # Example persona
-│   │   ├── README.md        # Core persona definition
-│   │   ├── Content.md       # Additional context
-│   │   └── Rules.md         # Behavior rules
-├── persona_types.py         # Data structures for personas
-├── persona_utils.py         # Utility functions for persona management
-└── migrate_personas.py      # Migration tool for persona updates
-```
+<Files>
+  <Folder name="config" description="Root configuration directory" defaultOpen>
+    <Folder
+      name="personas"
+      description="Directory containing all persona definitions"
+      defaultOpen
+    >
+      <Folder
+        name="baas_onboarder"
+        description="Example persona implementation"
+        defaultOpen
+      >
+        <File
+          name="README.md"
+          description="Core persona definition and behavior"
+        />
+        <File
+          name="Content.md"
+          description="Knowledge and contextual information"
+        />
+        <File
+          name="Rules.md"
+          description="Interaction and behavior guidelines"
+        />
+      </Folder>
+    </Folder>
+    <File
+      name="persona_types.py"
+      description="Type definitions and data structures"
+    />
+    <File
+      name="persona_utils.py"
+      description="Helper functions and persona management"
+    />
+    <File
+      name="migrate_personas.py"
+      description="Tools for updating persona configurations"
+    />
+  </Folder>
+</Files>
 
 ## Core Components
 
