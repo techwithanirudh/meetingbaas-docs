@@ -1,7 +1,7 @@
-import { BotIcon, CaptionsIcon, MicVocalIcon, WebhookIcon } from "lucide-react";
-import Link from "next/link";
-import type { LinkProps } from "next/link";
 import { cn } from "@/lib/cn";
+import { BotIcon, CaptionsIcon, WebhookIcon } from "lucide-react";
+import type { LinkProps } from "next/link";
+import Link from "next/link";
 
 export default function DocsPage(): React.ReactElement {
   return (
@@ -18,8 +18,8 @@ export default function DocsPage(): React.ReactElement {
             <WebhookIcon className="size-full" />
           </Icon>
           <h2 className="mb-2 text-lg font-semibold">MeetingBaas API</h2>
-          <p className="text-sm  text-fd-muted-foreground ">
-            The MeetingBaas API
+          <p className="text-sm text-fd-muted-foreground">
+            MeetingBaas API reference and guides.
           </p>
         </Item>
 
@@ -29,7 +29,8 @@ export default function DocsPage(): React.ReactElement {
           </Icon>
           <h2 className="mb-2 text-lg font-semibold">Transcript Seeker</h2>
           <p className="text-sm text-fd-muted-foreground">
-            The open-source transcription playground
+            Open-source transcription playground. Powered by transcription APIs,
+            MeetingBaas, and LLMs to chat with your transcripts.
           </p>
         </Item>
         <Item href="/docs/speaking-bots">
@@ -38,7 +39,8 @@ export default function DocsPage(): React.ReactElement {
           </Icon>
           <h2 className="mb-2 text-lg font-semibold">Speaking Bots</h2>
           <p className="text-sm text-fd-muted-foreground">
-            Pipecat-powered Speaking Bots
+            Speaking Bots for Google Meet, Microsoft Teams and Zoom. Powered by
+            Pipecat and MeetingBaas.
           </p>
         </Item>
       </div>

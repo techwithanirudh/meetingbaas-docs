@@ -1,7 +1,7 @@
 {
   "title": "Speaking Bots",
   "icon": "Bot",
-  "description": "Pipecat-powered Speaking Bots",
+  "description": "Pipecat and MeetingBaas powered speaking bots.",
   "root": true,
-  "pages": ["index"]
+  "pages": ["index", "set-up", "command-line", "personas", "ngrok-setup"]
 }
