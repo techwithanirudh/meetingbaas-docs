@@ -1,0 +1,113 @@
+---
+title: Environment Variables
+description: Configure environment variables for Speaking Bots
+icon: Variable
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+Speaking Bots requires several API keys and configuration values to function properly. Here's a quick setup guide:
+
+1. Copy the example environment file:
+
+```bash
+cp .env.example .env
+```
+
+{" "}
+
+<Callout type="warn">
+  Never commit your `.env` file to version control. It contains sensitive API
+  keys that should be kept private.
+</Callout>
+
+2. Add your credentials to `.env`: You'll need 4 required API keys for core functionality (MeetingBaas, OpenAI, Speech-to-Text, and Text-to-Speech). Additional keys can be added later for optional features.
+
+## Core Bot Functionality (Required)
+
+<Steps>
+<Step>
+### MeetingBaas Configuration
+
+Required for sending meeting bots as personas to various platforms:
+
+```txt
+MEETING_BAAS_API_KEY=your_meetingbaas_api_key_here
+```
+
+Get your API key by:
+
+1. Signing up for [MeetingBaas](https://meetingbaas.com)
+2. Accessing your API key from the MeetingBaas dashboard
+
+</Step>
+
+<Step>
+### OpenAI Configuration
+
+Powers in-meeting AI interactions and persona management:
+
+```txt
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+<Callout>
+  This key is used both for in-meeting interactions and persona creation functionality.
+</Callout>
+</Step>
+
+<Step>
+### Speech-to-Text Configuration
+
+Choose one of the following options:
+
+#### Option 1: Deepgram
+
+```txt
+DEEPGRAM_API_KEY=your_deepgram_api_key_here
+```
+
+#### Option 2: Gladia
+
+```txt
+GLADIA_API_KEY=your_gladia_api_key_here
+```
+
+</Step>
+
+<Step>
+### Text-to-Speech Configuration
+
+Required for voice synthesis and persona voices:
+
+```txt
+CARTESIA_API_KEY=your_cartesia_api_key_here
+CARTESIA_VOICE_ID="79a125e8-cd45-4c13-8a67-188112f4dd22"
+```
+
+</Step>
+</Steps>
+
+## Optional Features
+
+### Multiple Bots Support
+
+<Steps>
+<Step>
+Required for running multiple bots in local development:
+```txt
+NGROK_AUTHTOKEN=your_ngrok_auth_token_here
+```
+
+<Callout>
+  Follow our [Ngrok Setup Guide](/docs/speaking-bots/project-setup/ngrok-setup) to get your auth token.
+</Callout>
+</Step>
+</Steps>
+
+### Persona Creation
+
+<Steps>
+  <Step>Required for AI image generation and storage:</Step>
+</Steps>

@@ -1,0 +1,54 @@
+---
+title: Project Setup
+description: Set up your development environment for Speaking Bots
+icon: Wrench
+---
+
+## Installation
+
+### 1. Prerequisites
+
+Install ngrok on your machine if you don't have it already. Follow our [Ngrok Setup Guide](/docs/speaking-bots/project-setup/ngrok-setup) for a quickstart.
+
+### 2. Set Up Poetry Environment
+
+```bash
+# Install Poetry (Unix/macOS)
+curl -sSL https://install.python-poetry.org | python3 -
+
+# Install Poetry (Windows)
+(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
+
+# Install dependencies
+poetry install
+
+# Activate virtual environment
+poetry shell
+```
+
+### 3. Compile Protocol Buffers
+
+```bash
+poetry run python -m grpc_tools.protoc --proto_path=./protobufs --python_out=./protobufs frames.proto
+```
+
+Protocol Buffers are used here by Pipecat to define a structured message format for real-time communication between components of the Speaking Bots system. Specifically, the [`frames.proto`](https://github.com/pipecat-ai/pipecat/blob/635aa6eb5bdee382729613b58279befdc5bc8eaf/src/pipecat/frames/frames.proto#L9) file defines three main message types:
+
+1. `TextFrame`: For handling text-based messages
+2. `AudioRawFrame`: For managing raw audio data with properties like sample rate and channels
+3. `TranscriptionFrame`: For handling speech-to-text transcription results
+
+Protocol Buffers is the backbone of consistent data serialization across services.
+Read more in the [official Protocol Buffer documentation](https://protobuf.dev/downloads/) and [this Python Protocol Buffers tutorial](https://www.blog.pythonlibrary.org/2023/08/30/an-intro-to-protocol-buffers-with-python/).
+
+### 4. Configure Environment
+
+Set up environment variables by following our [Environment Variables Guide](/docs/speaking-bots/project-setup/environment-variables). This will walk you through setting up the required API keys for core functionality and optional features.
+
+### 5. Run your first bot
+
+```bash
+poetry run python scripts/batch.py -c 1 --meeting-url LINK
+```
+
+Follow our [Command Line Guide](/docs/speaking-bots/command-line) for more examples and options.
