@@ -3,5 +3,5 @@
   "icon": "Bot",
   "description": "Pipecat and MeetingBaas powered speaking bots.",
   "root": true,
-  "pages": ["index", "project-setup", "command-line", "personas"]
+  "pages": ["index", "getting-started", "command-line", "personas"]
 }

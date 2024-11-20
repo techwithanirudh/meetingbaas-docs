@@ -5,6 +5,9 @@ icon: Book
 ---
 
 import { Files, File, Folder } from "@/components/fumadocs/files";
+import { Card, Cards } from "fumadocs-ui/components/card";
+import { GithubIcon } from "lucide-react";
+import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 
 This repository demonstrates the capabilities of [MeetingBaas](https://meetingbaas.com) 🐟's video meeting APIs by integrating with [Pipecat](https://github.com/pipecat-ai/pipecat)'s Python framework for building voice and multimodal conversational agents.
 
@@ -16,7 +19,13 @@ This implementation extends Pipecat's [WebSocket server implementation](https://
 - Customizable personas with unique context
 - Support for running multiple instances locally or at scale
 
-You can clone and star ⭐️ the Speaking Meeting Bot repo [here](https://github.com/Meeting-Baas/speaking-meeting-bot).
+<Card
+  icon={<GithubIcon />}
+  title="Speaking Meeting Bot"
+  href="https://github.com/Meeting-Baas/speaking-meeting-bot"
+  description="Clone and star our repository to launch and scale AI-powered meeting agents"
+  external
+/>
 
 ## Directory Structure
 
@@ -98,12 +107,65 @@ You can clone and star ⭐️ the Speaking Meeting Bot repo [here](https://githu
   </Folder>
 </Files>
 
-## Technologies Used and Acknowledgements
+### Technologies Used and Acknowledgements
 
-- [Pipecat](https://github.com/pipecat-ai/pipecat) - Python framework for building voice and multimodal conversational agents
-- [MeetingBaas](https://meetingbaas.com) - API for creating and managing meeting bots
-- [Ngrok](https://ngrok.com) - API for creating and managing meeting bots locally
-- [Cartesia](https://cartesia.ai) - Text-to-speech API
-- [Gladia](https://gladia.io) - Speech-to-text API
-- [Deepgram](https://deepgram.com) - Speech-to-text API
-- [Replicate](https://replicate.com) - Running Stable Diffusion models
+[Pipecat](https://github.com/pipecat-ai/pipecat) and [MeetingBaas](https://meetingbaas.com) both do the heavy lifting of powering the speaking bot - but the project requires many other core services to function.
+
+As you can see in the technologies used below, speaking bots can connect to external services for pinging weather data or timezone information.
+
+<Accordions>
+  <Accordion title="Core Services">
+    - [Pipecat](https://github.com/pipecat-ai/pipecat):
+      Python framework powering real-time audio processing pipeline
+    
+    - [MeetingBaas](https://meetingbaas.com):
+      Meeting bot deployment API for Google Meet, Microsoft Teams, and Zoom
+    
+    - [Ngrok](https://ngrok.com):
+      Local development tunneling for WebSocket connections
+  </Accordion>
+
+{" "}
+
+<Accordion title="Speech Services">
+    - [Cartesia](https://cartesia.ai):
+      Text-to-speech service for bot voice synthesis
+
+    - [Deepgram](https://deepgram.com):
+      Primary speech-to-text service for real-time transcription
+
+    - [Gladia](https://gladia.io):
+      Alternative speech-to-text provider with language recognition
+
+</Accordion>
+
+{" "}
+
+<Accordion title="AI & Language Models">
+  - [OpenAI](https://openai.com): GPT models for conversation generation
+
+- [Silero VAD](https://github.com/snakers4/silero-vad): Voice activity
+  detection
+
+</Accordion>
+
+{" "}
+
+<Accordion title="Development Tools">
+    - [Protocol Buffers](https://protobuf.dev): Data serialization for WebSocket
+  communication
+
+    - [Poetry](https://python-poetry.org): Python dependency management
+
+    - [Loguru](https://github.com/Delgan/loguru): Structured logging
+
+</Accordion>
+
+  <Accordion title="Additional Services">
+    - [wttr.in](https://wttr.in):
+      Weather data API
+    
+    - [pytz](https://pythonhosted.org/pytz):
+      Timezone database
+  </Accordion>
+</Accordions>
