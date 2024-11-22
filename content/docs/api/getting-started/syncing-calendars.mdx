@@ -1,0 +1,86 @@
+---
+title: Syncing Calendars
+description: Learn how to sync calendars with the API, and automatically send meeting bots to the right place at the right time
+icon: Calendar
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+Meeting Baas allows you to automatically sync calendars from Microsoft Teams and Google Meet to automatically deploy bots to scheduled meetings. Here's how to set it up:
+
+<Steps>
+<Step>
+### Create a Calendar Integration
+
+First, create a new calendar integration by calling the [Create Calendar](/docs/api/reference/create_calendar) endpoint with your OAuth credentials:
+
+- For Microsoft Teams: Provide Microsoft OAuth token
+- For Google Meet: Provide Google OAuth token
+
+This will establish the connection between Meeting Baas and your calendar provider.
+
+</Step>
+
+<Step>
+### Verify Calendar Status
+
+You can check the status of your calendar integrations using:
+
+- [List Calendars](/docs/api/reference/list_calendars) - View all configured calendars
+- [Get a Calendar](/docs/api/reference/get_calendar) - Check specific calendar details
+- [List Raw Calendars](/docs/api/reference/list_raw_calendars) - View unprocessed calendar data
+
+<Callout>
+Monitor the sync status to ensure your calendar integration is working correctly.
+</Callout>
+</Step>
+
+<Step>
+### Monitor Calendar Events
+
+Once connected, you can:
+
+- [List Events](/docs/api/reference/list_events) - View all upcoming calendar events
+- [Get Event](/docs/api/reference/get_event) - Check specific event details including meeting links and recording status
+
+Meeting Baas will automatically detect meeting links in calendar events and can deploy bots according to your settings.
+
+</Step>
+
+<Step>
+### Webhook Updates
+
+Meeting Baas will send updates to your configured webhook whenever:
+
+- New meetings are scheduled
+- Meetings are updated or rescheduled
+- Meetings are cancelled
+- Bot recording status changes
+
+<Callout type="info">
+Make sure your webhook endpoint is configured to handle these updates appropriately.
+</Callout>
+</Step>
+
+<Step>
+### Managing Calendar Integration
+
+You can manage your calendar integration using:
+
+- [Delete a Calendar](/docs/api/reference/delete_calendar) - Remove calendar integration when needed
+- Update calendar settings through the dashboard
+
+</Step>
+
+</Steps>
+
+## Next Steps
+
+After setting up calendar sync, you can:
+
+1. Configure automatic bot deployment rules
+2. Set up recording preferences
+3. Manage meeting data retention settings
+
+For more details on working with bots, see our [Sending a Bot](/docs/api/getting-started/sending-a-bot) guide.
