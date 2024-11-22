@@ -1,0 +1,68 @@
+---
+title: Technologies Used and Acknowledgements
+description: Core services powering the speaking bot
+icon: Code
+---
+
+import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
+
+[Pipecat](https://github.com/pipecat-ai/pipecat) and [MeetingBaas](https://meetingbaas.com) both do the heavy lifting of powering the speaking bot - but the project requires many other core services to function.
+
+As you can see in the technologies used below, speaking bots can connect to external services for pinging weather data or timezone information.
+
+<Accordions>
+  <Accordion title="Core Services">
+    - [Pipecat](https://github.com/pipecat-ai/pipecat):
+      Python framework powering real-time audio processing pipeline
+    
+    - [MeetingBaas](https://meetingbaas.com):
+      Meeting bot deployment API for Google Meet, Microsoft Teams, and Zoom
+    
+    - [Ngrok](https://ngrok.com):
+      Local development tunneling for WebSocket connections
+  </Accordion>
+
+{" "}
+
+<Accordion title="Speech Services">
+    - [Cartesia](https://cartesia.ai):
+      Text-to-speech service for bot voice synthesis
+
+    - [Deepgram](https://deepgram.com):
+      Primary speech-to-text service for real-time transcription
+
+    - [Gladia](https://gladia.io):
+      Alternative speech-to-text provider with language recognition
+
+</Accordion>
+
+{" "}
+
+<Accordion title="AI & Language Models">
+  - [OpenAI](https://openai.com): GPT models for conversation generation
+
+- [Silero VAD](https://github.com/snakers4/silero-vad): Voice activity
+  detection
+
+</Accordion>
+
+{" "}
+
+<Accordion title="Development Tools">
+    - [Protocol Buffers](https://protobuf.dev): Data serialization for WebSocket
+  communication
+
+    - [Poetry](https://python-poetry.org): Python dependency management
+
+    - [Loguru](https://github.com/Delgan/loguru): Structured logging
+
+</Accordion>
+
+  <Accordion title="Additional Services">
+    - [wttr.in](https://wttr.in):
+      Weather data API
+    
+    - [pytz](https://pythonhosted.org/pytz):
+      Timezone database
+  </Accordion>
+</Accordions>
