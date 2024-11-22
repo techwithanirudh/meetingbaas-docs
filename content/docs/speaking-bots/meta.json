@@ -3,5 +3,11 @@
   "icon": "Bot",
   "description": "Pipecat and MeetingBaas powered speaking bots.",
   "root": true,
-  "pages": ["index", "getting-started", "command-line", "personas"]
+  "pages": [
+    "index",
+    "getting-started",
+    "command-line",
+    "personas",
+    "technologies-used-and-acknowledgements"
+  ]
 }

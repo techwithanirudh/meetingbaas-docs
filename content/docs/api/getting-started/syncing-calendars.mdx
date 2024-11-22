@@ -1,0 +1,105 @@
+---
+title: Syncing Calendars
+description: Learn how to sync calendars with the API, and automatically send meeting bots to the right place at the right time
+icon: Calendar
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+Meeting Baas allows you to automatically sync calendars from Outlook and Google Workspace to automatically deploy bots to scheduled meetings. Here's how to set it up:
+
+<Steps>
+<Step>
+### 1. Authentication
+
+To start syncing calendars, you'll need:
+
+- For Outlook: Microsoft OAuth token
+- For Google Workspace: Google OAuth token
+
+Create a new calendar integration by calling the <a href="/docs/api/reference/create_calendar" target="_blank">Create Calendar</a> endpoint with these credentials.
+
+</Step>
+
+<Step>
+### 2. Managing Calendars
+
+Once authenticated, you can manage your calendars:
+
+- List Calendars: <a href="/docs/api/reference/list_calendars" target="_blank">List Calendars</a> - View all your synced calendars
+- Get Calendar Details: <a href="/docs/api/reference/get_calendar" target="_blank">Get Calendar Details</a> - Check sync status
+- List Raw Calendars: <a href="/docs/api/reference/list_raw_calendars" target="_blank">List Raw Calendars</a> - View provider data
+
+<Callout>
+Regular monitoring ensures your calendar integration remains active and synced.
+</Callout>
+</Step>
+
+<Step>
+### 3. Event Management
+
+Monitor and manage calendar events:
+
+- List Events: <a href="/docs/api/reference/list_events" target="_blank">List Events</a> - See all upcoming meetings
+- Get Event Details: <a href="/docs/api/reference/get_event" target="_blank">Get Event Details</a> - View meeting info and bot status
+
+Meeting Baas automatically detects meeting links and can deploy bots based on your configuration.
+
+#### Recording Management
+
+You can schedule or cancel recording events for specific calendar events:
+
+- Schedule Recording: <a href="/docs/api/reference/schedule_record_event" target="_blank">Schedule Record Event</a> - Configure a bot to record a specific event
+- Cancel Recording: <a href="/docs/api/reference/unschedule_record_event" target="_blank">Unschedule Record Event</a> - Cancel a scheduled recording
+
+<Callout type="info">
+  When scheduling a recording, the bot will automatically join the meeting at
+  the scheduled time and begin recording based on your configuration.
+</Callout>
+
+The recording configuration supports the same options as manual bot deployment:
+
+- Speaker view recording
+- Gallery view recording
+- Audio-only recording
+- Speech-to-text transcription
+- Custom bot names and images
+- Entry messages
+
+<Callout>
+  Remember to handle webhook notifications to track the recording status and
+  receive the final recording data.
+</Callout>
+
+</Step>
+
+<Step>
+### 4. Webhook Integration
+
+Your webhook endpoint will receive updates for:
+
+- New meeting schedules
+- Meeting changes or cancellations
+- Bot status changes
+- Recording status updates
+
+<Callout type="info">
+Configure your webhook endpoint to process these real-time updates.
+</Callout>
+</Step>
+
+<Step>
+### 5. Cleanup
+
+To remove a calendar integration, use the <a href="/docs/api/reference/delete_calendar" target="_blank">Delete Calendar</a> endpoint.
+
+</Step>
+</Steps>
+
+## Next Steps
+
+After configuring calendar sync:
+
+1. Set up bot deployment rules
+2. Configure recording
