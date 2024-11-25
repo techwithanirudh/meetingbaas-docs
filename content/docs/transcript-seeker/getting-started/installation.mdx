@@ -7,7 +7,7 @@ icon: Download
 import { File, Folder, Files } from "fumadocs-ui/components/files";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tabs, Tab } from "fumadocs-ui/components/tabs";
-import { Callout } from "fumadocs-ui/components/callout";
+import { Callout } from "@/components/fumadocs/ui/callout";
 
 <Steps>
 <Step>
@@ -92,7 +92,9 @@ yarn run dev
 
 </Tabs>
 
-<Callout> If `pnpm run dev` doesn't work, you can try the following </Callout>
+<Callout border={false} type="warning">
+
+If `pnpm run dev` doesn't work, you can try the following:
 
 <Tabs groupId='package-manager' persist items={['pnpm', 'npm', 'yarn']}>
 
@@ -112,5 +114,6 @@ turbo dev
 ```
 
 </Tabs>
+</Callout>
 </Step>
 </Steps>
