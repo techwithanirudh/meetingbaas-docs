@@ -15,8 +15,8 @@ Meeting Baas allows you to automatically sync calendars from Outlook and Google 
 
 To start syncing calendars, you'll need:
 
-- For Outlook: Microsoft OAuth token
-- For Google Workspace: Google OAuth token
+- For Outlook: Microsoft OAuth token, Client ID, and Client Secret
+- For Google Workspace: Google OAuth token, Client ID, and Client Secret
 
 Create a new calendar integration by calling the <a href="/docs/api/reference/create_calendar" target="_blank">Create Calendar</a> endpoint with these credentials.
 
@@ -29,7 +29,7 @@ Once authenticated, you can manage your calendars:
 
 - List Calendars: <a href="/docs/api/reference/list_calendars" target="_blank">List Calendars</a> - View all your synced calendars
 - Get Calendar Details: <a href="/docs/api/reference/get_calendar" target="_blank">Get Calendar Details</a> - Check sync status
-- List Raw Calendars: <a href="/docs/api/reference/list_raw_calendars" target="_blank">List Raw Calendars</a> - View provider data
+- List Raw Calendars: <a href="/docs/api/reference/list_raw_calendars" target="_blank">List Raw Calendars</a> - View available calendars before authentication
 
 <Callout>
 Regular monitoring ensures your calendar integration remains active and synced.
@@ -69,7 +69,8 @@ The recording configuration supports the same options as manual bot deployment:
 
 <Callout>
   Remember to handle webhook notifications to track the recording status and
-  receive the final recording data.
+  receive the final recording data. These updates can be used to determine
+  whether to record new or updated meetings.
 </Callout>
 
 </Step>
@@ -84,8 +85,26 @@ Your webhook endpoint will receive updates for:
 - Bot status changes
 - Recording status updates
 
+Each webhook notification includes a `last_updated_at` timestamp that you can use to track changes. To get the full details of updated events:
+
+1. Extract the `last_updated_at` timestamp from the webhook payload
+2. Call the <a href="/docs/api/reference/list_events" target="_blank">List Events</a> endpoint with the `updated_at_gte` parameter
+3. Process the returned list of new or updated events
+
 <Callout type="info">
-Configure your webhook endpoint to process these real-time updates.
+  This workflow allows you to:
+
+- Track all calendar changes in real-time
+
+- Decide whether to record new or modified meetings
+
+- Keep your system synchronized with the latest meeting data
+
+</Callout>
+
+<Callout>
+Configure your webhook endpoint to process these real-time updates and implement
+appropriate retry logic for reliability.
 </Callout>
 </Step>
 
