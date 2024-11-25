@@ -4,7 +4,7 @@ description: Learn how to sync calendars with the API, and automatically send me
 icon: Calendar
 ---
 
-import { Callout } from "fumadocs-ui/components/callout";
+import { Callout } from "@/components/fumadocs/ui/callout";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 
 Meeting Baas allows you to automatically sync calendars from Outlook and Google Workspace to automatically deploy bots to scheduled meetings. Here's how to set it up:
@@ -53,7 +53,7 @@ You can schedule or cancel recording events for specific calendar events:
 - Schedule Recording: <a href="/docs/api/reference/schedule_record_event" target="_blank">Schedule Record Event</a> - Configure a bot to record a specific event
 - Cancel Recording: <a href="/docs/api/reference/unschedule_record_event" target="_blank">Unschedule Record Event</a> - Cancel a scheduled recording
 
-<Callout type="info">
+<Callout type="warning">
   When scheduling a recording, the bot will automatically join the meeting at
   the scheduled time and begin recording based on your configuration.
 </Callout>
@@ -91,8 +91,8 @@ Each webhook notification includes a `last_updated_at` timestamp that you can us
 2. Call the <a href="/docs/api/reference/list_events" target="_blank">List Events</a> endpoint with the `updated_at_gte` parameter
 3. Process the returned list of new or updated events
 
-<Callout type="info">
-  This workflow allows you to:
+<Callout type="warning" border={true}>
+  This allows to:
 
 - Track all calendar changes in real-time
 
@@ -102,9 +102,9 @@ Each webhook notification includes a `last_updated_at` timestamp that you can us
 
 </Callout>
 
-<Callout>
-Configure your webhook endpoint to process these real-time updates and implement
-appropriate retry logic for reliability.
+<Callout type="warning">
+  Configure your webhook endpoint to process these real-time updates and implement
+  appropriate retry logic for reliability.
 </Callout>
 </Step>
 
