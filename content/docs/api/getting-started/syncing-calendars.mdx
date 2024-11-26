@@ -4,40 +4,57 @@ description: Learn how to sync calendars with the API, and automatically send me
 icon: Calendar
 ---
 
-import { Callout } from "@/components/fumadocs/ui/callout";
+import { Callout } from "@/components/fumadocs/callout";
 import { Step, Steps } from "fumadocs-ui/components/steps";
+import { Info, AlertTriangle } from "lucide-react";
 
 Meeting Baas allows you to automatically sync calendars from Outlook and Google Workspace to automatically deploy bots to scheduled meetings. Here's how to set it up:
 
 <Steps>
+
 <Step>
-### 1. Authentication
+
+### Authentication: Get your OAuth credentials
 
 To start syncing calendars, you'll need:
 
-- For Outlook: Microsoft OAuth token, Client ID, and Client Secret
-- For Google Workspace: Google OAuth token, Client ID, and Client Secret
-
-Create a new calendar integration by calling the <a href="/docs/api/reference/create_calendar" target="_blank">Create Calendar</a> endpoint with these credentials.
+- For Outlook: Microsoft OAuth refresh token, Client ID, and Client Secret
+- For Google Workspace: Google OAuth refresh token, Client ID, and Client Secret
 
 </Step>
 
 <Step>
-### 2. Managing Calendars
+
+### Optional: List Raw Calendars
+
+Before syncing calendars, you can use the <a href="/docs/api/reference/list_raw_calendars" target="_blank">List Raw Calendars</a> endpoint to view all your user's available calendars. This is particularly useful when a user has multiple calendars and you need to choose which ones to sync.
+
+</Step>
+
+<Step>
+### Create a Calendar Integration
+
+Create a new calendar integration by calling the <a href="/docs/api/reference/create_calendar" target="_blank">Create Calendar</a> endpoint with the previously obtained credentials.
+
+And an optional `raw_calendar_ID` to choose which calendar to sync. If this parameter is not provided, Meeting Baas will sync the user's primary calendar.
+
+</Step>
+
+<Step>
+### Managing Calendars
 
 Once authenticated, you can manage your calendars:
 
 - List Calendars: <a href="/docs/api/reference/list_calendars" target="_blank">List Calendars</a> - View all your synced calendars
 - Get Calendar Details: <a href="/docs/api/reference/get_calendar" target="_blank">Get Calendar Details</a> - Check sync status
-- List Raw Calendars: <a href="/docs/api/reference/list_raw_calendars" target="_blank">List Raw Calendars</a> - View available calendars before authentication
 
-<Callout>
+<Callout type="info">
 Regular monitoring ensures your calendar integration remains active and synced.
 </Callout>
 </Step>
 
 <Step>
-### 3. Event Management
+### Event Management
 
 Monitor and manage calendar events:
 
@@ -53,7 +70,7 @@ You can schedule or cancel recording events for specific calendar events:
 - Schedule Recording: <a href="/docs/api/reference/schedule_record_event" target="_blank">Schedule Record Event</a> - Configure a bot to record a specific event
 - Cancel Recording: <a href="/docs/api/reference/unschedule_record_event" target="_blank">Unschedule Record Event</a> - Cancel a scheduled recording
 
-<Callout type="warning">
+<Callout type="warn">
   When scheduling a recording, the bot will automatically join the meeting at
   the scheduled time and begin recording based on your configuration.
 </Callout>
@@ -67,7 +84,7 @@ The recording configuration supports the same options as manual bot deployment:
 - Custom bot names and images
 - Entry messages
 
-<Callout>
+<Callout type="info">
   Remember to handle webhook notifications to track the recording status and
   receive the final recording data. These updates can be used to determine
   whether to record new or updated meetings.
@@ -76,23 +93,25 @@ The recording configuration supports the same options as manual bot deployment:
 </Step>
 
 <Step>
-### 4. Webhook Integration
+### Webhook Integration
 
-Your webhook endpoint will receive updates for:
+In addition to live meeting events via the <a href="/docs/api/getting-started/getting-the-data" target="_blank">Live Meeting Updates</a>, your webhook endpoint will receive calendar sync events with the type `calendar.sync_events`. These events notify you about:
 
 - New meeting schedules
 - Meeting changes or cancellations
-- Bot status changes
-- Recording status updates
+- Calendar sync status updates
 
-Each webhook notification includes a `last_updated_at` timestamp that you can use to track changes. To get the full details of updated events:
+Each webhook notification includes:
+
+- An event type of `calendar.sync_events`
+- A `last_updated_at` timestamp for tracking changes
 
 1. Extract the `last_updated_at` timestamp from the webhook payload
-2. Call the <a href="/docs/api/reference/list_events" target="_blank">List Events</a> endpoint with the `updated_at_gte` parameter
-3. Process the returned list of new or updated events
+2. Call the <a href="/docs/api/reference/list_events" target="_blank">List Events</a> endpoint with the `updated_at_gte` parameter equal to the `last_updated_at` timestamp
+3. From there, you can apply your business logic to choose whether or not to record the event, using previously mentionned <a href="/docs/api/reference/schedule_record_event" target="_blank">Schedule Record Event</a> / <a href="/docs/api/reference/unschedule_record_event" target="_blank">Unschedule Record Event</a> endpoints.
 
-<Callout type="warning" border={true}>
-  This allows to:
+<Callout type="warn">
+  This allows you to:
 
 - Track all calendar changes in real-time
 
@@ -102,23 +121,16 @@ Each webhook notification includes a `last_updated_at` timestamp that you can us
 
 </Callout>
 
-<Callout type="warning">
+<Callout type="warn">
   Configure your webhook endpoint to process these real-time updates and implement
   appropriate retry logic for reliability.
 </Callout>
 </Step>
 
 <Step>
-### 5. Cleanup
+### Cleanup
 
 To remove a calendar integration, use the <a href="/docs/api/reference/delete_calendar" target="_blank">Delete Calendar</a> endpoint.
 
 </Step>
 </Steps>
-
-## Next Steps
-
-After configuring calendar sync:
-
-1. Set up bot deployment rules
-2. Configure recording

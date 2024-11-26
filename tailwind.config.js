@@ -66,6 +66,13 @@ export default {
           },
         },
       },
+      colors: {
+        callout: {
+          info: "#78FFF0",
+          warn: "#FFFF93",
+          error: "#FF0000",
+        },
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
