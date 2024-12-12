@@ -3,5 +3,11 @@
   "icon": "Webhook",
   "description": "Reference and guides.",
   "root": true,
-  "pages": ["index", "getting-started", "reference", "community-and-support"]
+  "pages": [
+    "index",
+    "getting-started",
+    "reference",
+    "updates",
+    "community-and-support"
+  ]
 }
