@@ -142,11 +142,11 @@ The failure types can be:
 
 | Error                 | Description                                                                                                                                                                                                    |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CannotJoinMeeting     | The bot could not join the meeting URL provided.                                                                                                                                                               |
+| CannotJoinMeeting     | The bot could not join the meeting URL provided. In most cases, this is because the meeting URL was only accessible for logged-in users invited to the meeting.                                                |
 | TimeoutWaitingToStart | The bot has quit after waiting to be accepted. By default this is 10 minutes, configurable via `automatic_leave.waiting_room_timeout` or `automatic_leave.noone_joined_timeout` (both default to 600 seconds). |
 | BotNotAccepted        | The bot has been refused in the meeting.                                                                                                                                                                       |
 | InternalError         | An unexpected error occurred. Please contact us if the issue persists.                                                                                                                                         |
-| InvalidMeetingUrl     | The meeting URL provided is not a valid (Zoom, Meet, Teams) URL.                                                                                                                                               |
+| InvalidMeetingUrl     | The meeting URL provided is not a valid (Zoom, Meet, Teams) URL. Please note Microsoft Live Meeting URLs (such as `https://teams.live.com/meet/...`) are not supported.                                        |
 
 </Step>
 </Steps>
