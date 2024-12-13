@@ -27,3 +27,6 @@ yarn-error.log*
 .env
 .vercel
 next-env.d.ts
+
+# 
+fumadocs-basehub
