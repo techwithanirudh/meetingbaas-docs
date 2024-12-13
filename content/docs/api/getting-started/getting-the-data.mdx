@@ -4,13 +4,17 @@ description: Learn how to receive and process meeting data through webhooks, inc
 icon: HardDriveDownload
 ---
 
-To get your meeting data, listen for POST requests to the webhook URL you set up in your account.
-There you'll get two types of data:
+import { Callout } from "@/components/fumadocs/callout";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { AlertTriangle, Info } from "lucide-react";
 
-- **live meeting events**, as the bot interacts with the meeting. Right now, the events supported share bot status updates.
+To get your meeting data, listen for POST requests to the webhook URL you set
+up in your account.
 
-- **post-meeting data:** the video-recording, speech time events, ...
+You'll receive two types of data: live meeting events and post-meeting data.
 
+<Steps>
+<Step>
 ### 1. Live Meeting Events
 
 The events we send you during the meeting are in the following format:
@@ -33,39 +37,34 @@ x-meeting-baas-api-key: YOUR-API-KEY
 }
 ```
 
-Here we have:
+Here's what each field means:
 
 - `event`: The key-value pair for bot status events. Always `bot.status_change`.
-
 - `data.bot_id`: The identifier of the bot.
-
 - `data.status.code`: The code of the event. One of:
-
   - `joining_call`: The bot has acknowledged the request to join the call.
-
   - `in_waiting_room`: The bot is in the "waiting room" of the meeting.
-
   - `in_call_not_recording`: The bot has joined the meeting, however it is not recording yet.
-
   - `in_call_recording`: The bot is in the meeting and recording the audio and video.
-
   - `call_ended`: The bot has left the call.
-
 - `data.status.created_at`: An ISO string of the datetime of the event.
 
+</Step>
+
+<Step>
 ### 2. Success webhook
 
-To get the final meeting data, listen for POST requests to the webhook URL you set up in your account.&#x20;
+<Callout>
+  To get the final meeting data, listen for POST requests to the webhook URL you
+  set up in your account, or the webhook URL you used in your request.
+</Callout>
 
-You either get:
+You'll receive one of two events:
 
-- &#x20; `"event": "complete",`
+- `"event": "complete"`
+- `"event": "failed"`
 
-or
-
-- &#x20; `"event": "failed".`
-
-Here's an example for a `complete event`, assuming `[https://your-company.com/your-endpoint](https://your-company.com/your-endpoint)` is your webhook URL:
+Here's an example for a `complete` event:
 
 ```http
 POST /your-endpoint HTTP/1.1
@@ -108,24 +107,21 @@ x-meeting-baas-api-key: YOUR-API-KEY
 
 Let's break this down:
 
-- `bot_id`: the identifier of the bot.
-
+- `bot_id`: The identifier of the bot.
 - `mp4`: A private AWS S3 URL of the mp4 recording of the meeting. Valid for one hour only.
-
-- `speakers`: The list of speakers in this meeting. Currently, this requires the transcription to be enabled. Stay tuned :sunny:
-
-- `transcript | optional`: The meeting transcript. Only given when `speech_to_text` is set when asking for a bot. An array of:
-
+- `speakers`: The list of speakers in this meeting. Currently requires transcription to be enabled.
+- `transcript` (optional): The meeting transcript. Only given when `speech_to_text` is set when asking for a bot. An array containing:
   - `transcript.speaker`: The speaker name.
+  - `transcript.words`: The list of words, each containing: - `transcript.words.start`: The start time of the word - `transcript.words.end`: The end time of the word - `transcript.words.word`: The word itself
 
-  - `transcript.words`: The list of words. An array of:
-    - `transcript.words.start`: The start time of the word.
-      - `transcript.words.end`: The end time of the word.
-      - `transcript.words.word`: The word itself.
+</Step>
 
+<Step>
 ### 3. Failed webhook
 
-Here's an example of a failed recording:
+<Callout type="warn" icon={<AlertTriangle className="h-5 w-5" />}>
+  Here's an example of what you'll receive when a recording fails.
+</Callout>
 
 ```http
 POST /your-endpoint HTTP/1.1
@@ -151,3 +147,7 @@ The failure types can be:
 | BotNotAccepted        | The bot has been refused in the meeting.                                                                                                                                                                       |
 | InternalError         | An unexpected error occurred. Please contact us if the issue persists.                                                                                                                                         |
 | InvalidMeetingUrl     | The meeting URL provided is not a valid (Zoom, Meet, Teams) URL.                                                                                                                                               |
+
+</Step>
+</Steps>
+```
