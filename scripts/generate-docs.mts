@@ -19,7 +19,7 @@ export async function generateDocs() {
       output: './content/docs/api/reference',
       per: 'operation',
       // grouping
-      // groupBy: 'tag',
+      groupBy: 'tag',
     }),
     Typescript.generateFiles({
       input: ['./content/docs/**/*.model.mdx'],
