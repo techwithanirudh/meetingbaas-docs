@@ -16,10 +16,22 @@ Meeting Baas allows you to automatically sync calendars from Outlook and Google 
 
 ### Authentication: Get your OAuth credentials
 
-To start syncing calendars, you'll need:
+To start syncing calendars, you'll need two sets of credentials:
 
-- For Outlook: Microsoft OAuth refresh token, Client ID, and Client Secret
-- For Google Workspace: Google OAuth refresh token, Client ID, and Client Secret
+1. **Your App's Credentials (Service Level)**
+
+- For Outlook: Your app's Microsoft Client ID and Client Secret
+- For Google Workspace: Your app's Google Client ID and Client Secret
+
+2. **End User's Credentials (User Level)**
+
+- OAuth refresh token obtained when user grants calendar access to your app
+
+<Callout type="info">
+  Best Practice: Request calendar access as a separate step after initial user
+  signup. Users are more likely to grant calendar access when it's clearly tied
+  to a specific feature they want to use.
+</Callout>
 
 </Step>
 
@@ -49,7 +61,7 @@ Once authenticated, you can manage your calendars:
 - Get Calendar Details: <a href="/docs/api/reference/get_calendar" target="_blank">Get Calendar Details</a> - Check sync status
 
 <Callout type="info">
-Regular monitoring ensures your calendar integration remains active and synced.
+After initial setup, Meeting BaaS handles all calendar API interactions. You only need to respond to webhook events for calendar changes.
 </Callout>
 </Step>
 
