@@ -118,9 +118,10 @@ Additional optional parameters:
 
 - `webhook_url`: URL for webhook notifications
 - `deduplication_key`: String for deduplication. By default, Meeting Baas will reject you sending multiple bots to a same meeting within 5 minutes, to avoid spamming.
-- `streaming`: Object containing optional WebSocket streaming endpoints (16kHz):
-  - `output`: WebSocket endpoint to receive audio stream from the meeting
-  - `input`: WebSocket endpoint to stream audio back into the meeting
+- `streaming`: Object containing optional WebSocket streaming configuration:
+  - `audio_frequency`: Audio frequency for the WebSocket streams. Can be "16khz" or "24khz" (defaults to "24khz")
+  - `input`: WebSocket endpoint to receive raw audio bytes and speaker diarization as JSON strings from the meeting
+  - `output`: WebSocket endpoint to stream raw audio bytes back into the meeting, enabling bot speech
 - `extra`: Additional custom data
 - `start_time`: UTC timestamp (uint64) for scheduled start time
 
