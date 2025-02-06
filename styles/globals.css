@@ -39,24 +39,6 @@
   );
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
-}
-
 .api {
   --color-fd-primary: var(--api-color);
 }
@@ -88,7 +70,7 @@ body {
 
 /* Define Global Variables */
 :root {
-  /* --color-fd-primary: hsl(176 100% 43%); */
+  --color-fd-primary: hsl(176 100% 43%);
   --color-fd-foreground: hsl(240, 6%, 25%) !important;
 }
 
@@ -101,4 +83,10 @@ body {
   --color-fd-popover-foreground: hsl(0, 0%, 100%) !important;
   --color-fd-primary-foreground: hsl(213, 16%, 27%) !important;
   --color-fd-secondary-foreground: hsl(0, 0%, 100%) !important;
+  --color-fd-muted: hsl(173 8% 22%) !important;
+  --color-fd-muted-foreground: hsl(0 0% 65%) !important;
+  --color-fd-border: hsl(173 8% 22%) !important;
+  --color-fd-accent: hsl(173 8% 22%) !important;
+  --color-fd-accent-foreground: hsl(0 0% 100%) !important;
+  --color-fd-ring: hsl(197 100% 44%) !important;
 }
