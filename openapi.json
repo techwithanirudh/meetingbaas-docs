@@ -13,7 +13,7 @@
             "description": "Production server"
         },
         {
-            "url": "https://api.transcriptseeker.com/api/meetingbaas",
+            "url": "https://meetingbaas-api-proxy.vercel.app",
             "description": "Documentation Server"
         }
     ],
