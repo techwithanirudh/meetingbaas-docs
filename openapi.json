@@ -13,7 +13,7 @@
             "description": "Production server"
         },
         {
-            "url": "https://meetingbaas-api-proxy.vercel.app",
+            "url": "https://meetingbaas-api-proxy.vercel.app/api",
             "description": "Documentation Server"
         }
     ],
