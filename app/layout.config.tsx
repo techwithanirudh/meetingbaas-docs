@@ -14,7 +14,7 @@ export const logo = (
       alt="MeetingBaas"
       src={Logo}
       sizes="100px"
-      className="size-4 [header_&]:size-5"
+      className="size-4 in-[header]:size-5"
       aria-label="MeetingBaas"
     />
   </>
@@ -52,7 +52,7 @@ export const baseOptions: BaseLayoutProps = {
     title: (
       <>
         {logo}
-        <span className="font-medium [header_&]:text-[15px]">
+        <span className="font-medium in-[header]:text-[15px]">
           Meeting Baas
         </span>
       </>

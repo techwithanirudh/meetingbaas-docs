@@ -1,27 +1,104 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss' source(none);
+@import 'fumadocs-ui/css/vitepress.css';
+@import 'fumadocs-ui/css/preset.css';
+@import 'fumadocs-twoslash/twoslash.css';
+
+@source ".";
+@source "../components";
+@source "../content";
+@source "../app";
+@source '../node_modules/fumadocs-ui/dist/**/*.js';
+@source '../node_modules/fumadocs-openapi/dist/**/*.js';
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  @keyframes stroke {
+    from {
+      stroke-dasharray: 1000;
+    }
+    to {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 2000;
+    }
+  }
+
+  --animate-stroke: stroke 5s linear infinite;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-gradient-radial: radial-gradient(circle, var(--tw-gradient-stops));
+  --color-repeat-gradient-to-r: repeating-linear-gradient(
+    to right,
+    var(--tw-gradient-stops)
+  );
+  --color-repeat-gradient-to-br: repeating-linear-gradient(
+    to bottom right,
+    var(--tw-gradient-stops)
+  );
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
 
 .api {
-  --primary: var(--api-color);
+  --color-fd-primary: var(--api-color);
 }
 
 .transcript-seeker {
-  --primary: var(--transcript-seeker-color);
+  --color-fd-primary: var(--transcript-seeker-color);
 }
 
 .speaking-bots {
-  --primary: var(--speaking-bots-color);
+  --color-fd-primary: var(--speaking-bots-color);
 }
 
 :root {
-  --api-color: 176 100% 43%;
-  --transcript-seeker-color: 220deg 91% 54%;
-  --speaking-bots-color: 250 80% 54%;
+  --api-color: hsl(176 100% 43%);
+  --transcript-seeker-color: hsl(220deg 91% 54%);
+  --speaking-bots-color: hsl(250 80% 54%);
+}
+
+body {
+  overscroll-behavior-y: none;
+  background-color: var(--color-fd-background);
 }
 
 .dark {
-  --api-color: 176 100% 43%;
-  --transcript-seeker-color: 217deg 92% 76%;
-  --speaking-bots-color: 250 100% 80%;
+  --api-color: hsl(176 100% 43%);
+  --transcript-seeker-color: hsl(217deg 92% 76%);
+  --speaking-bots-color: hsl(250 100% 80%);
+}
+
+/* Define Global Variables */
+:root {
+  /* --color-fd-primary: hsl(176 100% 43%); */
+  --color-fd-foreground: hsl(240, 6%, 25%) !important;
+}
+
+.dark {
+  --color-fd-background: hsl(0, 0%, 17%) !important;
+  --color-fd-foreground: hsl(0, 0%, 100%) !important;
+  --color-fd-card: hsl(0, 0%, 17%) !important;
+  --color-fd-card-foreground: hsl(0, 0%, 100%) !important;
+  --color-fd-popover: hsl(0, 0%, 17%) !important;
+  --color-fd-popover-foreground: hsl(0, 0%, 100%) !important;
+  --color-fd-primary-foreground: hsl(213, 16%, 27%) !important;
+  --color-fd-secondary-foreground: hsl(0, 0%, 100%) !important;
 }

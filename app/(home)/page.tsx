@@ -77,7 +77,7 @@ function Item(
     <Link
       {...props}
       className={cn(
-        "rounded-lg border border-border p-6 shadow-sm transition-all hover:bg-fd-accent  bg-fd-accent/30",
+        "rounded-lg border border-border p-6 shadow-xs transition-all hover:bg-fd-accent  bg-fd-accent/30",
         props.className
       )}
     >

@@ -292,7 +292,7 @@ function Input(props: TextareaHTMLAttributes<HTMLTextAreaElement>) {
         id="nd-ai-input"
         className={cn(
           shared,
-          "resize-none bg-transparent placeholder:text-fd-muted-foreground focus-visible:outline-none"
+          "resize-none bg-transparent placeholder:text-fd-muted-foreground focus-visible:outline-hidden"
         )}
         {...props}
       />
@@ -431,14 +431,14 @@ export function Trigger(props: ButtonHTMLAttributes<HTMLButtonElement>) {
     <Dialog>
       <DialogTrigger {...props} />
       <DialogPortal>
-        <DialogOverlay className="fixed inset-0 z-50 bg-fd-background/50 backdrop-blur-sm data-[state=closed]:animate-fd-fade-out data-[state=open]:animate-fd-fade-in" />
+        <DialogOverlay className="fixed inset-0 z-50 bg-fd-background/50 backdrop-blur-xs data-[state=closed]:animate-fd-fade-out data-[state=open]:animate-fd-fade-in" />
         <DialogContent
           onOpenAutoFocus={(e) => {
             document.getElementById("nd-ai-input")?.focus();
             e.preventDefault();
           }}
           aria-describedby={undefined}
-          className="fixed left-1/2 z-50 my-[5vh] flex max-h-[90dvh] w-[98vw] max-w-[860px] origin-left -translate-x-1/2 flex-col rounded-lg border bg-fd-popover text-fd-popover-foreground shadow-lg focus-visible:outline-none data-[state=closed]:animate-fd-dialog-out data-[state=open]:animate-fd-dialog-in"
+          className="fixed left-1/2 z-50 my-[5vh] flex max-h-[90dvh] w-[98vw] max-w-[860px] origin-left -translate-x-1/2 flex-col rounded-lg border bg-fd-popover text-fd-popover-foreground shadow-lg focus-visible:outline-hidden data-[state=closed]:animate-fd-dialog-out data-[state=open]:animate-fd-dialog-in"
         >
           <DialogTitle className="sr-only">Search AI</DialogTitle>
           <DialogClose

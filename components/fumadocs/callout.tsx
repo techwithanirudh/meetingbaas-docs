@@ -31,7 +31,8 @@ export const Callout = forwardRef<HTMLDivElement, CalloutProps>(
       >
         {icon ??
           {
-            info: <Info className="h-5 w-5 text-callout-info" />,
+            // todo
+            info: <Info className="h-5 w-5 text=yellow" />,
             warn: <AlertTriangle className="h-5 w-5 text-callout-warn" />,
             error: <CircleX className="h-5 w-5 text-callout-error" />,
           }[type]}
