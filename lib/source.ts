@@ -19,5 +19,5 @@ export const source = loader({
 });
 
 export const openapi = createOpenAPI({
-  proxyUrl: '/api/proxy'
+  proxyUrl: 'https://meetingbaas-api-proxy.vercel.app/api/'
 });
