@@ -29,9 +29,6 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.1.0
         version: 1.1.2(@types/react@19.0.8)(react@19.0.0)
-      '@scalar/api-client-react':
-        specifier: ^1.1.25
-        version: 1.1.25(@hyperjump/browser@1.2.0)(react@19.0.0)(tailwindcss@4.0.3)(typescript@5.7.3)
       '@shikijs/rehype':
         specifier: ^2.3.1
         version: 2.3.2
@@ -3428,6 +3425,7 @@ snapshots:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.36.2
       '@lezer/common': 1.2.3
+    optional: true
 
   '@codemirror/commands@6.8.0':
     dependencies:
@@ -3435,6 +3433,7 @@ snapshots:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.36.2
       '@lezer/common': 1.2.3
+    optional: true
 
   '@codemirror/lang-css@6.3.1':
     dependencies:
@@ -3443,6 +3442,7 @@ snapshots:
       '@codemirror/state': 6.5.2
       '@lezer/common': 1.2.3
       '@lezer/css': 1.1.10
+    optional: true
 
   '@codemirror/lang-html@6.4.9':
     dependencies:
@@ -3455,6 +3455,7 @@ snapshots:
       '@lezer/common': 1.2.3
       '@lezer/css': 1.1.10
       '@lezer/html': 1.3.10
+    optional: true
 
   '@codemirror/lang-javascript@6.2.2':
     dependencies:
@@ -3465,11 +3466,13 @@ snapshots:
       '@codemirror/view': 6.36.2
       '@lezer/common': 1.2.3
       '@lezer/javascript': 1.4.21
+    optional: true
 
   '@codemirror/lang-json@6.0.1':
     dependencies:
       '@codemirror/language': 6.10.8
       '@lezer/json': 1.0.3
+    optional: true
 
   '@codemirror/lang-xml@6.1.0':
     dependencies:
@@ -3479,6 +3482,7 @@ snapshots:
       '@codemirror/view': 6.36.2
       '@lezer/common': 1.2.3
       '@lezer/xml': 1.0.6
+    optional: true
 
   '@codemirror/lang-yaml@6.1.2':
     dependencies:
@@ -3489,6 +3493,7 @@ snapshots:
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
       '@lezer/yaml': 1.0.3
+    optional: true
 
   '@codemirror/language@6.10.8':
     dependencies:
@@ -3498,28 +3503,33 @@ snapshots:
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
       style-mod: 4.1.2
+    optional: true
 
   '@codemirror/lint@6.8.4':
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.36.2
       crelt: 1.0.6
+    optional: true
 
   '@codemirror/search@6.5.8':
     dependencies:
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.36.2
       crelt: 1.0.6
+    optional: true
 
   '@codemirror/state@6.5.2':
     dependencies:
       '@marijn/find-cluster-break': 1.0.2
+    optional: true
 
   '@codemirror/view@6.36.2':
     dependencies:
       '@codemirror/state': 6.5.2
       style-mod: 4.1.2
       w3c-keyname: 2.2.8
+    optional: true
 
   '@discoveryjs/json-ext@0.5.7': {}
 
@@ -3700,6 +3710,7 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+    optional: true
 
   '@formatjs/intl-localematcher@0.5.10':
     dependencies:
@@ -3723,11 +3734,13 @@ snapshots:
   '@headlessui/tailwindcss@0.2.2(tailwindcss@4.0.3)':
     dependencies:
       tailwindcss: 4.0.3
+    optional: true
 
   '@headlessui/vue@1.7.23(vue@3.5.13(typescript@5.7.3))':
     dependencies:
       '@tanstack/vue-virtual': 3.13.0(vue@3.5.13(typescript@5.7.3))
       vue: 3.5.13(typescript@5.7.3)
+    optional: true
 
   '@hyperjump/browser@1.2.0':
     dependencies:
@@ -3736,8 +3749,10 @@ snapshots:
       content-type: 1.0.5
       just-curry-it: 5.3.0
       type-is: 1.6.18
+    optional: true
 
-  '@hyperjump/json-pointer@1.1.0': {}
+  '@hyperjump/json-pointer@1.1.0':
+    optional: true
 
   '@hyperjump/json-schema@1.11.0(@hyperjump/browser@1.2.0)':
     dependencies:
@@ -3749,12 +3764,15 @@ snapshots:
       json-stringify-deterministic: 1.0.12
       just-curry-it: 5.3.0
       uuid: 9.0.1
+    optional: true
 
   '@hyperjump/pact@1.3.0':
     dependencies:
       just-curry-it: 5.3.0
+    optional: true
 
-  '@hyperjump/uri@1.3.1': {}
+  '@hyperjump/uri@1.3.1':
+    optional: true
 
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:
@@ -3838,10 +3856,12 @@ snapshots:
   '@internationalized/date@3.7.0':
     dependencies:
       '@swc/helpers': 0.5.15
+    optional: true
 
   '@internationalized/number@3.6.0':
     dependencies:
       '@swc/helpers': 0.5.15
+    optional: true
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -3856,53 +3876,63 @@ snapshots:
 
   '@jsdevtools/ono@7.1.3': {}
 
-  '@lezer/common@1.2.3': {}
+  '@lezer/common@1.2.3':
+    optional: true
 
   '@lezer/css@1.1.10':
     dependencies:
       '@lezer/common': 1.2.3
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
+    optional: true
 
   '@lezer/highlight@1.2.1':
     dependencies:
       '@lezer/common': 1.2.3
+    optional: true
 
   '@lezer/html@1.3.10':
     dependencies:
       '@lezer/common': 1.2.3
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
+    optional: true
 
   '@lezer/javascript@1.4.21':
     dependencies:
       '@lezer/common': 1.2.3
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
+    optional: true
 
   '@lezer/json@1.0.3':
     dependencies:
       '@lezer/common': 1.2.3
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
+    optional: true
 
   '@lezer/lr@1.4.2':
     dependencies:
       '@lezer/common': 1.2.3
+    optional: true
 
   '@lezer/xml@1.0.6':
     dependencies:
       '@lezer/common': 1.2.3
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
+    optional: true
 
   '@lezer/yaml@1.0.3':
     dependencies:
       '@lezer/common': 1.2.3
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
+    optional: true
 
-  '@marijn/find-cluster-break@1.0.2': {}
+  '@marijn/find-cluster-break@1.0.2':
+    optional: true
 
   '@mdx-js/mdx@3.1.0(acorn@8.14.0)':
     dependencies:
@@ -4027,7 +4057,8 @@ snapshots:
 
   '@polka/url@1.0.0-next.28': {}
 
-  '@popperjs/core@2.11.8': {}
+  '@popperjs/core@2.11.8':
+    optional: true
 
   '@radix-ui/number@1.1.0': {}
 
@@ -4404,6 +4435,7 @@ snapshots:
       '@codemirror/language': 6.10.8
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.36.2
+    optional: true
 
   '@scalar/api-client-react@1.1.25(@hyperjump/browser@1.2.0)(react@19.0.0)(tailwindcss@4.0.3)(typescript@5.7.3)':
     dependencies:
@@ -4426,6 +4458,7 @@ snapshots:
       - tailwindcss
       - typescript
       - universal-cookie
+    optional: true
 
   '@scalar/api-client@2.2.45(@hyperjump/browser@1.2.0)(tailwindcss@4.0.3)(typescript@5.7.3)':
     dependencies:
@@ -4476,6 +4509,7 @@ snapshots:
       - tailwindcss
       - typescript
       - universal-cookie
+    optional: true
 
   '@scalar/code-highlight@0.0.20':
     dependencies:
@@ -4498,6 +4532,7 @@ snapshots:
       unist-util-visit: 5.0.0
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   '@scalar/components@0.13.21(typescript@5.7.3)':
     dependencies:
@@ -4518,18 +4553,21 @@ snapshots:
       - '@vue/composition-api'
       - supports-color
       - typescript
+    optional: true
 
   '@scalar/draggable@0.1.8(typescript@5.7.3)':
     dependencies:
       vue: 3.5.13(typescript@5.7.3)
     transitivePeerDependencies:
       - typescript
+    optional: true
 
   '@scalar/icons@0.1.2(typescript@5.7.3)':
     dependencies:
       vue: 3.5.13(typescript@5.7.3)
     transitivePeerDependencies:
       - typescript
+    optional: true
 
   '@scalar/import@0.2.23(@hyperjump/browser@1.2.0)':
     dependencies:
@@ -4538,6 +4576,7 @@ snapshots:
       yaml: 2.7.0
     transitivePeerDependencies:
       - '@hyperjump/browser'
+    optional: true
 
   '@scalar/oas-utils@0.2.103(@hyperjump/browser@1.2.0)':
     dependencies:
@@ -4553,12 +4592,14 @@ snapshots:
       zod: 3.24.1
     transitivePeerDependencies:
       - '@hyperjump/browser'
+    optional: true
 
   '@scalar/object-utils@1.1.12':
     dependencies:
       flatted: 3.3.2
       just-clone: 6.2.0
       ts-deepmerge: 7.0.2
+    optional: true
 
   '@scalar/openapi-parser@0.10.4':
     dependencies:
@@ -4577,8 +4618,10 @@ snapshots:
       jsonpointer: 5.0.1
       leven: 4.0.0
       yaml: 2.7.0
+    optional: true
 
-  '@scalar/openapi-types@0.1.7': {}
+  '@scalar/openapi-types@0.1.7':
+    optional: true
 
   '@scalar/postman-to-openapi@0.1.26(@hyperjump/browser@1.2.0)':
     dependencies:
@@ -4586,15 +4629,18 @@ snapshots:
       '@scalar/openapi-types': 0.1.7
     transitivePeerDependencies:
       - '@hyperjump/browser'
+    optional: true
 
   '@scalar/themes@0.9.65':
     dependencies:
       '@scalar/types': 0.0.31
+    optional: true
 
   '@scalar/types@0.0.31':
     dependencies:
       '@scalar/openapi-types': 0.1.7
       '@unhead/schema': 1.11.18
+    optional: true
 
   '@scalar/use-codemirror@0.11.66(typescript@5.7.3)':
     dependencies:
@@ -4621,6 +4667,7 @@ snapshots:
       - '@vue/composition-api'
       - supports-color
       - typescript
+    optional: true
 
   '@scalar/use-hooks@0.1.19(typescript@5.7.3)':
     dependencies:
@@ -4632,6 +4679,7 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - typescript
+    optional: true
 
   '@scalar/use-toasts@0.7.8(typescript@5.7.3)':
     dependencies:
@@ -4640,6 +4688,7 @@ snapshots:
       vue-sonner: 1.3.0
     transitivePeerDependencies:
       - typescript
+    optional: true
 
   '@scalar/use-tooltip@1.0.5(typescript@5.7.3)':
     dependencies:
@@ -4647,6 +4696,7 @@ snapshots:
       vue: 3.5.13(typescript@5.7.3)
     transitivePeerDependencies:
       - typescript
+    optional: true
 
   '@sec-ant/readable-stream@0.4.1': {}
 
@@ -4811,12 +4861,14 @@ snapshots:
       postcss: 8.5.1
       tailwindcss: 4.0.3
 
-  '@tanstack/virtual-core@3.13.0': {}
+  '@tanstack/virtual-core@3.13.0':
+    optional: true
 
   '@tanstack/vue-virtual@3.13.0(vue@3.5.13(typescript@5.7.3))':
     dependencies:
       '@tanstack/virtual-core': 3.13.0
       vue: 3.5.13(typescript@5.7.3)
+    optional: true
 
   '@ts-morph/common@0.26.1':
     dependencies:
@@ -4879,7 +4931,8 @@ snapshots:
 
   '@types/unist@3.0.3': {}
 
-  '@types/web-bluetooth@0.0.20': {}
+  '@types/web-bluetooth@0.0.20':
+    optional: true
 
   '@typescript/vfs@1.6.1(typescript@5.7.3)':
     dependencies:
@@ -4894,6 +4947,7 @@ snapshots:
     dependencies:
       hookable: 5.5.3
       zhead: 2.2.4
+    optional: true
 
   '@vue/compiler-core@3.5.13':
     dependencies:
@@ -4925,7 +4979,8 @@ snapshots:
       '@vue/compiler-dom': 3.5.13
       '@vue/shared': 3.5.13
 
-  '@vue/devtools-api@6.6.4': {}
+  '@vue/devtools-api@6.6.4':
+    optional: true
 
   '@vue/reactivity@3.5.13':
     dependencies:
@@ -4960,6 +5015,7 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+    optional: true
 
   '@vueuse/core@11.3.0(vue@3.5.13(typescript@5.7.3))':
     dependencies:
@@ -4970,6 +5026,7 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+    optional: true
 
   '@vueuse/integrations@11.3.0(focus-trap@7.6.4)(fuse.js@7.1.0)(vue@3.5.13(typescript@5.7.3))':
     dependencies:
@@ -4982,10 +5039,13 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+    optional: true
 
-  '@vueuse/metadata@10.11.1': {}
+  '@vueuse/metadata@10.11.1':
+    optional: true
 
-  '@vueuse/metadata@11.3.0': {}
+  '@vueuse/metadata@11.3.0':
+    optional: true
 
   '@vueuse/shared@10.11.1(vue@3.5.13(typescript@5.7.3))':
     dependencies:
@@ -4993,6 +5053,7 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+    optional: true
 
   '@vueuse/shared@11.3.0(vue@3.5.13(typescript@5.7.3))':
     dependencies:
@@ -5000,6 +5061,7 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
+    optional: true
 
   abort-controller@3.0.0:
     dependencies:
@@ -5111,6 +5173,7 @@ snapshots:
       '@codemirror/search': 6.5.8
       '@codemirror/state': 6.5.2
       '@codemirror/view': 6.36.2
+    optional: true
 
   collapse-white-space@2.1.0: {}
 
@@ -5146,9 +5209,11 @@ snapshots:
 
   compute-scroll-into-view@3.1.1: {}
 
-  content-type@1.0.5: {}
+  content-type@1.0.5:
+    optional: true
 
-  crelt@1.0.6: {}
+  crelt@1.0.6:
+    optional: true
 
   cross-spawn@7.0.6:
     dependencies:
@@ -5165,6 +5230,7 @@ snapshots:
       clsx: 2.1.1
     optionalDependencies:
       typescript: 5.7.3
+    optional: true
 
   debounce@1.2.1: {}
 
@@ -5176,7 +5242,8 @@ snapshots:
     dependencies:
       character-entities: 2.0.2
 
-  defu@6.1.4: {}
+  defu@6.1.4:
+    optional: true
 
   delayed-stream@1.0.0: {}
 
@@ -5386,11 +5453,13 @@ snapshots:
     dependencies:
       to-regex-range: 5.0.1
 
-  flatted@3.3.2: {}
+  flatted@3.3.2:
+    optional: true
 
   focus-trap@7.6.4:
     dependencies:
       tabbable: 6.2.0
+    optional: true
 
   foreach@2.0.6: {}
 
@@ -5568,7 +5637,8 @@ snapshots:
       - '@types/react'
       - '@types/react-dom'
 
-  fuse.js@7.1.0: {}
+  fuse.js@7.1.0:
+    optional: true
 
   get-nonce@1.0.1: {}
 
@@ -5613,6 +5683,7 @@ snapshots:
     dependencies:
       '@types/hast': 3.0.4
       hast-util-is-element: 3.0.0
+    optional: true
 
   hast-util-format@1.1.0:
     dependencies:
@@ -5623,6 +5694,7 @@ snapshots:
       hast-util-whitespace: 3.0.0
       html-whitespace-sensitive-tag-names: 3.0.1
       unist-util-visit-parents: 6.0.1
+    optional: true
 
   hast-util-from-dom@5.0.1:
     dependencies:
@@ -5660,10 +5732,12 @@ snapshots:
   hast-util-has-property@3.0.0:
     dependencies:
       '@types/hast': 3.0.4
+    optional: true
 
   hast-util-is-body-ok-link@3.0.1:
     dependencies:
       '@types/hast': 3.0.4
+    optional: true
 
   hast-util-is-element@3.0.0:
     dependencies:
@@ -5676,6 +5750,7 @@ snapshots:
       hast-util-is-element: 3.0.0
       hast-util-whitespace: 3.0.0
       unist-util-is: 6.0.0
+    optional: true
 
   hast-util-parse-selector@4.0.0:
     dependencies:
@@ -5688,6 +5763,7 @@ snapshots:
       hast-util-has-property: 3.0.0
       hast-util-is-body-ok-link: 3.0.1
       hast-util-is-element: 3.0.0
+    optional: true
 
   hast-util-raw@9.1.0:
     dependencies:
@@ -5704,12 +5780,14 @@ snapshots:
       vfile: 6.0.3
       web-namespaces: 2.0.1
       zwitch: 2.0.4
+    optional: true
 
   hast-util-sanitize@5.0.2:
     dependencies:
       '@types/hast': 3.0.4
       '@ungap/structured-clone': 1.3.0
       unist-util-position: 5.0.0
+    optional: true
 
   hast-util-to-estree@3.1.1:
     dependencies:
@@ -5775,6 +5853,7 @@ snapshots:
       space-separated-tokens: 2.0.2
       web-namespaces: 2.0.1
       zwitch: 2.0.4
+    optional: true
 
   hast-util-to-string@3.0.1:
     dependencies:
@@ -5799,19 +5878,24 @@ snapshots:
       property-information: 6.5.0
       space-separated-tokens: 2.0.2
 
-  highlight.js@11.11.1: {}
+  highlight.js@11.11.1:
+    optional: true
 
-  highlightjs-curl@1.3.0: {}
+  highlightjs-curl@1.3.0:
+    optional: true
 
-  highlightjs-vue@1.0.0: {}
+  highlightjs-vue@1.0.0:
+    optional: true
 
-  hookable@5.5.3: {}
+  hookable@5.5.3:
+    optional: true
 
   html-escaper@2.0.2: {}
 
   html-void-elements@3.0.0: {}
 
-  html-whitespace-sensitive-tag-names@3.0.1: {}
+  html-whitespace-sensitive-tag-names@3.0.1:
+    optional: true
 
   human-signals@8.0.0: {}
 
@@ -5827,7 +5911,8 @@ snapshots:
 
   inline-style-parser@0.2.4: {}
 
-  is-absolute-url@4.0.1: {}
+  is-absolute-url@4.0.1:
+    optional: true
 
   is-alphabetical@2.0.1: {}
 
@@ -5888,13 +5973,16 @@ snapshots:
 
   json-schema-traverse@1.0.0: {}
 
-  json-stringify-deterministic@1.0.12: {}
+  json-stringify-deterministic@1.0.12:
+    optional: true
 
   jsonpointer@5.0.1: {}
 
-  just-clone@6.2.0: {}
+  just-clone@6.2.0:
+    optional: true
 
-  just-curry-it@5.3.0: {}
+  just-curry-it@5.3.0:
+    optional: true
 
   katex@0.16.21:
     dependencies:
@@ -5964,6 +6052,7 @@ snapshots:
       '@types/hast': 3.0.4
       devlop: 1.1.0
       highlight.js: 11.11.1
+    optional: true
 
   lru-cache@11.0.2: {}
 
@@ -6158,11 +6247,13 @@ snapshots:
     dependencies:
       '@types/mdast': 4.0.4
 
-  media-typer@0.3.0: {}
+  media-typer@0.3.0:
+    optional: true
 
   merge2@1.4.1: {}
 
-  microdiff@1.5.0: {}
+  microdiff@1.5.0:
+    optional: true
 
   micromark-core-commonmark@2.0.2:
     dependencies:
@@ -6471,7 +6562,8 @@ snapshots:
 
   nanoid@3.3.8: {}
 
-  nanoid@5.0.9: {}
+  nanoid@5.0.9:
+    optional: true
 
   negotiator@1.0.0: {}
 
@@ -6595,7 +6687,8 @@ snapshots:
       is-decimal: 2.0.1
       is-hexadecimal: 2.0.1
 
-  parse-ms@3.0.0: {}
+  parse-ms@3.0.0:
+    optional: true
 
   parse-ms@4.0.0: {}
 
@@ -6637,11 +6730,13 @@ snapshots:
 
   prettier@3.4.2: {}
 
-  pretty-bytes@6.1.1: {}
+  pretty-bytes@6.1.1:
+    optional: true
 
   pretty-ms@8.0.0:
     dependencies:
       parse-ms: 3.0.0
+    optional: true
 
   pretty-ms@9.2.0:
     dependencies:
@@ -6671,6 +6766,7 @@ snapshots:
       vue: 3.5.13(typescript@5.7.3)
     transitivePeerDependencies:
       - '@vue/composition-api'
+    optional: true
 
   react-dom@19.0.0(react@19.0.0):
     dependencies:
@@ -6778,11 +6874,13 @@ snapshots:
       is-absolute-url: 4.0.1
       space-separated-tokens: 2.0.2
       unist-util-visit: 5.0.0
+    optional: true
 
   rehype-format@5.0.1:
     dependencies:
       '@types/hast': 3.0.4
       hast-util-format: 1.1.0
+    optional: true
 
   rehype-katex@7.0.1:
     dependencies:
@@ -6799,12 +6897,14 @@ snapshots:
       '@types/hast': 3.0.4
       hast-util-from-html: 2.0.3
       unified: 11.0.5
+    optional: true
 
   rehype-raw@7.0.0:
     dependencies:
       '@types/hast': 3.0.4
       hast-util-raw: 9.1.0
       vfile: 6.0.3
+    optional: true
 
   rehype-recma@1.0.0:
     dependencies:
@@ -6818,12 +6918,14 @@ snapshots:
     dependencies:
       '@types/hast': 3.0.4
       hast-util-sanitize: 5.0.2
+    optional: true
 
   rehype-stringify@10.0.1:
     dependencies:
       '@types/hast': 3.0.4
       hast-util-to-html: 9.0.4
       unified: 11.0.5
+    optional: true
 
   remark-gfm@4.0.0:
     dependencies:
@@ -6948,7 +7050,8 @@ snapshots:
 
   shebang-regex@3.0.0: {}
 
-  shell-quote@1.8.2: {}
+  shell-quote@1.8.2:
+    optional: true
 
   shiki@1.29.2:
     dependencies:
@@ -7035,7 +7138,8 @@ snapshots:
 
   strnum@1.0.5: {}
 
-  style-mod@4.1.2: {}
+  style-mod@4.1.2:
+    optional: true
 
   style-to-object@1.0.8:
     dependencies:
@@ -7046,7 +7150,8 @@ snapshots:
       client-only: 0.0.1
       react: 19.0.0
 
-  tabbable@6.2.0: {}
+  tabbable@6.2.0:
+    optional: true
 
   tailwind-merge@2.6.0: {}
 
@@ -7063,6 +7168,7 @@ snapshots:
   tippy.js@6.3.7:
     dependencies:
       '@popperjs/core': 2.11.8
+    optional: true
 
   to-regex-range@5.0.1:
     dependencies:
@@ -7076,7 +7182,8 @@ snapshots:
 
   trough@2.2.0: {}
 
-  ts-deepmerge@7.0.2: {}
+  ts-deepmerge@7.0.2:
+    optional: true
 
   ts-morph@25.0.1:
     dependencies:
@@ -7106,6 +7213,7 @@ snapshots:
     dependencies:
       media-typer: 0.3.0
       mime-types: 2.1.35
+    optional: true
 
   typescript@5.7.3: {}
 
@@ -7179,7 +7287,8 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  uuid@9.0.1: {}
+  uuid@9.0.1:
+    optional: true
 
   vfile-location@5.0.3:
     dependencies:
@@ -7199,13 +7308,16 @@ snapshots:
   vue-demi@0.14.10(vue@3.5.13(typescript@5.7.3)):
     dependencies:
       vue: 3.5.13(typescript@5.7.3)
+    optional: true
 
   vue-router@4.5.0(vue@3.5.13(typescript@5.7.3)):
     dependencies:
       '@vue/devtools-api': 6.6.4
       vue: 3.5.13(typescript@5.7.3)
+    optional: true
 
-  vue-sonner@1.3.0: {}
+  vue-sonner@1.3.0:
+    optional: true
 
   vue@3.5.13(typescript@5.7.3):
     dependencies:
@@ -7217,7 +7329,8 @@ snapshots:
     optionalDependencies:
       typescript: 5.7.3
 
-  w3c-keyname@2.2.8: {}
+  w3c-keyname@2.2.8:
+    optional: true
 
   web-namespaces@2.0.1: {}
 
@@ -7244,7 +7357,8 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  whatwg-mimetype@4.0.0: {}
+  whatwg-mimetype@4.0.0:
+    optional: true
 
   whatwg-url@5.0.0:
     dependencies:
@@ -7277,7 +7391,8 @@ snapshots:
 
   yoctocolors@2.1.1: {}
 
-  zhead@2.2.4: {}
+  zhead@2.2.4:
+    optional: true
 
   zod@3.24.1: {}
 

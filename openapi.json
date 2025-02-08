@@ -11,10 +11,6 @@
         {
             "url": "https://api.meetingbaas.com",
             "description": "Production server"
-        },
-        {
-            "url": "https://meetingbaas-api-proxy.vercel.app/api",
-            "description": "Documentation Server"
         }
     ],
     "paths": {

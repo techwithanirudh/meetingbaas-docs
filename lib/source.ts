@@ -5,7 +5,6 @@ import { docs, meta } from '@/.source';
 
 import { icons } from "lucide-react";
 import { createElement } from "react";
-import { APIPlayground } from 'fumadocs-openapi/scalar';
 
 export const source = loader({
   baseUrl: '/docs',
@@ -18,9 +17,7 @@ export const source = loader({
     attachFile,
   },
 });
- 
+
 export const openapi = createOpenAPI({
-  renderer: {
-    APIPlayground,
-  },
+  proxyUrl: '/api/proxy'
 });
