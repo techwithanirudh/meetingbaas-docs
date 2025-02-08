@@ -21,6 +21,7 @@
     "@radix-ui/react-collapsible": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-slot": "^1.1.0",
+    "@scalar/api-client-react": "^1.1.25",
     "@shikijs/rehype": "^2.3.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
