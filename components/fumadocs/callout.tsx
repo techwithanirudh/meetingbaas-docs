@@ -24,7 +24,7 @@ export const Callout = forwardRef<HTMLDivElement, CalloutProps>(
       <div
         ref={ref}
         className={cn(
-          "my-6 flex flex-row gap-2 rounded-lg border bg-fd-card p-3 text-sm !text-fd-card shadow-xs prose-invert",
+          "my-6 flex flex-row gap-2 rounded-lg border bg-fd-card p-3 text-sm text-fd-card shadow-xs prose-invert",
           className,
           {
             error: "border-[#FF0000]/50 bg-[#FF0000]",
