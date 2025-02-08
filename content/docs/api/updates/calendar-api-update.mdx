@@ -7,9 +7,7 @@ icon: Calendar
 import { Callout } from "@/components/fumadocs/callout";
 import { Info } from "lucide-react";
 
-<Callout type="info" icon={<Info className="h-5 w-5" />}>
-  Paris, the 12th of December 2024.
-</Callout>
+> This update were introduced on the 12th of December 2024.
 
 We're excited to announce several improvements to our Calendar API endpoints. These changes include new features and some breaking changes.
 
@@ -27,9 +25,9 @@ We're excited to announce several improvements to our Calendar API endpoints. Th
 ### Recurring Events Bot Management
 
 - New query parameter `all_occurrences` added to [`POST /calendar_events/uuid/bot`](/docs/api/reference/schedule_record_event)
-  - Allows scheduling a bot for all instances of a recurring event
-  - Same functionality added to [`DELETE /calendar_events/uuid/bot`](/docs/api/reference/unschedule_record_event)
-    - Enables bot removal from all occurrences of a recurring event
+- Allows scheduling a bot for all instances of a recurring event
+- Same functionality added to [`DELETE /calendar_events/uuid/bot`](/docs/api/reference/unschedule_record_event)
+- Enables bot removal from all occurrences of a recurring event
 
 ## Breaking Changes
 
@@ -49,11 +47,10 @@ We're excited to announce several improvements to our Calendar API endpoints. Th
 - Events are returned in batches of 100
 - Example response structure:
   ````json
-    {
-            "events": [...],
-                "next": "cursor_token_for_next_page"
-                  }
-                    ```
+  {
+    "events": [...],
+    "next": "cursor_token_for_next_page"
+  }
   ````
 </Callout>
 ## Migration Guide
