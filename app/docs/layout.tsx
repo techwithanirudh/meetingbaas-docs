@@ -1,4 +1,4 @@
-import { DocsLayout, type DocsLayoutProps } from "fumadocs-ui/layouts/docs";
+import { DocsLayout, type DocsLayoutProps } from "fumadocs-ui/layouts/notebook";
 import type { ReactNode } from "react";
 import { MessageCircle } from "lucide-react";
 import { Slot } from "@radix-ui/react-slot";
@@ -39,7 +39,11 @@ const docsOptions: DocsLayoutProps = {
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <DocsLayout {...docsOptions}>
+    <DocsLayout 
+      {...docsOptions} 
+      nav={{ ...docsOptions.nav, mode: 'top' }}
+      tabMode="navbar"
+    >
       <span
         className="absolute inset-0 z-[-1] h-[64rem] max-h-screen overflow-hidden"
         style={{
