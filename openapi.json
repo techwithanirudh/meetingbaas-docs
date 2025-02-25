@@ -16,8 +16,7 @@
     "paths": {
         "/bots/": {
             "post": {
-                "summary": "Join Meeting",
-                "description": "Have a bot join a meeting, now or in the future",
+                "description": "Join",
                 "operationId": "join",
                 "requestBody": {
                     "content": {
@@ -40,20 +39,11 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    },
-                    {
-                        "LegacyApiKeyAuth": []
-                    }
-                ]
+                }
             }
         },
         "/bots/{uuid}": {
             "delete": {
-                "summary": "Leave Meeting",
                 "description": "Leave",
                 "operationId": "leave",
                 "responses": {
@@ -72,8 +62,7 @@
         },
         "/bots/meeting_data": {
             "get": {
-                "summary": "Get Meeting Data",
-                "description": "Get meeting recording and metadata",
+                "description": "Get meeting data",
                 "operationId": "get_meeting_data",
                 "parameters": [
                     {
@@ -102,11 +91,7 @@
         },
         "/calendars/raw": {
             "post": {
-                "tags": [
-                    "Calendars"
-                ],
-                "summary": "List Raw Calendars",
-                "description": "Retrieves unprocessed calendar data directly from the provider, including all available metadata and settings",
+                "description": "List raw calendars",
                 "operationId": "list_raw_calendars",
                 "requestBody": {
                     "content": {
@@ -134,10 +119,6 @@
         },
         "/calendars/": {
             "get": {
-                "tags": [
-                    "Calendars"
-                ],
-                "summary": "List calendars",
                 "description": "List calendars",
                 "operationId": "list_calendars",
                 "responses": {
@@ -157,10 +138,6 @@
                 }
             },
             "post": {
-                "tags": [
-                    "Calendars"
-                ],
-                "summary": "Create Calendar",
                 "description": "Create a calendar",
                 "operationId": "create_calendar",
                 "requestBody": {
@@ -189,11 +166,7 @@
         },
         "/calendars/{uuid}": {
             "get": {
-                "tags": [
-                    "Calendars"
-                ],
-                "summary": "Get Calendar",
-                "description": "Retrieves detailed information about a specific calendar integration including sync status and events",
+                "description": "Get a calendar",
                 "operationId": "get_calendar",
                 "responses": {
                     "200": {
@@ -209,26 +182,44 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "Calendars"
-                ],
-                "summary": "Delete Calendar",
-                "description": "Removes a calendar integration and cleans up associated resources including scheduled recordings",
+                "description": "Delete a calendar",
                 "operationId": "delete_calendar",
                 "responses": {
                     "200": {
                         "description": "no content"
                     }
                 }
+            },
+            "patch": {
+                "description": "Update a calendar",
+                "operationId": "update_calendar",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateCalendarParams"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateCalendarResponse"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/calendar_events/{uuid}": {
             "get": {
-                "tags": [
-                    "Calendars"
-                ],
-                "summary": "Get Event",
-                "description": "Retrieves comprehensive details about a specific calendar event including meeting links, participants, and recording status",
+                "description": "Get a calendar event",
                 "operationId": "get_event",
                 "responses": {
                     "200": {
@@ -246,11 +237,7 @@
         },
         "/calendar_events/{uuid}/bot": {
             "post": {
-                "tags": [
-                    "Calendars"
-                ],
-                "summary": "Schedule Record Event",
-                "description": "Configures a bot to automatically join and record a specific calendar event at its scheduled time",
+                "description": "Schedule a record event",
                 "operationId": "schedule_record_event",
                 "parameters": [
                     {
@@ -294,11 +281,7 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "Calendars"
-                ],
-                "summary": "Unschedule Record Event",
-                "description": "Cancels a previously scheduled recording for a calendar event and releases associated bot resources",
+                "description": "Unschedule a record event",
                 "operationId": "unschedule_record_event",
                 "parameters": [
                     {
@@ -332,12 +315,8 @@
                 }
             },
             "patch": {
-                "tags": [
-                    "Calendars"
-                ],
-                "summary": "Patch Bot",
                 "description": "Patch bot",
-                "operationId": "Patch_bot",
+                "operationId": "patch_bot",
                 "parameters": [
                     {
                         "in": "query",
@@ -382,11 +361,7 @@
         },
         "/calendar_events/": {
             "get": {
-                "tags": [
-                    "Calendars"
-                ],
-                "summary": "List Events",
-                "description": "Retrieves all calendar events within the configured time range, including their recording status and bot assignments",
+                "description": "List events",
                 "operationId": "list_events",
                 "parameters": [
                     {
@@ -443,20 +418,6 @@
         }
     },
     "components": {
-        "securitySchemes": {
-            "ApiKeyAuth": {
-                "type": "apiKey",
-                "in": "header",
-                "name": "x-meeting-baas-api-key",
-                "description": "API key for authentication"
-            },
-            "LegacyApiKeyAuth": {
-                "type": "apiKey",
-                "in": "header",
-                "name": "x-spoke-api-key",
-                "description": "Legacy API key for authentication (deprecated)"
-            }
-        },
         "schemas": {
             "Account": {
                 "description": "This structure represents the user's account information.",
@@ -553,7 +514,6 @@
                 "type": "object",
                 "properties": {
                     "noone_joined_timeout": {
-                        "description": "The timeout for the bot to wait for participants to join before leaving the meeting, defaults to 10 minutes",
                         "type": [
                             "integer",
                             "null"
@@ -562,7 +522,6 @@
                         "minimum": 0.0
                     },
                     "waiting_room_timeout": {
-                        "description": "The timeout for the bot to wait in the waiting room before leaving the meeting, defaults to 10 minutes",
                         "type": [
                             "integer",
                             "null"
@@ -599,7 +558,6 @@
                     "bot_param_id",
                     "created_at",
                     "diarization_v2",
-                    "ended_at",
                     "id",
                     "meeting_url",
                     "mp4_s3_path",
@@ -616,13 +574,18 @@
                         "format": "int32"
                     },
                     "created_at": {
-                        "$ref": "#/components/schemas/DateTime"
+                        "type": "string",
+                        "format": "partial-date-time"
                     },
                     "diarization_v2": {
                         "type": "boolean"
                     },
                     "ended_at": {
-                        "$ref": "#/components/schemas/OptionalDateTime"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "partial-date-time"
                     },
                     "errors": {
                         "type": [
@@ -709,7 +672,6 @@
                 "type": "object",
                 "required": [
                     "bot_name",
-                    "extra",
                     "webhook_url"
                 ],
                 "properties": {
@@ -734,9 +696,7 @@
                             "null"
                         ]
                     },
-                    "extra": {
-                        "$ref": "#/components/schemas/Extra"
-                    },
+                    "extra": true,
                     "noone_joined_timeout": {
                         "type": [
                             "integer",
@@ -801,12 +761,10 @@
             "BotParam2": {
                 "type": "object",
                 "required": [
-                    "bot_name",
-                    "extra"
+                    "bot_name"
                 ],
                 "properties": {
                     "bot_image": {
-                        "description": "The image to use for the bot, can be a URL or a Base64 encoded string. Recommended size is 1280x720px.",
                         "type": [
                             "string",
                             "null"
@@ -827,9 +785,7 @@
                             "null"
                         ]
                     },
-                    "extra": {
-                        "$ref": "#/components/schemas/Extra"
-                    },
+                    "extra": true,
                     "noone_joined_timeout": {
                         "type": [
                             "integer",
@@ -1026,8 +982,6 @@
                     "bot_param_id",
                     "created_at",
                     "diarization_v2",
-                    "ended_at",
-                    "extra",
                     "id",
                     "meeting_url",
                     "mp4_s3_path",
@@ -1054,7 +1008,8 @@
                         "format": "int32"
                     },
                     "created_at": {
-                        "$ref": "#/components/schemas/DateTime"
+                        "type": "string",
+                        "format": "partial-date-time"
                     },
                     "deduplication_key": {
                         "type": [
@@ -1066,7 +1021,11 @@
                         "type": "boolean"
                     },
                     "ended_at": {
-                        "$ref": "#/components/schemas/OptionalDateTime"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "partial-date-time"
                     },
                     "enter_message": {
                         "type": [
@@ -1087,9 +1046,7 @@
                         ],
                         "format": "int32"
                     },
-                    "extra": {
-                        "$ref": "#/components/schemas/Extra"
-                    },
+                    "extra": true,
                     "id": {
                         "type": "integer",
                         "format": "int32"
@@ -1236,38 +1193,6 @@
                     }
                 }
             },
-            "Consumption": {
-                "type": "object",
-                "required": [
-                    "consumption"
-                ],
-                "properties": {
-                    "consumption": {
-                        "type": "integer",
-                        "format": "uint32",
-                        "minimum": 0.0
-                    }
-                }
-            },
-            "ConsumptionQuery": {
-                "type": "object",
-                "required": [
-                    "end",
-                    "start"
-                ],
-                "properties": {
-                    "end": {
-                        "type": "integer",
-                        "format": "uint32",
-                        "minimum": 0.0
-                    },
-                    "start": {
-                        "type": "integer",
-                        "format": "uint32",
-                        "minimum": 0.0
-                    }
-                }
-            },
             "CreateCalendarParams": {
                 "type": "object",
                 "required": [
@@ -1308,9 +1233,20 @@
                     }
                 }
             },
-            "DateTime": {
-                "type": "string",
-                "format": "date-time"
+            "DailyTokenConsumption": {
+                "type": "object",
+                "required": [
+                    "consumption_by_service",
+                    "date"
+                ],
+                "properties": {
+                    "consumption_by_service": {
+                        "$ref": "#/components/schemas/TokenConsumptionByService"
+                    },
+                    "date": {
+                        "type": "string"
+                    }
+                }
             },
             "EndMeetingQuery": {
                 "type": "object",
@@ -1409,9 +1345,7 @@
                     "name": {
                         "type": "string"
                     },
-                    "raw": {
-                        "$ref": "#/components/schemas/Extra"
-                    },
+                    "raw": true,
                     "recurring_event_id": {
                         "type": [
                             "string",
@@ -1427,10 +1361,6 @@
                         "format": "uuid"
                     }
                 }
-            },
-            "Extra": {
-                "description": "Custom data object",
-                "additionalProperties": true
             },
             "FailedRecordRequest": {
                 "type": "object",
@@ -1454,6 +1384,19 @@
                     "offset"
                 ],
                 "properties": {
+                    "bot_id": {
+                        "type": [
+                            "string",
+                            "null"
+                        ]
+                    },
+                    "end_date": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "partial-date-time"
+                    },
                     "limit": {
                         "type": "integer",
                         "format": "int32"
@@ -1461,6 +1404,13 @@
                     "offset": {
                         "type": "integer",
                         "format": "int32"
+                    },
+                    "start_date": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "partial-date-time"
                     }
                 }
             },
@@ -1536,13 +1486,11 @@
                 "type": "object",
                 "required": [
                     "bot_name",
-                    "extra",
                     "meeting_url",
                     "reserved"
                 ],
                 "properties": {
                     "automatic_leave": {
-                        "description": "The bot will leave the meeting automatically after the timeout, defaults to 10 minutes.",
                         "anyOf": [
                             {
                                 "$ref": "#/components/schemas/AutomaticLeaveRequest"
@@ -1553,7 +1501,6 @@
                         ]
                     },
                     "bot_image": {
-                        "description": "The image to use for the bot, can be a URL or a Base64 encoded string. Recommended size is 1280x720px.",
                         "type": [
                             "string",
                             "null"
@@ -1564,28 +1511,22 @@
                         "type": "string"
                     },
                     "deduplication_key": {
-                        "description": "By default, bots using the same API key cannot join a meeting within 5 minutes of each other. You can bypass this limitation by providing a deduplication_key.",
                         "type": [
                             "string",
                             "null"
                         ]
                     },
                     "entry_message": {
-                        "description": "There are no entry messages on Microsoft Teams as guests outside of an organization do not have access to the chat.",
                         "type": [
                             "string",
                             "null"
                         ]
                     },
-                    "extra": {
-                        "description": "A Json object that allows you to add custom data to a bot for your convenience, e.g. your end user's ID.",
-                        "$ref": "#/components/schemas/Extra"
-                    },
+                    "extra": true,
                     "meeting_url": {
                         "type": "string"
                     },
                     "recording_mode": {
-                        "description": "The recording mode for the bot, defaults to 'speaker_view'.",
                         "anyOf": [
                             {
                                 "$ref": "#/components/schemas/RecordingMode"
@@ -1596,11 +1537,9 @@
                         ]
                     },
                     "reserved": {
-                        "description": "Whether or not the bot should come from the available pool of bots or be a dedicated bot. Reserved bots come in exactly 4 minutes after the request.",
                         "type": "boolean"
                     },
                     "speech_to_text": {
-                        "description": "The default speech to text provider is Whisper Large V3, running on Runpod.",
                         "anyOf": [
                             {
                                 "$ref": "#/components/schemas/SpeechToText"
@@ -1611,7 +1550,6 @@
                         ]
                     },
                     "start_time": {
-                        "description": "ISO Start time for the bot to join the meeting. The bot joins 4 minutes before the start time.",
                         "type": [
                             "integer",
                             "null"
@@ -1620,7 +1558,6 @@
                         "minimum": 0.0
                     },
                     "streaming": {
-                        "description": "WebSocket streams configuration for real-time audio and real-time speaker diarization. Note: A single WebSocket URL can be used for both input and output since WebSockets are bi-directional.",
                         "anyOf": [
                             {
                                 "$ref": "#/components/schemas/StreamingApiParameter"
@@ -1631,7 +1568,6 @@
                         ]
                     },
                     "webhook_url": {
-                        "description": "A webhook URL to send events to, overrides the webhook URL set in your account settings.",
                         "type": [
                             "string",
                             "null"
@@ -1825,13 +1761,6 @@
                     }
                 }
             },
-            "OptionalDateTime": {
-                "type": [
-                    "string",
-                    "null"
-                ],
-                "format": "date-time"
-            },
             "PostWebhookUrlRequest": {
                 "type": "object",
                 "required": [
@@ -1953,29 +1882,11 @@
                 }
             },
             "RecordingMode": {
-                "description": "Recording mode for the bot",
-                "oneOf": [
-                    {
-                        "description": "Records the active speaker view",
-                        "type": "string",
-                        "enum": [
-                            "speaker_view"
-                        ]
-                    },
-                    {
-                        "description": "Records the gallery view showing multiple participants",
-                        "type": "string",
-                        "enum": [
-                            "gallery_view"
-                        ]
-                    },
-                    {
-                        "description": "Records only the audio from the meeting",
-                        "type": "string",
-                        "enum": [
-                            "audio_only"
-                        ]
-                    }
+                "type": "string",
+                "enum": [
+                    "speaker_view",
+                    "gallery_view",
+                    "audio_only"
                 ]
             },
             "RetryWebhookQuery": {
@@ -2102,7 +2013,6 @@
                 "type": "object",
                 "properties": {
                     "audio_frequency": {
-                        "description": "The audio frequency for the websocket streams, defaults to 24kHz. Can be one of 16khz or 24khz.",
                         "anyOf": [
                             {
                                 "$ref": "#/components/schemas/AudioFrequency"
@@ -2113,14 +2023,12 @@
                         ]
                     },
                     "input": {
-                        "description": "The input stream for the bot. Receives raw audio as bytes and speaker diarization as JSON strings.",
                         "type": [
                             "string",
                             "null"
                         ]
                     },
                     "output": {
-                        "description": "The output stream for the bot. Sends raw audio as bytes, i.e. lets your bot speak in the meeting.",
                         "type": [
                             "string",
                             "null"
@@ -2157,6 +2065,70 @@
                         "type": "integer",
                         "format": "uint64",
                         "minimum": 0.0
+                    }
+                }
+            },
+            "TokenConsumptionByService": {
+                "type": "object",
+                "required": [
+                    "duration",
+                    "recording_tokens",
+                    "streaming_input_hour",
+                    "streaming_input_tokens",
+                    "streaming_output_hour",
+                    "streaming_output_tokens",
+                    "transcription_byok_hour",
+                    "transcription_byok_tokens",
+                    "transcription_hour",
+                    "transcription_tokens"
+                ],
+                "properties": {
+                    "duration": {
+                        "type": "string"
+                    },
+                    "recording_tokens": {
+                        "type": "string"
+                    },
+                    "streaming_input_hour": {
+                        "type": "string"
+                    },
+                    "streaming_input_tokens": {
+                        "type": "string"
+                    },
+                    "streaming_output_hour": {
+                        "type": "string"
+                    },
+                    "streaming_output_tokens": {
+                        "type": "string"
+                    },
+                    "transcription_byok_hour": {
+                        "type": "string"
+                    },
+                    "transcription_byok_tokens": {
+                        "type": "string"
+                    },
+                    "transcription_hour": {
+                        "type": "string"
+                    },
+                    "transcription_tokens": {
+                        "type": "string"
+                    }
+                }
+            },
+            "TokenConsumptionQuery": {
+                "type": "object",
+                "required": [
+                    "end_date",
+                    "start_date"
+                ],
+                "properties": {
+                    "end_date": {
+                        "type": "string",
+                        "format": "partial-date-time"
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "format": "partial-date-time"
                     }
                 }
             },
@@ -2346,6 +2318,51 @@
                     }
                 }
             },
+            "UpdateCalendarParams": {
+                "type": "object",
+                "required": [
+                    "oauth_client_id",
+                    "oauth_client_secret",
+                    "oauth_refresh_token",
+                    "platform"
+                ],
+                "properties": {
+                    "oauth_client_id": {
+                        "type": "string"
+                    },
+                    "oauth_client_secret": {
+                        "type": "string"
+                    },
+                    "oauth_refresh_token": {
+                        "type": "string"
+                    },
+                    "platform": {
+                        "$ref": "#/components/schemas/Provider"
+                    }
+                }
+            },
+            "UserTokensResponse": {
+                "type": "object",
+                "required": [
+                    "available_tokens",
+                    "total_tokens_purchased"
+                ],
+                "properties": {
+                    "available_tokens": {
+                        "type": "string"
+                    },
+                    "last_purchase_date": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "format": "partial-date-time"
+                    },
+                    "total_tokens_purchased": {
+                        "type": "string"
+                    }
+                }
+            },
             "Version": {
                 "type": "object",
                 "required": [
@@ -2400,13 +2417,5 @@
                 }
             }
         }
-    },
-    "security": [
-        {
-            "ApiKeyAuth": []
-        },
-        {
-            "LegacyApiKeyAuth": []
-        }
-    ]
+    }
 }
