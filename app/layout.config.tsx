@@ -48,7 +48,7 @@ export const baseOptions: BaseLayoutProps = {
       <>
         {logo}
         <span className="font-medium in-[header]:text-[15px]">
-          Meeting Baas
+          Meeting BaaS
         </span>
       </>
     ),

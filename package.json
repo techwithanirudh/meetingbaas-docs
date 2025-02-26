@@ -58,6 +58,7 @@
     "@types/node": "22.8.6",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.2",
+    "chokidar": "^4.0.3",
     "dotenv-cli": "^7.4.4",
     "fast-glob": "^3.3.3",
     "gray-matter": "^4.0.3",

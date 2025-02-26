@@ -12,8 +12,8 @@ const inter = Inter({
 
 export const metadata = createMetadata({
   title: {
-    template: "%s | Meeting Baas",
-    default: "Meeting Baas",
+    template: "%s | Meeting BaaS",
+    default: "Meeting BaaS",
   },
   description: "Deploy AI for video meetings through a single unified API.",
   metadataBase: baseUrl,
