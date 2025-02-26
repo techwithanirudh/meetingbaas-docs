@@ -7,10 +7,10 @@ export default function DocsPage(): React.ReactElement {
   return (
     <main className="container flex flex-col py-16">
       <h1 className="text-2xl font-semibold md:text-3xl">
-        Welcome to MeetingBaas Docs
+        Welcome to Meeting BaaS Documentation
       </h1>
       <p className="text-fd-muted-foreground text-lg mt-1">
-        Choose which documentation you would like to explore.
+        Meeting Bots as a Service - Deploy AI bots to your video meetings through a unified API.
       </p>
       <div className="mt-8 grid grid-cols-1 gap-4 text-left md:grid-cols-2">
         <Item href="/docs/api">
@@ -19,7 +19,7 @@ export default function DocsPage(): React.ReactElement {
           </Icon>
           <h2 className="mb-2 text-lg font-semibold">MeetingBaas API</h2>
           <p className="text-sm text-fd-muted-foreground">
-            MeetingBaas API reference and guides.
+            Send AI bots to Zoom, Teams, and Google Meet meetings using a no frills API.
           </p>
         </Item>
 
