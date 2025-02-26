@@ -1,8 +1,7 @@
-@import 'tailwindcss' source(none);
-@import 'fumadocs-ui/css/neutral.css';
-@import 'fumadocs-ui/css/preset.css';
-@import 'fumadocs-twoslash/twoslash.css';
-
+@import "tailwindcss" source(none);
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+@import "fumadocs-twoslash/twoslash.css";
 
 @source ".";
 @source "../components";
@@ -90,4 +89,9 @@ body {
   --color-fd-accent: hsl(173 8% 22%) !important;
   --color-fd-accent-foreground: hsl(0 0% 100%) !important;
   --color-fd-ring: hsl(197 100% 44%) !important;
+}
+
+/* Hide theme toggle button */
+[data-theme-toggle] {
+  display: none !important;
 }

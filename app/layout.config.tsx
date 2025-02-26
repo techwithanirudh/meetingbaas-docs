@@ -1,11 +1,6 @@
+import Logo from "@/public/logo.png";
 import { LinkItemType } from "fumadocs-ui/layouts/docs";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
-import {
-  Book,
-  Cloud,
-  Download,
-} from "lucide-react";
-import Logo from "@/public/logo.png";
 import Image from "next/image";
 
 export const logo = (
@@ -57,7 +52,8 @@ export const baseOptions: BaseLayoutProps = {
         </span>
       </>
     ),
-    transparentMode: 'top'
+    transparentMode: 'top',
+    hideThemeToggle: true
   },
   links: [
     ...linkItems,

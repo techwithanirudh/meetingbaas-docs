@@ -3,8 +3,8 @@ import "@/styles/globals.css";
 import type { Viewport } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
-import { Providers } from "./providers";
 import { Body } from "./layout.client";
+import { Providers } from "./providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,7 +28,7 @@ export const viewport: Viewport = {
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={inter.className} suppressHydrationWarning>
+    <html lang="en" className={`${inter.className} dark`} suppressHydrationWarning>
       <Body>
         <Providers>{children}</Providers>
       </Body>
