@@ -1,4 +1,4 @@
-const emailAddress = "hello@spoke.app";
+const emailAddress = "hello@meetingbaas.com";
 const subject = encodeURIComponent("Interest in Meeting Baas Services");
 const body = encodeURIComponent(`Hello Meeting Baas Team,
 
