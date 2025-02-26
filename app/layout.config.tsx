@@ -6,11 +6,11 @@ import Image from "next/image";
 export const logo = (
   <>
     <Image
-      alt="MeetingBaas"
+      alt="Meeting BaaS"
       src={Logo}
       sizes="100px"
       className="size-4 in-[header]:size-5"
-      aria-label="MeetingBaas"
+      aria-label="Meeting BaaS"
     />
   </>
 );

@@ -17,7 +17,7 @@ export default function DocsPage(): React.ReactElement {
           <Icon>
             <WebhookIcon className="size-full" />
           </Icon>
-          <h2 className="mb-2 text-lg font-semibold">MeetingBaas API</h2>
+          <h2 className="mb-2 text-lg font-semibold">Meeting BaaS API</h2>
           <p className="text-sm text-fd-muted-foreground">
             Send AI bots to Zoom, Teams, and Google Meet meetings using a no frills API.
           </p>
@@ -30,7 +30,7 @@ export default function DocsPage(): React.ReactElement {
           <h2 className="mb-2 text-lg font-semibold">Transcript Seeker</h2>
           <p className="text-sm text-fd-muted-foreground">
             Open-source transcription playground. Powered by transcription APIs,
-            MeetingBaas, and LLMs to chat with your transcripts.
+            Meeting BaaS, and LLMs to chat with your transcripts.
           </p>
         </Item>
         <Item href="/docs/speaking-bots">
@@ -40,7 +40,7 @@ export default function DocsPage(): React.ReactElement {
           <h2 className="mb-2 text-lg font-semibold">Speaking Bots</h2>
           <p className="text-sm text-fd-muted-foreground">
             Speaking Bots for Google Meet, Microsoft Teams and Zoom. Powered by
-            Pipecat and MeetingBaas.
+            Pipecat and Meeting BaaS.
           </p>
         </Item>
       </div>
