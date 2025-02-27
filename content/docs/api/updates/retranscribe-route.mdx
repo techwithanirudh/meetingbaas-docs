@@ -1,5 +1,5 @@
 ---
-title: Platform Improvements & New Retranscribe API
+title: Improvements & Retranscribe Route
 description: Teams/GMeet stability improvements and new transcription capabilities
 icon: Mic
 ---
@@ -7,7 +7,9 @@ icon: Mic
 import { Callout } from "@/components/fumadocs/callout";
 import { Info } from "lucide-react";
 
-> These updates were introduced on the 27th of February 2025.
+<Callout type="info" icon={<Info className="h-5 w-5" />}>
+  **Paris**, the 27th of February 2025.
+</Callout>
 
 We're excited to announce significant improvements to our platform stability and the introduction of new API capabilities.
 
@@ -29,6 +31,14 @@ We're excited to announce significant improvements to our platform stability and
 - Supports both default and custom speech-to-text providers
 - Flexible webhook configuration for processing notifications
 
+### OCR Capabilities
+
+- Added Optical Character Recognition (OCR) inside bots for better detection of current meeting status
+- This will enable future features including:
+  - Sharing screenshots of meeting content
+  - OCR'ed content shared in meetings (for RAG and other AI-enhanced applications)
+- Improves bot awareness of visual meeting context
+
 ### Join Endpoint Enhancement
 
 - Added `audio_only` parameter to [`POST /bots`](/docs/api/reference/join) endpoint
@@ -46,9 +56,13 @@ The new retranscribe endpoint accepts the following parameters:
 - `webhook_url`: Optional callback URL for completion notifications
 
 <Callout type="info">
-  The retranscribe feature is particularly useful for: - Improving existing
-  transcriptions - Using different speech-to-text providers - Recovering from
-  any transcription issues
+  The retranscribe feature is particularly useful for:
+  - Improving existing transcriptions
+  
+  - Using different speech-to-text providers
+
+- Recovering from any transcription issues
+
 </Callout>
 
 ## Future Enhancements
