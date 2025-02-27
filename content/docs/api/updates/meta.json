@@ -1,5 +1,9 @@
 {
   "title": "API Updates",
   "icon": "Zap",
-  "pages": ["calendar-api-update"]
+  "pages": [
+    "calendar-api-update",
+    "minor-streaming-zoom-and-microsoft-teams",
+    "retranscribe-route"
+  ]
 }

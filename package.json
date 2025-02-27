@@ -11,6 +11,7 @@
     "postinstall": "fumadocs-mdx",
     "lint": "fumadocs-mdx && tsx ./scripts/lint.mts && eslint .",
     "build:docs": "tsx ./scripts/generate-docs.mts",
+    "docs:watch": "./.devcontainer/build_auto.sh",
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
