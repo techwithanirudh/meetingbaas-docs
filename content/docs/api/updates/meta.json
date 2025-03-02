@@ -2,6 +2,7 @@
   "title": "API Updates",
   "icon": "Zap",
   "pages": [
+    "calendar-api-enhancements",
     "calendar-api-update",
     "minor-streaming-zoom-and-microsoft-teams",
     "retranscribe-route"
