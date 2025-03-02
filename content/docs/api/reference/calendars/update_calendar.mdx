@@ -1,6 +1,13 @@
 ---
 title: Update Calendar
-description: Updates a calendar integration with a new refresh token
+description: >-
+  Updates a calendar integration with new credentials or platform while
+  maintaining the same UUID. This operation is performed as an atomic
+  transaction to ensure data integrity. The system automatically unschedules
+  existing bots to prevent duplicates, updates the calendar credentials, and
+  triggers a full resync of all events. Useful when OAuth tokens need to be
+  refreshed or when migrating a calendar between providers. Returns the updated
+  calendar object with its new configuration.
 full: true
 _openapi:
   method: PATCH
@@ -9,7 +16,15 @@ _openapi:
   structuredData:
     headings: []
     contents:
-      - content: Updates a calendar integration with a new refresh token
+      - content: >-
+          Updates a calendar integration with new credentials or platform while
+          maintaining the same UUID. This operation is performed as an atomic
+          transaction to ensure data integrity. The system automatically
+          unschedules existing bots to prevent duplicates, updates the calendar
+          credentials, and triggers a full resync of all events. Useful when
+          OAuth tokens need to be refreshed or when migrating a calendar between
+          providers. Returns the updated calendar object with its new
+          configuration.
 ---
 
 <APIPage document={"./openapi.json"} operations={[{"path":"/calendars/{uuid}","method":"patch"}]} webhooks={[]} hasHead={false} />

@@ -1,8 +1,12 @@
 ---
 title: Delete Calendar
 description: >-
-  Removes a calendar integration and cleans up associated resources including
-  scheduled recordings
+  Permanently removes a calendar integration by its UUID, including all
+  associated events and bot configurations. This operation cancels any active
+  subscriptions with the calendar provider, stops all webhook notifications, and
+  unschedules any pending recordings. All related resources are cleaned up in
+  the database. This action cannot be undone, and subsequent requests to this
+  calendar's UUID will return 404 Not Found errors.
 full: true
 _openapi:
   method: DELETE
@@ -12,8 +16,13 @@ _openapi:
     headings: []
     contents:
       - content: >-
-          Removes a calendar integration and cleans up associated resources
-          including scheduled recordings
+          Permanently removes a calendar integration by its UUID, including all
+          associated events and bot configurations. This operation cancels any
+          active subscriptions with the calendar provider, stops all webhook
+          notifications, and unschedules any pending recordings. All related
+          resources are cleaned up in the database. This action cannot be
+          undone, and subsequent requests to this calendar's UUID will return
+          404 Not Found errors.
 ---
 
 <APIPage document={"./openapi.json"} operations={[{"path":"/calendars/{uuid}","method":"delete"}]} webhooks={[]} hasHead={false} />

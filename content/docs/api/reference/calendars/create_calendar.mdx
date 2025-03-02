@@ -1,6 +1,14 @@
 ---
 title: Create Calendar
-description: Create a calendar
+description: >-
+  Integrates a new calendar with the system using OAuth credentials. This
+  endpoint establishes a connection with the calendar provider (Google,
+  Microsoft), sets up webhook notifications for real-time updates, and performs
+  an initial sync of all calendar events. It requires OAuth credentials (client
+  ID, client secret, and refresh token) and the platform type. Once created, the
+  calendar is assigned a unique UUID that should be used for all subsequent
+  operations. Returns the newly created calendar object with all integration
+  details.
 full: true
 _openapi:
   method: POST
@@ -9,7 +17,15 @@ _openapi:
   structuredData:
     headings: []
     contents:
-      - content: Create a calendar
+      - content: >-
+          Integrates a new calendar with the system using OAuth credentials.
+          This endpoint establishes a connection with the calendar provider
+          (Google, Microsoft), sets up webhook notifications for real-time
+          updates, and performs an initial sync of all calendar events. It
+          requires OAuth credentials (client ID, client secret, and refresh
+          token) and the platform type. Once created, the calendar is assigned a
+          unique UUID that should be used for all subsequent operations. Returns
+          the newly created calendar object with all integration details.
 ---
 
 <APIPage document={"./openapi.json"} operations={[{"path":"/calendars/","method":"post"}]} webhooks={[]} hasHead={false} />

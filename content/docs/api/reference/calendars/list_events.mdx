@@ -1,8 +1,13 @@
 ---
 title: List Events
 description: >-
-  Retrieves all calendar events within the configured time range, including
-  their recording status and bot assignments
+  Retrieves a paginated list of calendar events with comprehensive filtering
+  options. Supports filtering by organizer email, attendee email, date ranges
+  (start_date_gte, start_date_lte), and event status. Results can be limited to
+  upcoming events (default), past events, or all events. Each event includes
+  full details such as meeting links, participants, and recording status. The
+  response includes a 'next' pagination cursor for retrieving additional
+  results.
 full: true
 _openapi:
   method: GET
@@ -12,8 +17,13 @@ _openapi:
     headings: []
     contents:
       - content: >-
-          Retrieves all calendar events within the configured time range,
-          including their recording status and bot assignments
+          Retrieves a paginated list of calendar events with comprehensive
+          filtering options. Supports filtering by organizer email, attendee
+          email, date ranges (start_date_gte, start_date_lte), and event status.
+          Results can be limited to upcoming events (default), past events, or
+          all events. Each event includes full details such as meeting links,
+          participants, and recording status. The response includes a 'next'
+          pagination cursor for retrieving additional results.
 ---
 
 <APIPage document={"./openapi.json"} operations={[{"path":"/calendar_events/","method":"get"}]} webhooks={[]} hasHead={false} />

@@ -1,6 +1,11 @@
 ---
-title: List calendars
-description: List calendars
+title: List Calendars
+description: >-
+  Retrieves all calendars that have been integrated with the system for the
+  authenticated user. Returns a list of calendars with their names, email
+  addresses, provider information, and sync status. This endpoint shows only
+  calendars that have been formally connected through the create_calendar
+  endpoint, not all available calendars from the provider.
 full: true
 _openapi:
   method: GET
@@ -9,7 +14,13 @@ _openapi:
   structuredData:
     headings: []
     contents:
-      - content: List calendars
+      - content: >-
+          Retrieves all calendars that have been integrated with the system for
+          the authenticated user. Returns a list of calendars with their names,
+          email addresses, provider information, and sync status. This endpoint
+          shows only calendars that have been formally connected through the
+          create_calendar endpoint, not all available calendars from the
+          provider.
 ---
 
 <APIPage document={"./openapi.json"} operations={[{"path":"/calendars/","method":"get"}]} webhooks={[]} hasHead={false} />

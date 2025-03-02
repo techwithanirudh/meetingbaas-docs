@@ -2,7 +2,11 @@
 title: Unschedule Record Event
 description: >-
   Cancels a previously scheduled recording for a calendar event and releases
-  associated bot resources
+  associated bot resources. For recurring events, the 'all_occurrences'
+  parameter controls whether to unschedule from all instances of the recurring
+  series or just the specific occurrence. This operation is idempotent and will
+  not error if no bot was scheduled. Returns the updated event(s) with the bot
+  parameters removed.
 full: true
 _openapi:
   method: DELETE
@@ -13,7 +17,12 @@ _openapi:
     contents:
       - content: >-
           Cancels a previously scheduled recording for a calendar event and
-          releases associated bot resources
+          releases associated bot resources. For recurring events, the
+          'all_occurrences' parameter controls whether to unschedule from all
+          instances of the recurring series or just the specific occurrence.
+          This operation is idempotent and will not error if no bot was
+          scheduled. Returns the updated event(s) with the bot parameters
+          removed.
 ---
 
 <APIPage document={"./openapi.json"} operations={[{"path":"/calendar_events/{uuid}/bot","method":"delete"}]} webhooks={[]} hasHead={false} />
