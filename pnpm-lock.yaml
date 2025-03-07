@@ -48,8 +48,8 @@ importers:
         specifier: 11.5.6
         version: 11.5.6(acorn@8.14.1)(fumadocs-core@15.0.15(@oramacloud/client@2.1.4)(@types/react@19.0.10)(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
       fumadocs-openapi:
-        specifier: ^6.3.0
-        version: 6.3.0(@oramacloud/client@2.1.4)(@scalar/api-client-react@1.1.25(@hyperjump/browser@1.2.0)(react@19.0.0)(tailwindcss@4.0.12)(typescript@5.8.2))(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(ajv@8.17.1)(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@4.0.12)
+        specifier: 7.0.0-beta.0
+        version: 7.0.0-beta.0(@oramacloud/client@2.1.4)(@scalar/api-client-react@1.1.25(@hyperjump/browser@1.2.0)(react@19.0.0)(tailwindcss@4.0.12)(typescript@5.8.2))(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(ajv@8.17.1)(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@4.0.12)
       fumadocs-twoslash:
         specifier: ^3.1.0
         version: 3.1.0(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(fumadocs-ui@15.0.15(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(fumadocs-core@15.0.15(@oramacloud/client@2.1.4)(@types/react@19.0.10)(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@4.0.12))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(shiki@3.1.0)(typescript@5.8.2)
@@ -1928,8 +1928,8 @@ packages:
       '@fumadocs/mdx-remote':
         optional: true
 
-  fumadocs-openapi@6.3.0:
-    resolution: {integrity: sha512-PEE8txaKkBDjacedRCRD4ekkmfOYx5mWjIc+g+Ys84/zkm5ALaRxAernTMsbAck8GjOOZmA/5MFG/nL/hRvchA==}
+  fumadocs-openapi@7.0.0-beta.0:
+    resolution: {integrity: sha512-zAjTxbNM6er23ihJMwUkOtwAqHThfaXoxXE2pckUq4C1MiboVjlVea/HuF1hkB8Uk63MrVV3E8eKUUrZs4Y+CQ==}
     peerDependencies:
       '@scalar/api-client-react': '*'
       next: 14.x.x || 15.x.x
@@ -5204,7 +5204,7 @@ snapshots:
       - acorn
       - supports-color
 
-  fumadocs-openapi@6.3.0(@oramacloud/client@2.1.4)(@scalar/api-client-react@1.1.25(@hyperjump/browser@1.2.0)(react@19.0.0)(tailwindcss@4.0.12)(typescript@5.8.2))(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(ajv@8.17.1)(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@4.0.12):
+  fumadocs-openapi@7.0.0-beta.0(@oramacloud/client@2.1.4)(@scalar/api-client-react@1.1.25(@hyperjump/browser@1.2.0)(react@19.0.0)(tailwindcss@4.0.12)(typescript@5.8.2))(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(ajv@8.17.1)(next@15.2.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@4.0.12):
     dependencies:
       '@fumari/json-schema-to-typescript': 1.1.2
       '@radix-ui/react-dialog': 1.1.6(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
