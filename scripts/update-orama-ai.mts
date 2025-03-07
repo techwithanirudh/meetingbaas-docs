@@ -5,14 +5,11 @@ import matter from "gray-matter";
 import path from "node:path";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
-import {
-  fileGenerator,
-  remarkDocGen,
-  remarkInstall,
-  typescriptGenerator,
-} from "fumadocs-docgen";
-import remarkStringify from "remark-stringify";
-import remarkMdx from "remark-mdx";
+import { fileGenerator, remarkDocGen, remarkInstall } from 'fumadocs-docgen';
+import remarkStringify from 'remark-stringify';
+import remarkMdx from 'remark-mdx';
+import { remarkAutoTypeTable } from 'fumadocs-typescript';
+import { remarkInclude } from 'fumadocs-mdx/config';
 
 export async function updateOramaAi(): Promise<void> {
   const apiKey = process.env.ORAMA_PRIVATE_API_KEY;
@@ -28,8 +25,7 @@ export async function updateOramaAi(): Promise<void> {
 
   const files = await fg([
     "./content/docs/**/*.mdx",
-    "!*.model.mdx",
-    "!./content/docs/openapi/**/*",
+    '!./content/docs/api/reference/**/*',
   ]);
   const records: unknown[] = [];
 
@@ -45,11 +41,8 @@ export async function updateOramaAi(): Promise<void> {
       "speaking-bots": "Speaking Bots, the Pipecat-powered bots",
     }[dir ?? ""];
 
-    if (data._mdx?.mirror) {
-      return;
-    }
+    const processed = await processContent(file, content);
 
-    const processed = await processContent(content);
     records.push({
       id: file,
       title: data.title as string,
@@ -66,14 +59,20 @@ export async function updateOramaAi(): Promise<void> {
   await indexManager.deploy();
 }
 
-async function processContent(content: string): Promise<string> {
+
+async function processContent(path: string, content: string): Promise<string> {
   const file = await remark()
     .use(remarkMdx)
+    .use(remarkInclude)
     .use(remarkGfm)
-    .use(remarkDocGen, { generators: [typescriptGenerator(), fileGenerator()] })
-    .use(remarkInstall, { persist: { id: "package-manager" } })
+    .use(remarkAutoTypeTable)
+    .use(remarkDocGen, { generators: [fileGenerator()] })
+    .use(remarkInstall, { persist: { id: 'package-manager' } })
     .use(remarkStringify)
-    .process(content);
+    .process({
+      path,
+      value: content,
+    });
 
   return String(file);
 }

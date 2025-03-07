@@ -24,9 +24,9 @@ export async function GET() {
 
     const dir = path.dirname(file).split(path.sep).at(3);
     const category = {
-      api: 'API Documentation',
-      "transcript-seeker": "Transcript Seeker Documentation",
-      "speaking-bots": 'Speaking Bots Documentation'
+      api: "MeetingBaas API, the main purpose of the documentation",
+      "transcript-seeker": "Transcript Seeker, the open-source transcription playground",
+      "speaking-bots": "Speaking Bots, the Pipecat-powered bots",
     }[dir ?? ''];
 
     const processed = await processContent(file, content);
