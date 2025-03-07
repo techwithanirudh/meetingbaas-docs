@@ -15,6 +15,8 @@ export function Providers({ children }: { children: ReactNode }) {
         }}
         theme={{
           enabled: false,
+          enableSystem: false,
+          forcedTheme: 'dark'
         }}
       >
         {children}

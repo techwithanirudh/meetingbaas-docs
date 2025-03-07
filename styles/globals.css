@@ -90,8 +90,3 @@ body {
   --color-fd-accent-foreground: hsl(0 0% 100%) !important;
   --color-fd-ring: hsl(197 100% 44%) !important;
 }
-
-/* Hide theme toggle button */
-[data-theme-toggle] {
-  display: none !important;
-}

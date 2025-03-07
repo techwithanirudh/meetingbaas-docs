@@ -1,28 +1,23 @@
-import type { Engine } from "@/components/fumadocs/ai/search-ai";
-import { InkeepAI } from "@inkeep/ai-api/sdk";
-import type { RecordsCited } from "@inkeep/ai-api/models/components";
+import { InkeepAI } from '@inkeep/ai-api/sdk';
+import type { Engine, MessageRecord } from '@/components/fumadocs/ai/context';
 
 const integrationId = process.env.NEXT_PUBLIC_INKEEP_INTEGRATION_ID;
 const apiKey = process.env.NEXT_PUBLIC_INKEEP_API_KEY;
 
-if (!integrationId || !apiKey) throw new Error("Missing required api keys");
+if (!integrationId || !apiKey) throw new Error('Missing required api keys');
 
 export async function createInkeepEngine(): Promise<Engine> {
   const ai = new InkeepAI({
     apiKey,
   });
 
-  let messages: {
-    role: "user" | "assistant";
-    content: string;
-    recordsCited?: RecordsCited;
-  }[] = [];
+  let messages: MessageRecord[] = [];
   let sessionId: string | undefined;
   let aborted = true;
 
   async function generateNew(
     onUpdate?: (full: string) => void,
-    onEnd?: (full: string) => void
+    onEnd?: (full: string) => void,
   ) {
     let result;
     if (sessionId) {
@@ -37,7 +32,7 @@ export async function createInkeepEngine(): Promise<Engine> {
         stream: true,
         chatSession: {
           guidance:
-            "make sure to format code blocks, and add language/title to it",
+            'Make sure to format code blocks, and add language/title to it',
           messages,
         },
       });
@@ -47,7 +42,7 @@ export async function createInkeepEngine(): Promise<Engine> {
       const content =
         "Sorry, I don't have enough details to answer your question.";
       messages.push({
-        role: "assistant",
+        role: 'assistant',
         content,
       });
 
@@ -56,8 +51,8 @@ export async function createInkeepEngine(): Promise<Engine> {
     }
 
     const message: (typeof messages)[number] = {
-      role: "assistant",
-      content: "",
+      role: 'assistant',
+      content: '',
     };
 
     aborted = false;
@@ -65,11 +60,16 @@ export async function createInkeepEngine(): Promise<Engine> {
 
     for await (const event of result.chatResultStream) {
       if (aborted) break;
-      if (event.event === "records_cited") {
-        message.recordsCited = event.data;
+      if (event.event === 'records_cited') {
+        message.references = event.data.citations.map((cite) => ({
+          breadcrumbs: cite.record.breadcrumbs ?? [],
+          title: cite.record.title ?? 'Reference',
+          content: cite.record.description,
+          url: cite.hitUrl ?? '#',
+        }));
       }
 
-      if (event.event === "message_chunk") {
+      if (event.event === 'message_chunk') {
         message.content += event.data.contentChunk;
 
         sessionId = event.data.chatSessionId ?? sessionId;
@@ -83,7 +83,7 @@ export async function createInkeepEngine(): Promise<Engine> {
   return {
     async prompt(text, onUpdate, onEnd) {
       messages.push({
-        role: "user",
+        role: 'user',
         content: text,
       });
 
@@ -91,7 +91,7 @@ export async function createInkeepEngine(): Promise<Engine> {
     },
     async regenerateLast(onUpdate, onEnd) {
       const last = messages.at(-1);
-      if (!last || last.role === "user") {
+      if (!last || last.role === 'user') {
         return;
       }
 
@@ -99,17 +99,7 @@ export async function createInkeepEngine(): Promise<Engine> {
       await generateNew(onUpdate, onEnd);
     },
     getHistory() {
-      return messages.map((v) => ({
-        role: v.role,
-        content: v.content,
-        references:
-          v.recordsCited?.citations.map((cite) => ({
-            breadcrumbs: cite.record.breadcrumbs ?? [],
-            title: cite.record.title ?? "Reference",
-            content: cite.record.description,
-            url: cite.hitUrl ?? "#",
-          })) ?? [],
-      }));
+      return messages;
     },
     clearHistory() {
       sessionId = undefined;

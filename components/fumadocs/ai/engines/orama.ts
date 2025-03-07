@@ -2,7 +2,7 @@ import type {
   Engine,
   MessageRecord,
   MessageReference,
-} from "@/components/fumadocs/ai/search-ai";
+} from "@/components/fumadocs/ai/context";
 import { OramaClient } from "@oramacloud/client";
 
 const context =

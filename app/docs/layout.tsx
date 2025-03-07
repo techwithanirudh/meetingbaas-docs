@@ -5,7 +5,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { baseOptions, linkItems } from "@/app/layout.config";
 import "fumadocs-twoslash/twoslash.css";
 import { source } from "@/lib/source";
-import { Trigger } from "@/components/fumadocs/ai/search-ai";
+import { AISearchTrigger } from "@/components/fumadocs/ai";
 import { cn } from "@/lib/cn";
 import { buttonVariants } from "@/components/ui/button";
 
@@ -138,7 +138,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         </svg>
       </span>
       {children}
-      <Trigger
+      <AISearchTrigger
         className={cn(
           buttonVariants({
             variant: "secondary",
@@ -148,7 +148,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       >
         <MessageCircle className="size-4" />
         Ask AI
-      </Trigger>
+      </AISearchTrigger>
     </DocsLayout>
   );
 }
