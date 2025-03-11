@@ -46,8 +46,22 @@ Here's what each field means:
   - `in_waiting_room`: The bot is in the "waiting room" of the meeting.
   - `in_call_not_recording`: The bot has joined the meeting, however it is not recording yet.
   - `in_call_recording`: The bot is in the meeting and recording the audio and video.
+  - `recording_paused`: The recording has been temporarily paused.
+  - `recording_resumed`: The recording has resumed after being paused.
   - `call_ended`: The bot has left the call.
+  - `bot_rejected`: The bot was rejected from joining the meeting.
+  - `bot_removed`: The bot was removed from the meeting.
+  - `waiting_room_timeout`: The bot timed out while waiting to be admitted.
+  - `invalid_meeting_url`: The provided meeting URL was invalid.
+  - `meeting_error`: An unexpected error occurred during the meeting.
 - `data.status.created_at`: An ISO string of the datetime of the event.
+
+When receiving an `in_call_recording` event, additional data is provided:
+- `data.status.start_time`: The timestamp when the recording started.
+
+For `meeting_error` events, additional error details are provided:
+- `data.status.error_message`: A description of the error that occurred.
+- `data.status.error_type`: The type of error encountered.
 
 </Step>
 
@@ -145,8 +159,19 @@ The failure types can be:
 | CannotJoinMeeting     | The bot could not join the meeting URL provided. In most cases, this is because the meeting URL was only accessible for logged-in users invited to the meeting.                                                |
 | TimeoutWaitingToStart | The bot has quit after waiting to be accepted. By default this is 10 minutes, configurable via `automatic_leave.waiting_room_timeout` or `automatic_leave.noone_joined_timeout` (both default to 600 seconds). |
 | BotNotAccepted        | The bot has been refused in the meeting.                                                                                                                                                                       |
+| BotRemoved            | The bot was removed from the meeting by a participant.                                                                                                                                                         |
 | InternalError         | An unexpected error occurred. Please contact us if the issue persists.                                                                                                                                         |
 | InvalidMeetingUrl     | The meeting URL provided is not a valid (Zoom, Meet, Teams) URL. Please note Microsoft Live Meeting URLs (such as `https://teams.live.com/meet/...`) are not supported.                                        |
+
+The recording can end for various reasons, indicated in the `reason` field:
+
+| Reason              | Description                                                         |
+| ------------------- | ------------------------------------------------------------------- |
+| bot_removed         | The bot was removed from the meeting                                |
+| no_attendees        | No attendees were present in the meeting                           |
+| no_speaker          | No one was speaking for an extended period                         |
+| recording_timeout   | The maximum recording duration was reached                          |
+| api_request         | The recording was stopped via an API request                       |
 
 </Step>
 </Steps>
