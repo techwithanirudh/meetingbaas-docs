@@ -145,9 +145,9 @@ x-meeting-baas-api-key: YOUR-API-KEY
 ### Recording End Reasons
 | Reason | Description |
 |--------|-------------|
-| manual_stop | Stopped manually |
 | bot_removed | Bot [removed via API](/docs/api/getting-started/removing-a-bot) or by participant |
-| no_attendees | No attendees were present in the meeting |
-| no_speaker | No one was speaking for an extended period |
-| recording_timeout | The maximum recording duration was reached |
-| api_request | The recording was stopped via an API request |
+| no_attendees | No participants present |
+| no_speaker | Extended silence |
+| recording_timeout | Maximum duration reached |
+| api_request | Stopped via API |
+| meeting_error | An error occurred during the meeting (e.g., connection issues) |
