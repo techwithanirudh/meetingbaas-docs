@@ -6,12 +6,16 @@ icon: Bot
 
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
-You can summon a bot:
+# Sending a Bot to a Meeting
 
-1. Immediately to a meeting, provided your bot pool is sufficient.
-2. Or reserve one to come in 4 minutes.
+You can summon a bot in two ways:
 
-Here's an example POST request to [https://api.meetingbaas.com/bots](https://api.meetingbaas.com/bots), sending a bot to a meeting:
+1. **Immediately to a meeting**, provided your bot pool is sufficient.
+2. **Reserved join in 4 minutes**, ideal for scheduled meetings.
+
+## API Request
+
+Send a POST request to [https://api.meetingbaas.com/bots](https://api.meetingbaas.com/bots):
 
 <Tabs items={['Bash', 'Python', 'JavaScript']}>
   <Tab value="Bash">
@@ -91,30 +95,44 @@ Here's an example POST request to [https://api.meetingbaas.com/bots](https://api
   </Tab>
 </Tabs>
 
-Let's break this down:
+## Request Parameters
 
-- `meeting_url`: The meeting URL to join. Accepts Google Meet, Microsoft Teams or Zoom URLs. (Required)
-- `bot_name`: The display name of the bot. (Required)
-- `reserved`: (Required)
+### Required Parameters
+
+- `meeting_url`: The meeting URL to join. Accepts Google Meet, Microsoft Teams or Zoom URLs.
+- `bot_name`: The display name of the bot.
+- `reserved`: Controls how the bot joins the meeting
   - `false`: Sends a bot from our pool of _always ready_ meeting bots, immediately. Beware that **demand might temporarily be higher than the number of currently available bots**, which could imply a delay in the bot joining. When possible, prefer the true option which reserves an instance of an AI meeting bot.
   - `true`: Reserves in advance a meeting bot for an upcoming meeting, ensuring the presence of the bot at the start of the meeting, typically for planned calendar events. You need to **call this route exactly 4 minutes before the start of the meeting**.
-- `bot_image`: The URL of the image the bot will display. Must be a valid URI format. Optional.
+
+### Recording Options
+
 - `recording_mode`: Optional. One of:
   - `"speaker_view"`: (default) The recording will only show the person speaking at any time
   - `"gallery_view"`: The recording will show all the speakers
   - `"audio_only"`: The recording will be a mp3
+
+### Bot Appearance and Behavior
+
+- `bot_image`: The URL of the image the bot will display. Must be a valid URI format. Optional.
 - `entry_message`: Optional. The message the bot will write within 15 seconds after being accepted in the meeting.
+
+### Transcription Settings
+
 - `speech_to_text`: Optional. If not provided, no transcription will be generated and processing time will be faster.
   - Must be an object with:
     - `provider`: One of:
       - `"Default"`: Standard transcription, no API key needed
       - `"Gladia"` or `"Runpod"`: Requires their respective API key to be provided
     - `api_key`: Required when using Gladia or Runpod providers. Must be a valid API key from the respective service.
+
+### Automatic Leaving
+
 - `automatic_leave`: Optional object containing:
   - `waiting_room_timeout`: Time in seconds the bot will wait in a meeting room before dropping. Default is 600 (10 minutes)
   - `noone_joined_timeout`: Time in seconds the bot will wait if no one joins the meeting
 
-Additional optional parameters:
+### Advanced Options
 
 - `webhook_url`: URL for webhook notifications
 - `deduplication_key`: String for deduplication. By default, Meeting Baas will reject you sending multiple bots to a same meeting within 5 minutes, to avoid spamming.
@@ -125,7 +143,9 @@ Additional optional parameters:
 - `extra`: Additional custom data
 - `start_time`: UTC timestamp (uint64) for scheduled start time
 
-This request will respond with the identifier of the bot you just created:
+## Response
+
+The API will respond with the unique identifier for your bot:
 
 ```http
 HTTP/2 200
@@ -135,3 +155,9 @@ Content-Type: application/json
   "bot_id": 42
 }
 ```
+
+## Next Steps
+
+Use this `bot_id` to:
+- [Monitor the bot's status and receive meeting data](/docs/api/getting-started/getting-the-data)
+- [Remove the bot from the meeting](/docs/api/getting-started/removing-a-bot)
