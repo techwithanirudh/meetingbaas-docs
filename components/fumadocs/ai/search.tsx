@@ -325,7 +325,7 @@ export default function AISearch(props: DialogProps) {
   return (
     <Dialog {...props}>
       {props.children}
-      <AIProvider type="orama" loadEngine={props.open}>
+      <AIProvider type="ai-sdk" loadEngine={props.open}>
         <DialogPortal>
           <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm data-[state=closed]:animate-fd-fade-out data-[state=open]:animate-fd-fade-in" />
           <DialogContent
