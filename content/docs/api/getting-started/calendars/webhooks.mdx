@@ -1,14 +1,12 @@
 ---
-title: Calendar Webhooks & Maintenance
-description: Learn how to set up real-time calendar updates and handle errors in your Meeting BaaS integration
+title: Webhooks & Maintenance
+description: Receive real-time updates, handle errors, and maintain your calendar integrations
 icon: Bell
 ---
 
 import { Callout } from "@/components/fumadocs/callout";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { AlertTriangle, Info } from "lucide-react";
-
-This guide covers how to receive real-time updates about calendar changes, handle errors, and maintain your calendar integrations with Meeting BaaS.
 
 ## Webhook Integration
 
@@ -17,7 +15,7 @@ This guide covers how to receive real-time updates about calendar changes, handl
 <Step>
 ### Understanding Calendar Webhooks
 
-In addition to live meeting events via the <a href="/docs/api/getting-started/getting-the-data" target="_blank">Live Meeting Updates</a>, your webhook endpoint will receive calendar sync events with the type `calendar.sync_events`. These events notify you about:
+In addition to live meeting events via the <a href="/docs/api/getting-started/getting-the-data" target="_blank">Live Meeting Updates</a>, your Meeting BaaS webhook endpoint defined in your account will receive calendar sync events with the type `calendar.sync_events`. These events notify you about:
 
 - New meeting schedules
 - Meeting changes or cancellations

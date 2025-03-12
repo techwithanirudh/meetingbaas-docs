@@ -1,6 +1,5 @@
 ---
-title: Calendar Sync Setup
-description: Learn how to set up calendar synchronization with the Meeting BaaS API
+title: Setup
 icon: Calendar
 ---
 
@@ -8,14 +7,14 @@ import { Callout } from "@/components/fumadocs/callout";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { AlertTriangle, Info } from "lucide-react";
 
-Meeting BaaS allows you to automatically sync calendars from Outlook and Google Workspace to deploy bots to scheduled meetings. This guide will walk you through setting up calendar integration.
+Meeting BaaS allows you to automatically sync calendars from Outlook and Google Workspace to deploy bots to scheduled meetings.
 
 ## Prerequisites
 
 Before starting the calendar sync integration, ensure you have:
 
 - An active Meeting BaaS account with API access
-- A webhook endpoint configured to receive calendar event notifications
+- A webhook endpoint configured in your Meeting BaaS account to receive calendar event notifications
 - Developer access to Google Cloud Console and/or Microsoft Entra ID
 
 <Steps>
@@ -147,33 +146,15 @@ If the `raw_calendar_id` parameter is not provided, Meeting BaaS will sync the u
 <Step>
 ### Managing Calendars
 
-Once authenticated, you can manage your calendars:
-
-- List Calendars: <a href="/docs/api/reference/calendars/list_calendars" target="_blank">List Calendars</a> - View all your synced calendars
-- Get Calendar Details: <a href="/docs/api/reference/calendars/get_calendar" target="_blank">Get Calendar Details</a> - Check sync status
-
-#### List Calendars Example
-
-```bash
-curl -X GET "https://api.meetingbaas.com/calendars" \
-  -H "Authorization: Bearer YOUR_API_KEY"
-```
-
-#### Get Calendar Details Example
-
-```bash
-curl -X GET "https://api.meetingbaas.com/calendars/cal_12345abcde" \
-  -H "Authorization: Bearer YOUR_API_KEY"
-```
+Once authenticated, you can manage your calendars as described in the [Managing Calendar Events](/docs/api/getting-started/calendars/events) guide.
 
 <Callout type="info">
   After initial setup, Meeting BaaS handles all calendar API interactions. You
-  only need to respond to webhook events for calendar changes.
+  only need to respond to webhook events for calendar changes, which are covered
+  in the [webhooks guide](/docs/api/getting-started/calendars/webhooks).
 </Callout>
 
-#### Sync Status Values
-
-The calendar integration can have the following status values:
+Calendar integrations can have the following status values:
 
 - `syncing` - Initial sync in progress
 - `active` - Calendar is actively syncing
