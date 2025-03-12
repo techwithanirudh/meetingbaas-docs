@@ -1,0 +1,15 @@
+{
+  "projectId": "prj_RCySOIHk5cR3eJfd5DUdp",
+  "locale": {
+    "source": "en",
+    "targets": ["fr", "pl", "es", "br", "hi"]
+  },
+  "files": {
+    "json": {
+      "include": ["content/ui.[locale].json"]
+    },
+    "md": {
+      "include": ["content/docs/[locale]/**/*.mdx"]
+    }
+  }
+}
