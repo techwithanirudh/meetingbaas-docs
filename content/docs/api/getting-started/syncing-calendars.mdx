@@ -8,7 +8,15 @@ import { Callout } from "@/components/fumadocs/callout";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { AlertTriangle, Info } from "lucide-react";
 
-Meeting Baas allows you to automatically sync calendars from Outlook and Google Workspace to automatically deploy bots to scheduled meetings. Here's how to set it up:
+Meeting BaaS allows you to automatically sync calendars from Outlook and Google Workspace to deploy bots to scheduled meetings. This guide will walk you through the complete implementation process.
+
+## Prerequisites
+
+Before starting the calendar sync integration, ensure you have:
+
+- An active Meeting BaaS account with API access
+- A webhook endpoint configured to receive calendar event notifications
+- Developer access to Google Cloud Console and/or Microsoft Entra ID
 
 <Steps>
 
@@ -33,6 +41,18 @@ To start syncing calendars, you'll need two sets of credentials:
   to a specific feature they want to use.
 </Callout>
 
+#### Required OAuth Scopes
+
+For **Google Workspace**:
+
+- `https://www.googleapis.com/auth/calendar.readonly` - To read calendar and event data
+- `https://www.googleapis.com/auth/calendar.events.readonly` - To access event details
+
+For **Microsoft Outlook**:
+
+- `Calendars.Read` - To read calendar and event data
+- `Calendars.ReadWrite` - Required if you need to modify calendar events
+
 </Step>
 
 <Step>
@@ -41,6 +61,46 @@ To start syncing calendars, you'll need two sets of credentials:
 
 Before syncing calendars, you can use the <a href="/docs/api/reference/calendars/list_raw_calendars" target="_blank">List Raw Calendars</a> endpoint to view all your user's available calendars. This is particularly useful when a user has multiple calendars and you need to choose which ones to sync.
 
+#### Request Example
+
+```bash
+curl -X GET "https://api.meetingbaas.com/v1/calendars/raw" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "provider": "google",
+    "refresh_token": "USER_REFRESH_TOKEN",
+    "client_id": "YOUR_GOOGLE_CLIENT_ID",
+    "client_secret": "YOUR_GOOGLE_CLIENT_SECRET"
+  }'
+```
+
+#### Response Example
+
+```json
+{
+  "calendars": [
+    {
+      "id": "primary",
+      "name": "Main Calendar",
+      "description": "User's primary calendar",
+      "is_primary": true
+    },
+    {
+      "id": "team_calendar@group.calendar.google.com",
+      "name": "Team Calendar",
+      "description": "Shared team meetings",
+      "is_primary": false
+    }
+  ]
+}
+```
+
+<Callout type="info">
+  Calendar IDs differ between providers. Google uses email-like IDs, while
+  Microsoft uses GUID formats.
+</Callout>
+
 </Step>
 
 <Step>
@@ -48,7 +108,39 @@ Before syncing calendars, you can use the <a href="/docs/api/reference/calendars
 
 Create a new calendar integration by calling the <a href="/docs/api/reference/calendars/create_calendar" target="_blank">Create Calendar</a> endpoint with the previously obtained credentials.
 
-And an optional `raw_calendar_ID` to choose which calendar to sync. If this parameter is not provided, Meeting Baas will sync the user's primary calendar.
+#### Request Example
+
+```bash
+curl -X POST "https://api.meetingbaas.com/v1/calendars" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "provider": "google",
+    "refresh_token": "USER_REFRESH_TOKEN",
+    "client_id": "YOUR_GOOGLE_CLIENT_ID",
+    "client_secret": "YOUR_GOOGLE_CLIENT_SECRET",
+    "raw_calendar_id": "team_calendar@group.calendar.google.com"  // Optional
+  }'
+```
+
+If the `raw_calendar_id` parameter is not provided, Meeting BaaS will sync the user's primary calendar by default.
+
+#### Response Example
+
+```json
+{
+  "id": "cal_12345abcde",
+  "provider": "google",
+  "status": "syncing",
+  "created_at": "2023-08-15T14:30:00Z",
+  "raw_calendar_id": "team_calendar@group.calendar.google.com",
+  "calendar_name": "Team Calendar"
+}
+```
+
+<Callout type="warn">
+  Store the returned calendar ID safely - you'll need it for future operations.
+</Callout>
 
 </Step>
 
@@ -60,9 +152,34 @@ Once authenticated, you can manage your calendars:
 - List Calendars: <a href="/docs/api/reference/calendars/list_calendars" target="_blank">List Calendars</a> - View all your synced calendars
 - Get Calendar Details: <a href="/docs/api/reference/calendars/get_calendar" target="_blank">Get Calendar Details</a> - Check sync status
 
+#### List Calendars Example
+
+```bash
+curl -X GET "https://api.meetingbaas.com/v1/calendars" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+#### Get Calendar Details Example
+
+```bash
+curl -X GET "https://api.meetingbaas.com/v1/calendars/cal_12345abcde" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
 <Callout type="info">
-After initial setup, Meeting BaaS handles all calendar API interactions. You only need to respond to webhook events for calendar changes.
+  After initial setup, Meeting BaaS handles all calendar API interactions. You
+  only need to respond to webhook events for calendar changes.
 </Callout>
+
+#### Sync Status Values
+
+The calendar integration can have the following status values:
+
+- `syncing` - Initial sync in progress
+- `active` - Calendar is actively syncing
+- `error` - Sync encountered an error (check the `error_message` field)
+- `disconnected` - The calendar connection has been terminated
+
 </Step>
 
 <Step>
@@ -73,7 +190,32 @@ Monitor and manage calendar events:
 - List Events: <a href="/docs/api/reference/calendars/list_events" target="_blank">List Events</a> - See all upcoming meetings
 - Get Event Details: <a href="/docs/api/reference/calendars/get_event" target="_blank">Get Event Details</a> - View meeting info and bot status
 
-Meeting Baas automatically detects meeting links and can deploy bots based on your configuration.
+#### List Events Example
+
+```bash
+curl -X GET "https://api.meetingbaas.com/v1/calendars/cal_12345abcde/events" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "start_time": "2023-09-01T00:00:00Z",
+    "end_time": "2023-09-08T23:59:59Z",
+    "updated_at_gte": "2023-08-29T18:30:00Z"  // Optional, for webhook integration
+  }'
+```
+
+#### Get Event Details Example
+
+```bash
+curl -X GET "https://api.meetingbaas.com/v1/calendars/cal_12345abcde/events/evt_67890fghij" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+Meeting BaaS automatically detects meeting links and can deploy bots based on your configuration.
+
+<Callout type="info">
+  Meeting links are detected from the event location, description, or custom
+  properties depending on the calendar provider.
+</Callout>
 
 #### Recording Management
 
@@ -81,6 +223,21 @@ You can schedule or cancel recording events for specific calendar events:
 
 - Schedule Recording: <a href="/docs/api/reference/calendars/schedule_record_event" target="_blank">Schedule Record Event</a> - Configure a bot to record a specific event
 - Cancel Recording: <a href="/docs/api/reference/calendars/unschedule_record_event" target="_blank">Unschedule Record Event</a> - Cancel a scheduled recording
+
+#### Schedule Recording Example
+
+```bash
+curl -X POST "https://api.meetingbaas.com/v1/calendars/cal_12345abcde/events/evt_67890fghij/record" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "recording_mode": "speaker_view",
+    "include_transcription": true,
+    "bot_name": "Recording Bot",
+    "bot_avatar_url": "https://example.com/avatar.png",
+    "entry_message": "This meeting is being recorded for note-taking purposes."
+  }'
+```
 
 <Callout type="warn">
   When scheduling a recording, the bot will automatically join the meeting at
@@ -113,30 +270,109 @@ In addition to live meeting events via the <a href="/docs/api/getting-started/ge
 - Meeting changes or cancellations
 - Calendar sync status updates
 
-Each webhook notification includes:
+#### Example Webhook Payload
 
-- An event type of `calendar.sync_events`
-- A `last_updated_at` timestamp for tracking changes
+```json
+{
+  "event_type": "calendar.sync_events",
+  "calendar_id": "cal_12345abcde",
+  "last_updated_at": "2023-09-01T15:30:45Z",
+  "event_count": 3,
+  "sync_status": "completed"
+}
+```
+
+#### Processing Calendar Updates
 
 1. Extract the `last_updated_at` timestamp from the webhook payload
 2. Call the <a href="/docs/api/reference/calendars/list_events" target="_blank">List Events</a> endpoint with the `updated_at_gte` parameter equal to the `last_updated_at` timestamp
-3. From there, you can apply your business logic to choose whether or not to record the event, using previously mentionned <a href="/docs/api/reference/calendars/schedule_record_event" target="_blank">Schedule Record Event</a> / <a href="/docs/api/reference/calendars/unschedule_record_event" target="_blank">Unschedule Record Event</a> endpoints.
+3. From there, you can apply your business logic to choose whether or not to record the event, using previously mentioned <a href="/docs/api/reference/calendars/schedule_record_event" target="_blank">Schedule Record Event</a> / <a href="/docs/api/reference/calendars/unschedule_record_event" target="_blank">Unschedule Record Event</a> endpoints.
+
+#### Example Webhook Handler
+
+```javascript
+app.post("/webhooks/meeting-baas", async (req, res) => {
+  const event = req.body;
+
+  // Acknowledge receipt immediately
+  res.status(200).send("Webhook received");
+
+  // Process the event asynchronously
+  if (event.event_type === "calendar.sync_events") {
+    try {
+      // Fetch updated events
+      const updatedEvents = await fetchUpdatedEvents(
+        event.calendar_id,
+        event.last_updated_at
+      );
+
+      // Process each event based on your business logic
+      for (const evt of updatedEvents) {
+        if (shouldRecordMeeting(evt)) {
+          await scheduleRecording(event.calendar_id, evt.id);
+        } else if (wasRecordingScheduled(evt) && shouldCancelRecording(evt)) {
+          await cancelRecording(event.calendar_id, evt.id);
+        }
+      }
+    } catch (error) {
+      // Log error and implement retry mechanism
+      console.error("Failed to process calendar sync event", error);
+      // Add to retry queue
+    }
+  }
+});
+```
 
 <Callout type="warn">
-  This allows you to:
+  This allows you to: - Track all calendar changes in real-time - Decide whether
+  to record new or modified meetings - Keep your system synchronized with the
+  latest meeting data
+</Callout>
 
-- Track all calendar changes in real-time
-
-- Decide whether to record new or modified meetings
-
-- Keep your system synchronized with the latest meeting data
-
+<Callout type="info">
+  Implement idempotent webhook processing - you may receive the same webhook
+  multiple times in rare circumstances.
 </Callout>
 
 <Callout type="warn">
   Configure your webhook endpoint to process these real-time updates and implement
-  appropriate retry logic for reliability.
+  appropriate retry logic for reliability. We recommend using an exponential backoff strategy.
 </Callout>
+</Step>
+
+<Step>
+### Error Handling and Troubleshooting
+
+Common issues and their solutions:
+
+#### OAuth Token Expiration
+
+OAuth refresh tokens can expire or be revoked. If this happens, you'll receive a webhook with:
+
+```json
+{
+  "event_type": "calendar.auth_error",
+  "calendar_id": "cal_12345abcde",
+  "error": "refresh_token_expired",
+  "timestamp": "2023-09-01T15:30:45Z"
+}
+```
+
+When this occurs, you need to prompt the user to reauthorize calendar access.
+
+#### Rate Limiting
+
+Calendar APIs enforce rate limits. Meeting BaaS handles these gracefully, but if you encounter persistent sync issues, check:
+
+1. The frequency of your calendar operations
+2. The number of events being synced
+3. Other applications using the same OAuth credentials
+
+<Callout type="info">
+  For Google Workspace, you're limited to 1 million queries per day per project.
+  For Microsoft, limits vary by subscription type.
+</Callout>
+
 </Step>
 
 <Step>
@@ -144,5 +380,29 @@ Each webhook notification includes:
 
 To remove a calendar integration, use the <a href="/docs/api/reference/calendars/delete_calendar" target="_blank">Delete Calendar</a> endpoint.
 
+```bash
+curl -X DELETE "https://api.meetingbaas.com/v1/calendars/cal_12345abcde" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+This will:
+
+1. Stop syncing the calendar
+2. Cancel any scheduled recordings for events from this calendar
+3. Remove the calendar integration from your account
+
+<Callout type="info">
+  This operation does not revoke OAuth access. To completely remove access,
+  users should also revoke access via Google or Microsoft security settings.
+</Callout>
+
 </Step>
 </Steps>
+
+## Next Steps
+
+Now that you've set up calendar syncing, you might want to:
+
+- Learn about [custom meeting bot configurations](/docs/api/getting-started/sending-a-bot)
+- Explore our [Live Meeting Updates](/docs/api/getting-started/getting-the-data) for real-time meeting data
+- Check out our [Community & Support](/docs/api/getting-started/community-support) resources
