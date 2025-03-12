@@ -57,12 +57,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
 
       conversation.pop();
       
-      const content = await fetchStream(conversation, onUpdate, onEnd);
-      
-      conversation.push({
-        role: 'assistant',
-        content,
-      });
+      await fetchStream(conversation, onUpdate, onEnd);
     },
     getHistory() {
       return conversation;
