@@ -146,10 +146,15 @@ app.post("/webhooks/meeting-baas", async (req, res) => {
 });
 ```
 
-<Callout type="warn">
-  This allows you to: - Track all calendar changes in real-time - Decide whether
-  to record new or modified meetings - Keep your system synchronized with the
-  latest meeting data
+<Callout type="info">
+  This allows you to:
+
+- Track all calendar changes in real-time
+
+- Decide whether to record new or modified meetings
+
+- Keep your system synchronized with the latest meeting data
+
 </Callout>
 
 <Callout type="warn">
@@ -251,47 +256,27 @@ app.post("/webhooks/meeting-baas", async (req, res) => {
 
 #### OAuth Token Expiration
 
-OAuth refresh tokens can expire or be revoked. If this happens, you'll receive a webhook with:
+Both your app's credentials (service level) and user's credentials (user level) can expire or be revoked. If this happens:
 
-```json
-{
-  "event": "calendar.auth_error",
-  "data": {
-    "calendar_id": "cal_12345abcde",
-    "error": "refresh_token_expired",
-    "timestamp": "2023-09-01T15:30:45Z"
-  }
-}
-```
+1. Calendar sync operations will start failing
+2. You can detect this by periodically checking the calendar status using the [Get Calendar](/docs/api/reference/calendars/get_calendar) endpoint
+3. The [Resync All Calendars](/docs/api/reference/calendars/resync_all_calendars) endpoint will return detailed error information for calendars with authentication issues
+4. You should implement a monitoring strategy using this routeto detect these failures and prompt users to reconnect their calendars
 
-When this occurs, you need to prompt the user to reauthorize calendar access by:
+When this occurs, you need to, depending on whether it is your app's credentials or the user's credentials that are expired, you have 2 choices:
 
-1. Detecting this special webhook type
-2. Updating your database to mark the calendar integration as requiring reauthorization
-3. Prompting the user to reconnect their calendar when they next access your application
-
-```javascript
-app.post("/webhooks/meeting-baas", async (req, res) => {
-  const event = req.body;
-
-  // Always acknowledge receipt immediately
-  res.status(200).send("Webhook received");
-
-  if (event.event === "calendar.auth_error") {
-    // Update your database
-    await markCalendarAsRequiringReauth(event.data.calendar_id);
-
-    // Optionally, notify the user via email or other channels
-    await notifyUserOfCalendarDisconnection(event.data.calendar_id);
-  }
-
-  // Process other event types...
-});
-```
+1. Prompt the user to reauthorize calendar access by:
+   - Detecting this special webhook type
+   - Updating your database to mark the calendar integration as requiring reauthorization
+   - Prompting the user to reconnect their calendar when they next access your application
+2. Reauthorize your app's credentials by:
+   - Requiring new app credentials as shown in the [Setup](/docs/api/getting-started/calendars/setup) guide and storing them in your database
+   - Patching the calendar integration with the new credentials using the [Update Calendar](/docs/api/reference/calendars/update_calendar) endpoint to update your app credentials while keeping the same user credentials
 
 </Step>
 
 <Step>
+
 ### Rate Limiting Considerations
 
 Calendar APIs enforce rate limits. Meeting BaaS handles these gracefully, but if you encounter persistent sync issues, check:
