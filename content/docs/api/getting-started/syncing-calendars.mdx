@@ -64,7 +64,7 @@ Before syncing calendars, you can use the <a href="/docs/api/reference/calendars
 #### Request Example
 
 ```bash
-curl -X GET "https://api.meetingbaas.com/v1/calendars/raw" \
+curl -X GET "https://api.meetingbaas.com/calendars/raw" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -111,7 +111,7 @@ Create a new calendar integration by calling the <a href="/docs/api/reference/ca
 #### Request Example
 
 ```bash
-curl -X POST "https://api.meetingbaas.com/v1/calendars" \
+curl -X POST "https://api.meetingbaas.com/calendars" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -155,14 +155,14 @@ Once authenticated, you can manage your calendars:
 #### List Calendars Example
 
 ```bash
-curl -X GET "https://api.meetingbaas.com/v1/calendars" \
+curl -X GET "https://api.meetingbaas.com/calendars" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 #### Get Calendar Details Example
 
 ```bash
-curl -X GET "https://api.meetingbaas.com/v1/calendars/cal_12345abcde" \
+curl -X GET "https://api.meetingbaas.com/calendars/cal_12345abcde" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -193,20 +193,34 @@ Monitor and manage calendar events:
 #### List Events Example
 
 ```bash
-curl -X GET "https://api.meetingbaas.com/v1/calendars/cal_12345abcde/events" \
+curl -X GET "https://api.meetingbaas.com/calendars/cal_12345abcde/events" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "start_time": "2023-09-01T00:00:00Z",
-    "end_time": "2023-09-08T23:59:59Z",
+    "start_date_gte": "2023-09-01T00:00:00Z",
+    "start_date_lte": "2023-09-08T23:59:59Z",
     "updated_at_gte": "2023-08-29T18:30:00Z"  // Optional, for webhook integration
   }'
 ```
 
+<Callout type="info">
+  The List Events endpoint supports various filtering options:
+  - `calendar_id` (required) - Which calendar's events to retrieve
+  - `start_date_gte` - Filter events starting on or after this timestamp
+  - `start_date_lte` - Filter events starting on or before this timestamp
+  - `updated_at_gte` - Filter events updated on or after this timestamp
+  - `status` - Filter by meeting status ("upcoming", "past", "all") - default is "upcoming"
+  - `attendee_email` - Filter events with a specific attendee
+  - `organizer_email` - Filter events with a specific organizer
+  - `cursor` - For pagination through large result sets
+  
+  See the <a href="/docs/api-reference/calendars/list_events" target="_blank">List Events API Reference</a> for full details.
+</Callout>
+
 #### Get Event Details Example
 
 ```bash
-curl -X GET "https://api.meetingbaas.com/v1/calendars/cal_12345abcde/events/evt_67890fghij" \
+curl -X GET "https://api.meetingbaas.com/calendars/cal_12345abcde/events/evt_67890fghij" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
@@ -227,7 +241,7 @@ You can schedule or cancel recording events for specific calendar events:
 #### Schedule Recording Example
 
 ```bash
-curl -X POST "https://api.meetingbaas.com/v1/calendars/cal_12345abcde/events/evt_67890fghij/record" \
+curl -X POST "https://api.meetingbaas.com/calendars/cal_12345abcde/events/evt_67890fghij/record" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -274,44 +288,77 @@ In addition to live meeting events via the <a href="/docs/api/getting-started/ge
 
 ```json
 {
-  "event_type": "calendar.sync_events",
-  "calendar_id": "cal_12345abcde",
-  "last_updated_at": "2023-09-01T15:30:45Z",
-  "event_count": 3,
-  "sync_status": "completed"
+  "event": "calendar.sync_events",
+  "data": {
+    "calendar_id": "cal_12345abcde",
+    "last_updated_ts": "2023-09-01T15:30:45Z",
+    "affected_event_uuids": ["evt_67890fghij", "evt_12345abcde", "evt_98765zyxwv"]
+  }
 }
 ```
 
 #### Processing Calendar Updates
 
-1. Extract the `last_updated_at` timestamp from the webhook payload
-2. Call the <a href="/docs/api/reference/calendars/list_events" target="_blank">List Events</a> endpoint with the `updated_at_gte` parameter equal to the `last_updated_at` timestamp
-3. From there, you can apply your business logic to choose whether or not to record the event, using previously mentioned <a href="/docs/api/reference/calendars/schedule_record_event" target="_blank">Schedule Record Event</a> / <a href="/docs/api/reference/calendars/unschedule_record_event" target="_blank">Unschedule Record Event</a> endpoints.
+There are two approaches to processing calendar updates:
 
-#### Example Webhook Handler
+1. **Using the last_updated_ts timestamp:**
 
 ```javascript
 app.post("/webhooks/meeting-baas", async (req, res) => {
   const event = req.body;
 
-  // Acknowledge receipt immediately
+  // Acknowledge receipt immediately with 200 OK
   res.status(200).send("Webhook received");
 
   // Process the event asynchronously
-  if (event.event_type === "calendar.sync_events") {
+  if (event.event === "calendar.sync_events") {
     try {
       // Fetch updated events
       const updatedEvents = await fetchUpdatedEvents(
-        event.calendar_id,
-        event.last_updated_at
+        event.data.calendar_id,
+        event.data.last_updated_ts
       );
 
       // Process each event based on your business logic
       for (const evt of updatedEvents) {
         if (shouldRecordMeeting(evt)) {
-          await scheduleRecording(event.calendar_id, evt.id);
+          await scheduleRecording(event.data.calendar_id, evt.id);
         } else if (wasRecordingScheduled(evt) && shouldCancelRecording(evt)) {
-          await cancelRecording(event.calendar_id, evt.id);
+          await cancelRecording(event.data.calendar_id, evt.id);
+        }
+      }
+    } catch (error) {
+      // Log error and implement retry mechanism
+      console.error("Failed to process calendar sync event", error);
+      // Add to retry queue
+    }
+  }
+});
+```
+
+2. **More efficient approach using affected_event_uuids:**
+
+```javascript
+app.post("/webhooks/meeting-baas", async (req, res) => {
+  const event = req.body;
+
+  // Acknowledge receipt immediately with 200 OK
+  res.status(200).send("Webhook received");
+
+  // Process the event asynchronously
+  if (event.event === "calendar.sync_events" && 
+      event.data.affected_event_uuids && 
+      event.data.affected_event_uuids.length > 0) {
+    try {
+      // Process only the specific affected events
+      for (const eventUuid of event.data.affected_event_uuids) {
+        const eventDetails = await fetchEventDetails(event.data.calendar_id, eventUuid);
+        
+        // Apply your business logic
+        if (shouldRecordMeeting(eventDetails)) {
+          await scheduleRecording(event.data.calendar_id, eventUuid);
+        } else if (wasRecordingScheduled(eventDetails) && shouldCancelRecording(eventDetails)) {
+          await cancelRecording(event.data.calendar_id, eventUuid);
         }
       }
     } catch (error) {
@@ -324,9 +371,10 @@ app.post("/webhooks/meeting-baas", async (req, res) => {
 ```
 
 <Callout type="warn">
-  This allows you to: - Track all calendar changes in real-time - Decide whether
-  to record new or modified meetings - Keep your system synchronized with the
-  latest meeting data
+  This allows you to: 
+  - Track all calendar changes in real-time 
+  - Decide whether to record new or modified meetings 
+  - Keep your system synchronized with the latest meeting data
 </Callout>
 
 <Callout type="info">
@@ -338,6 +386,15 @@ app.post("/webhooks/meeting-baas", async (req, res) => {
   Configure your webhook endpoint to process these real-time updates and implement
   appropriate retry logic for reliability. We recommend using an exponential backoff strategy.
 </Callout>
+
+<Callout type="warn">
+  Always return a 200 OK response promptly to acknowledge receipt of the webhook before processing the data. This prevents webhook retry mechanisms from sending duplicate events.
+</Callout>
+
+<Callout type="info">
+  All webhook timestamps are in UTC format. Always process timestamps accordingly in your application.
+</Callout>
+
 </Step>
 
 <Step>
@@ -351,10 +408,12 @@ OAuth refresh tokens can expire or be revoked. If this happens, you'll receive a
 
 ```json
 {
-  "event_type": "calendar.auth_error",
-  "calendar_id": "cal_12345abcde",
-  "error": "refresh_token_expired",
-  "timestamp": "2023-09-01T15:30:45Z"
+  "event": "calendar.auth_error",
+  "data": {
+    "calendar_id": "cal_12345abcde",
+    "error": "refresh_token_expired",
+    "timestamp": "2023-09-01T15:30:45Z"
+  }
 }
 ```
 
@@ -381,7 +440,7 @@ Calendar APIs enforce rate limits. Meeting BaaS handles these gracefully, but if
 To remove a calendar integration, use the <a href="/docs/api/reference/calendars/delete_calendar" target="_blank">Delete Calendar</a> endpoint.
 
 ```bash
-curl -X DELETE "https://api.meetingbaas.com/v1/calendars/cal_12345abcde" \
+curl -X DELETE "https://api.meetingbaas.com/calendars/cal_12345abcde" \
   -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
