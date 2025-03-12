@@ -1,7 +1,7 @@
 import { OramaClient } from '@oramacloud/client';
 import type { SharedProps } from 'fumadocs-ui/components/dialog/search';
 import SearchDialog from 'fumadocs-ui/components/dialog/search-orama';
-import { useMode } from '@/app/layout.client';
+import { useMode } from '@/app/[lang]/layout.client';
 
 
 const client = new OramaClient({

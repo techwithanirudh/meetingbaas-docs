@@ -4,7 +4,9 @@ import type { Viewport } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 import { Body } from "./layout.client";
-import { Providers } from "./providers";
+import { Providers } from "../providers";
+
+import { I18nProvider, type Translations } from 'fumadocs-ui/i18n';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,12 +28,38 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function Layout({ children }: { children: ReactNode }) {
+const locales = [
+  {
+    name: 'English',
+    locale: 'en',
+  },
+  {
+    name: 'French',
+    locale: 'fr',
+  },
+];
+
+const translations =
+  {
+    en: (await import("@/content/ui.json")).default,
+    fr: (await import("@/content/ui.fr.json")).default,
+  }
+
+export default async function Layout({ params, children }: { params: Promise<{ lang: string }>; children: ReactNode }) {
+  const lang = (await params).lang
+
   return (
     <html lang="en" className={`${inter.className} dark`} suppressHydrationWarning>
       <Body>
-        <Providers>{children}</Providers>
+        <I18nProvider
+          locale={lang}
+          locales={locales}
+          translations={translations[lang]}
+        >
+          <Providers lang={lang}>{children}</Providers>
+        </I18nProvider>
       </Body>
     </html>
   );
 }
+

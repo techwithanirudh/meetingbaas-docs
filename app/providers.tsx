@@ -5,17 +5,18 @@ import type { ReactNode } from "react";
 
 const SearchDialog = dynamic(() => import("@/components/search")); // lazy load
 
-export function Providers({ children }: { children: ReactNode }) {
+export function Providers({ lang, children }: { lang: string; children: ReactNode }) {
   return (
-    <RootProvider
-      search={{
-        SearchDialog,
-      }}
-      theme={{
-        enabled: false
-      }}
-    >
-      {children}
-    </RootProvider>
+   
+      <RootProvider
+        search={{
+          SearchDialog,
+        }}
+        theme={{
+          enabled: false
+        }}
+      >
+        {children}
+      </RootProvider>
   );
 }

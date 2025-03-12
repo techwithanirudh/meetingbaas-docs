@@ -1,0 +1,102 @@
+version: 1
+files:
+  content/docs/en/api/community-and-support.mdx:
+    content: 96a6c02226a7b74f1c4371cda10ade51
+  content/docs/en/api/index.mdx:
+    content: d5bc6911e29787091ffbd0080659a83c
+  content/docs/en/speaking-bots/acknowledgements.mdx:
+    content: 5fc2e9ba345fc17745fc276e38aa86b6
+  content/docs/en/speaking-bots/command-line.mdx:
+    content: d488088f2be9d298a27e701c8a34762f
+  content/docs/en/speaking-bots/index.mdx:
+    content: 6591f88f044b586314470cf9a0790c26
+  content/docs/en/speaking-bots/personas.mdx:
+    content: 202e80e8b77cc7746931a68453a25414
+  content/docs/en/transcript-seeker/index.mdx:
+    content: be5882cfa8dc41df63a13fb030ec059f
+  content/docs/en/api/getting-started/getting-the-data.mdx:
+    content: 401d730970a87b14e928fa22ee9d1ff7
+  content/docs/en/api/getting-started/removing-a-bot.mdx:
+    content: 62b06c92eeb042eaba13c191e7789924
+  content/docs/en/api/getting-started/sending-a-bot.mdx:
+    content: d0b6685f49b24e3bd4c68cc91aafa9ac
+  content/docs/en/api/getting-started/syncing-calendars.mdx:
+    content: cdd0719902a9f1eccea978b2ab8ef3d5
+  content/docs/en/api/reference/get_meeting_data.mdx:
+    content: eb29f41d705bb993a1290dd3a918ad9e
+  content/docs/en/api/reference/join.mdx:
+    content: 5862fecab11d0ed9918df7ca373e74b9
+  content/docs/en/api/reference/leave.mdx:
+    content: 39ea3885649b8bd8b2fcd8db938cee5e
+  content/docs/en/api/reference/retranscribe_bot.mdx:
+    content: 30363f171dfde17afe3b1d16d07bb578
+  content/docs/en/api/updates/calendar-api-enhancements.mdx:
+    content: 9fe83e9fa97763cb8fd82000b6e44e96
+  content/docs/en/api/updates/calendar-api-update.mdx:
+    content: 9ee41b214a541ba4a2bb6226e31aa812
+  content/docs/en/api/updates/minor-streaming-zoom-and-microsoft-teams.mdx:
+    content: d41764b6fe512020854b77c11f7489dc
+  content/docs/en/api/updates/retranscribe-route.mdx:
+    content: 79a874c9ecaaa157b333f72db9cc2249
+  content/docs/en/speaking-bots/getting-started/environment-variables.mdx:
+    content: 546161da47a9846dae7b55b496fc7e6c
+  content/docs/en/speaking-bots/getting-started/ngrok-setup.mdx:
+    content: b709359980a58dc50b1d610b165a384a
+  content/docs/en/speaking-bots/getting-started/set-up.mdx:
+    content: 7029cf9f1eaf622803e82d771b978073
+  content/docs/en/transcript-seeker/concepts/architecture.mdx:
+    content: 431f9996066a4a6bc095240c37cc0d79
+  content/docs/en/transcript-seeker/concepts/environment-variables.mdx:
+    content: 56a1c1ba683cee9e220beec8cba147be
+  content/docs/en/transcript-seeker/getting-started/installation.mdx:
+    content: 2863eddec0758627fe4d0bf9a2e88c11
+  content/docs/en/transcript-seeker/guides/contributing.mdx:
+    content: 2eee702f359e19649a867e37e8702652
+  content/docs/en/transcript-seeker/guides/turso.mdx:
+    content: 34874bafea5582e785d1ebae0da0500c
+  content/docs/en/api/getting-started/calendars/events.mdx:
+    content: 233d5f287b1928409dd3df73ec221028
+  content/docs/en/api/getting-started/calendars/index.mdx:
+    content: 2bbdcbb94349ad60bf720c5070aa4c41
+  content/docs/en/api/getting-started/calendars/maintenance.mdx:
+    content: a0aaae72dda28f7994444930b9101b4d
+  content/docs/en/api/getting-started/calendars/setup.mdx:
+    content: 752d8d8afd03efaacbeb14a323a308c8
+  content/docs/en/api/getting-started/calendars/webhooks.mdx:
+    content: f042d981e0a0916e246c3d3573f86e03
+  content/docs/en/api/reference/calendars/create_calendar.mdx:
+    content: 40fbe037e684021ab33394f288749f71
+  content/docs/en/api/reference/calendars/delete_calendar.mdx:
+    content: b92de92e527a386ef187b56dc002bfe3
+  content/docs/en/api/reference/calendars/get_calendar.mdx:
+    content: e41f2f6bc4d7a789fe85bb45fd532122
+  content/docs/en/api/reference/calendars/get_event.mdx:
+    content: 9d786f7bed83c637c20bccfe70b67788
+  content/docs/en/api/reference/calendars/list_calendars.mdx:
+    content: b5860a3ef0a258170b82652f4065039f
+  content/docs/en/api/reference/calendars/list_events.mdx:
+    content: 0754d845b68669d807d67de39125bfe4
+  content/docs/en/api/reference/calendars/list_raw_calendars.mdx:
+    content: 10fffcd085fb8aab6f98ac60a6ceb658
+  content/docs/en/api/reference/calendars/patch_bot.mdx:
+    content: 0792e8c0ddcaa6183c82ba6180dd0784
+  content/docs/en/api/reference/calendars/resync_all_calendars.mdx:
+    content: 8454e15df95f15e8d2f9ac81cb97b1fa
+  content/docs/en/api/reference/calendars/schedule_record_event.mdx:
+    content: b40ebed6472fc5b97e67b1da3a3ec418
+  content/docs/en/api/reference/calendars/unschedule_record_event.mdx:
+    content: d801225381fcb71b0b966416bc4ebc7f
+  content/docs/en/api/reference/calendars/update_calendar.mdx:
+    content: 523c561382196e5f38046be045da6db0
+  content/docs/en/transcript-seeker/concepts/api/authentication.mdx:
+    content: 604df3d5dc6c81c5d0207c0fab596b2e
+  content/docs/en/transcript-seeker/concepts/api/database.mdx:
+    content: dc58eef0eb4542570e3a9267cc440115
+  content/docs/en/transcript-seeker/concepts/web/database.mdx:
+    content: 9566820309bdf3f4224ca13706e02219
+  content/docs/en/transcript-seeker/guides/deployment/firebase.mdx:
+    content: f36b96901adfac7f201e555685bfda5f
+  content/docs/en/transcript-seeker/guides/deployment/index.mdx:
+    content: 30a461ff1aeb1da30dea9c93760bec38
+  content/docs/en/transcript-seeker/guides/deployment/vercel.mdx:
+    content: 1d070b6ec79bd26fa28061ae3827b64f

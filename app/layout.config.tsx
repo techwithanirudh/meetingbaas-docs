@@ -57,4 +57,5 @@ export const baseOptions: BaseLayoutProps = {
   links: [
     ...linkItems,
   ],
+  i18n: true,
 };

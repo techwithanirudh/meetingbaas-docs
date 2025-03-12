@@ -11,7 +11,6 @@ import { buttonVariants } from "@/components/ui/button";
 
 const docsOptions: DocsLayoutProps = {
   ...baseOptions,
-  tree: source.pageTree,
   sidebar: {
     tabs: {
       transform(option, node) {
@@ -37,10 +36,13 @@ const docsOptions: DocsLayoutProps = {
   },
 };
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default async function Layout({ params, children }: {  params: Promise<{ lang: string }>; children: ReactNode }) {
+  const lang = (await params).lang;
+
   return (
     <DocsLayout
       {...docsOptions}
+      tree={source.pageTree[lang]}
       nav={{ ...docsOptions.nav, mode: 'top' }}
       tabMode="navbar"
     >

@@ -4,8 +4,9 @@ import type { OramaDocument } from "fumadocs-core/search/orama-cloud";
 
 export const revalidate = false;
 
-export async function GET(): Promise<Response> {
-  const pages = source.getPages();
+export async function GET(props: { params: Promise<{ lang: string }>; }): Promise<Response> {
+  const params = await props.params;
+  const pages = source.getPages(params.lang);
   const results = await Promise.all(
     pages.map(async (page) => {
       const { structuredData } = page.data;
