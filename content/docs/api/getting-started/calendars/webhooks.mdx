@@ -256,22 +256,29 @@ app.post("/webhooks/meeting-baas", async (req, res) => {
 
 #### OAuth Token Expiration
 
-Both your app's credentials (service level) and user's credentials (user level) can expire or be revoked. If this happens:
+Both your app's credentials (service level) and user's credentials (user level) can expire or be revoked. If this happens _Calendar sync operations will start failing_.
 
-1. Calendar sync operations will start failing
-2. You can detect this by periodically checking the calendar status using the [Get Calendar](/docs/api/reference/calendars/get_calendar) endpoint
-3. The [Resync All Calendars](/docs/api/reference/calendars/resync_all_calendars) endpoint will return detailed error information for calendars with authentication issues
-4. You should implement a monitoring strategy using this routeto detect these failures and prompt users to reconnect their calendars
+##### Detecting and fixing the issue
+
+1. You can detect this by periodically checking the calendar status using the [Get Calendar](/docs/api/reference/calendars/get_calendar) endpoint
+2. The [Resync All Calendars](/docs/api/reference/calendars/resync_all_calendars) endpoint will return detailed error information for calendars with authentication issues
+3. You should implement a monitoring strategy using this routeto detect these failures and prompt users to reconnect their calendars
 
 When this occurs, you need to, depending on whether it is your app's credentials or the user's credentials that are expired, you have 2 choices:
 
-1. Prompt the user to reauthorize calendar access by:
-   - Detecting this special webhook type
-   - Updating your database to mark the calendar integration as requiring reauthorization
-   - Prompting the user to reconnect their calendar when they next access your application
-2. Reauthorize your app's credentials by:
-   - Requiring new app credentials as shown in the [Setup](/docs/api/getting-started/calendars/setup) guide and storing them in your database
-   - Patching the calendar integration with the new credentials using the [Update Calendar](/docs/api/reference/calendars/update_calendar) endpoint to update your app credentials while keeping the same user credentials
+_A. User's credentials are expired_
+
+Prompt the user to reauthorize calendar access by:
+
+1. Updating your database to mark the calendar integration as requiring reauthorization
+2. Prompting the user to reconnect their calendar when they next access your application
+
+_B. Your app's credentials are expired_
+
+Reauthorize your app's credentials by:
+
+1. Requiring new app credentials as shown in the [Setup](/docs/api/getting-started/calendars/setup) guide and storing them in your database
+2. Patching the calendar integration with the new credentials using the [Update Calendar](/docs/api/reference/calendars/update_calendar) endpoint to update your app credentials while keeping the same user credentials
 
 </Step>
 
