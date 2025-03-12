@@ -14,6 +14,7 @@ export default async function Page(props: {
   params: Promise<{ slug?: string[]; lang: string; }>;
 }) {
   const params = await props.params;
+  console.log(params.lang)
   const page = source.getPage(params.slug, params.lang);
   if (!page) notFound();
 

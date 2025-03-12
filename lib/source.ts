@@ -7,7 +7,7 @@ import { icons } from "lucide-react";
 import { createElement } from "react";
 
 import { i18n } from "./i18n";
-
+import { locales, translations } from "@/lib/languages";
 
 export const source = loader({
   baseUrl: '/docs',

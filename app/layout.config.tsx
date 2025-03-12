@@ -2,6 +2,7 @@ import Logo from "@/public/logo.png";
 import { LinkItemType } from "fumadocs-ui/layouts/docs";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import Image from "next/image";
+import { type Languages, locales, translations } from "@/lib/languages";
 
 export const logo = (
   <>
@@ -42,20 +43,23 @@ export const linkItems: LinkItemType[] = [
  * Home Layout: app/(home)/layout.tsx
  * Docs Layout: app/docs/layout.tsx
  */
-export const baseOptions: BaseLayoutProps = {
-  nav: {
-    title: (
-      <>
-        {logo}
-        <span className="font-medium in-[header]:text-[15px]">
-          Meeting BaaS
-        </span>
-      </>
-    ),
-    transparentMode: 'top'
-  },
-  links: [
-    ...linkItems,
-  ],
-  i18n: true,
+
+export const baseOptions = (locale: Languages) => {
+  return {
+    nav: {
+      title: (
+        <>
+          {logo}
+          <span className="font-medium in-[header]:text-[15px]">
+            {translations[locale].title}
+          </span>
+        </>
+      ),
+      transparentMode: 'top'
+    },
+    links: [
+      ...linkItems,
+    ],
+    i18n: true,
+  } satisfies BaseLayoutProps;
 };

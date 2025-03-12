@@ -7,6 +7,7 @@ import { Body } from "./layout.client";
 import { Providers } from "../providers";
 
 import { I18nProvider, type Translations } from 'fumadocs-ui/i18n';
+import { type Languages, locales, translations } from "@/lib/languages";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,25 +29,8 @@ export const viewport: Viewport = {
   ],
 };
 
-const locales = [
-  {
-    name: 'English',
-    locale: 'en',
-  },
-  {
-    name: 'French',
-    locale: 'fr',
-  },
-];
-
-const translations =
-  {
-    en: (await import("@/content/ui.json")).default,
-    fr: (await import("@/content/ui.fr.json")).default,
-  }
-
 export default async function Layout({ params, children }: { params: Promise<{ lang: string }>; children: ReactNode }) {
-  const lang = (await params).lang
+  const lang = (await params).lang as Languages;
 
   return (
     <html lang="en" className={`${inter.className} dark`} suppressHydrationWarning>
