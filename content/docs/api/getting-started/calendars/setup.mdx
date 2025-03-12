@@ -1,0 +1,193 @@
+---
+title: Calendar Sync Setup
+description: Learn how to set up calendar synchronization with the Meeting BaaS API
+icon: Calendar
+---
+
+import { Callout } from "@/components/fumadocs/callout";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { AlertTriangle, Info } from "lucide-react";
+
+Meeting BaaS allows you to automatically sync calendars from Outlook and Google Workspace to deploy bots to scheduled meetings. This guide will walk you through setting up calendar integration.
+
+## Prerequisites
+
+Before starting the calendar sync integration, ensure you have:
+
+- An active Meeting BaaS account with API access
+- A webhook endpoint configured to receive calendar event notifications
+- Developer access to Google Cloud Console and/or Microsoft Entra ID
+
+<Steps>
+
+<Step>
+
+### Authentication: Get your OAuth credentials
+
+To start syncing calendars, you'll need two sets of credentials:
+
+1. **Your App's Credentials (Service Level)**
+
+- For Outlook: Your app's Microsoft Client ID and Client Secret
+- For Google Workspace: Your app's Google Client ID and Client Secret
+
+2. **End User's Credentials (User Level)**
+
+- OAuth refresh token obtained when user grants calendar access to your app
+
+<Callout type="info">
+  Best Practice: Request calendar access as a separate step after initial user
+  signup. Users are more likely to grant calendar access when it's clearly tied
+  to a specific feature they want to use.
+</Callout>
+
+#### Required OAuth Scopes
+
+For **Google Workspace**:
+
+- `https://www.googleapis.com/auth/calendar.readonly` - To read calendar and event data
+- `https://www.googleapis.com/auth/calendar.events.readonly` - To access event details
+
+For **Microsoft Outlook**:
+
+- `Calendars.Read` - To read calendar and event data
+- `Calendars.ReadWrite` - Required if you need to modify calendar events
+
+</Step>
+
+<Step>
+
+### Optional: List Raw Calendars
+
+Before syncing calendars, you can use the <a href="/docs/api/reference/calendars/list_raw_calendars" target="_blank">List Raw Calendars</a> endpoint to view all your user's available calendars. This is particularly useful when a user has multiple calendars and you need to choose which ones to sync.
+
+#### Request Example
+
+```bash
+curl -X GET "https://api.meetingbaas.com/calendars/raw" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "provider": "google",
+    "refresh_token": "USER_REFRESH_TOKEN",
+    "client_id": "YOUR_GOOGLE_CLIENT_ID",
+    "client_secret": "YOUR_GOOGLE_CLIENT_SECRET"
+  }'
+```
+
+#### Response Example
+
+```json
+{
+  "calendars": [
+    {
+      "id": "primary",
+      "name": "Main Calendar",
+      "description": "User's primary calendar",
+      "is_primary": true
+    },
+    {
+      "id": "team_calendar@group.calendar.google.com",
+      "name": "Team Calendar",
+      "description": "Shared team meetings",
+      "is_primary": false
+    }
+  ]
+}
+```
+
+<Callout type="info">
+  Calendar IDs differ between providers. Google uses email-like IDs, while
+  Microsoft uses GUID formats.
+</Callout>
+
+</Step>
+
+<Step>
+### Create a Calendar Integration
+
+Create a new calendar integration by calling the <a href="/docs/api/reference/calendars/create_calendar" target="_blank">Create Calendar</a> endpoint with the previously obtained credentials.
+
+#### Request Example
+
+```bash
+curl -X POST "https://api.meetingbaas.com/calendars" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "provider": "google",
+    "refresh_token": "USER_REFRESH_TOKEN",
+    "client_id": "YOUR_GOOGLE_CLIENT_ID",
+    "client_secret": "YOUR_GOOGLE_CLIENT_SECRET",
+    "raw_calendar_id": "team_calendar@group.calendar.google.com"  // Optional
+  }'
+```
+
+If the `raw_calendar_id` parameter is not provided, Meeting BaaS will sync the user's primary calendar by default.
+
+#### Response Example
+
+```json
+{
+  "id": "cal_12345abcde",
+  "provider": "google",
+  "status": "syncing",
+  "created_at": "2023-08-15T14:30:00Z",
+  "raw_calendar_id": "team_calendar@group.calendar.google.com",
+  "calendar_name": "Team Calendar"
+}
+```
+
+<Callout type="warn">
+  Store the returned calendar ID safely - you'll need it for future operations.
+</Callout>
+
+</Step>
+
+<Step>
+### Managing Calendars
+
+Once authenticated, you can manage your calendars:
+
+- List Calendars: <a href="/docs/api/reference/calendars/list_calendars" target="_blank">List Calendars</a> - View all your synced calendars
+- Get Calendar Details: <a href="/docs/api/reference/calendars/get_calendar" target="_blank">Get Calendar Details</a> - Check sync status
+
+#### List Calendars Example
+
+```bash
+curl -X GET "https://api.meetingbaas.com/calendars" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+#### Get Calendar Details Example
+
+```bash
+curl -X GET "https://api.meetingbaas.com/calendars/cal_12345abcde" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+<Callout type="info">
+  After initial setup, Meeting BaaS handles all calendar API interactions. You
+  only need to respond to webhook events for calendar changes.
+</Callout>
+
+#### Sync Status Values
+
+The calendar integration can have the following status values:
+
+- `syncing` - Initial sync in progress
+- `active` - Calendar is actively syncing
+- `error` - Sync encountered an error (check the `error_message` field)
+- `disconnected` - The calendar connection has been terminated
+
+</Step>
+
+</Steps>
+
+## Next Steps
+
+Now that you've set up your calendar integration:
+
+- Learn how to [manage calendar events and recordings](/docs/api/getting-started/calendars/events)
+- Set up [webhooks for calendar updates](/docs/api/getting-started/calendars/webhooks)
+- Explore our [main API documentation](/docs/api) for other features

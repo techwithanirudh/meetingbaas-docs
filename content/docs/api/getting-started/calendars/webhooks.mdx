@@ -1,0 +1,374 @@
+---
+title: Calendar Webhooks & Maintenance
+description: Learn how to set up real-time calendar updates and handle errors in your Meeting BaaS integration
+icon: Bell
+---
+
+import { Callout } from "@/components/fumadocs/callout";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { AlertTriangle, Info } from "lucide-react";
+
+This guide covers how to receive real-time updates about calendar changes, handle errors, and maintain your calendar integrations with Meeting BaaS.
+
+## Webhook Integration
+
+<Steps>
+
+<Step>
+### Understanding Calendar Webhooks
+
+In addition to live meeting events via the <a href="/docs/api/getting-started/getting-the-data" target="_blank">Live Meeting Updates</a>, your webhook endpoint will receive calendar sync events with the type `calendar.sync_events`. These events notify you about:
+
+- New meeting schedules
+- Meeting changes or cancellations
+- Calendar sync status updates
+
+When a calendar change is detected, a webhook is sent to your registered endpoint. This allows you to take real-time actions, such as scheduling a recording for new meetings or updating your database.
+
+</Step>
+
+<Step>
+### Webhook Payload Structure
+
+#### Example Webhook Payload
+
+```json
+{
+  "event": "calendar.sync_events",
+  "data": {
+    "calendar_id": "cal_12345abcde",
+    "last_updated_ts": "2023-09-01T15:30:45Z",
+    "affected_event_uuids": [
+      "evt_67890fghij",
+      "evt_12345abcde",
+      "evt_98765zyxwv"
+    ]
+  }
+}
+```
+
+The payload includes:
+
+- `event`: The type of webhook event (e.g., `calendar.sync_events`)
+- `data`: Contains the details about what changed:
+  - `calendar_id`: The ID of the calendar that had changes
+  - `last_updated_ts`: When the changes occurred (UTC timestamp)
+  - `affected_event_uuids`: Array of event IDs that were added, updated, or deleted
+
+<Callout type="info">
+  All webhook timestamps are in UTC format. Always process timestamps
+  accordingly in your application.
+</Callout>
+
+</Step>
+
+<Step>
+### Processing Webhook Updates
+
+There are two approaches to processing calendar updates:
+
+#### 1. Using the last_updated_ts timestamp
+
+This approach gets all events updated after a certain timestamp:
+
+```javascript
+app.post("/webhooks/meeting-baas", async (req, res) => {
+  const event = req.body;
+
+  // Acknowledge receipt immediately with 200 OK
+  res.status(200).send("Webhook received");
+
+  // Process the event asynchronously
+  if (event.event === "calendar.sync_events") {
+    try {
+      // Fetch updated events
+      const updatedEvents = await fetchUpdatedEvents(
+        event.data.calendar_id,
+        event.data.last_updated_ts
+      );
+
+      // Process each event based on your business logic
+      for (const evt of updatedEvents) {
+        if (shouldRecordMeeting(evt)) {
+          await scheduleRecording(event.data.calendar_id, evt.id);
+        } else if (wasRecordingScheduled(evt) && shouldCancelRecording(evt)) {
+          await cancelRecording(event.data.calendar_id, evt.id);
+        }
+      }
+    } catch (error) {
+      // Log error and implement retry mechanism
+      console.error("Failed to process calendar sync event", error);
+      // Add to retry queue
+    }
+  }
+});
+```
+
+#### 2. More efficient approach using affected_event_uuids
+
+This approach only processes the specific events that changed:
+
+```javascript
+app.post("/webhooks/meeting-baas", async (req, res) => {
+  const event = req.body;
+
+  // Acknowledge receipt immediately with 200 OK
+  res.status(200).send("Webhook received");
+
+  // Process the event asynchronously
+  if (
+    event.event === "calendar.sync_events" &&
+    event.data.affected_event_uuids &&
+    event.data.affected_event_uuids.length > 0
+  ) {
+    try {
+      // Process only the specific affected events
+      for (const eventUuid of event.data.affected_event_uuids) {
+        const eventDetails = await fetchEventDetails(
+          event.data.calendar_id,
+          eventUuid
+        );
+
+        // Apply your business logic
+        if (shouldRecordMeeting(eventDetails)) {
+          await scheduleRecording(event.data.calendar_id, eventUuid);
+        } else if (
+          wasRecordingScheduled(eventDetails) &&
+          shouldCancelRecording(eventDetails)
+        ) {
+          await cancelRecording(event.data.calendar_id, eventUuid);
+        }
+      }
+    } catch (error) {
+      // Log error and implement retry mechanism
+      console.error("Failed to process calendar sync event", error);
+      // Add to retry queue
+    }
+  }
+});
+```
+
+<Callout type="warn">
+  This allows you to: - Track all calendar changes in real-time - Decide whether
+  to record new or modified meetings - Keep your system synchronized with the
+  latest meeting data
+</Callout>
+
+<Callout type="warn">
+  Always return a 200 OK response promptly to acknowledge receipt of the webhook
+  before processing the data. This prevents webhook retry mechanisms from
+  sending duplicate events.
+</Callout>
+
+</Step>
+
+<Step>
+### Webhook Best Practices
+
+#### Idempotent Processing
+
+Implement idempotent webhook processing - you may receive the same webhook multiple times in rare circumstances:
+
+```javascript
+// Example of idempotent processing using a processed events cache
+const processedEvents = new Set();
+
+app.post("/webhooks/meeting-baas", async (req, res) => {
+  const event = req.body;
+  const eventId = `${event.event}-${event.data.calendar_id}-${event.data.last_updated_ts}`;
+
+  // Always acknowledge receipt immediately
+  res.status(200).send("Webhook received");
+
+  // Skip if we've already processed this exact event
+  if (processedEvents.has(eventId)) {
+    console.log(`Skipping already processed event: ${eventId}`);
+    return;
+  }
+
+  // Add to processed events before processing
+  processedEvents.add(eventId);
+
+  // Process the event...
+  // ...
+
+  // In a production environment, you would use a persistent store
+  // like Redis or a database instead of an in-memory Set
+});
+```
+
+#### Retry Logic
+
+Configure your webhook endpoint to process these real-time updates and implement appropriate retry logic for reliability:
+
+```javascript
+async function processWithRetry(fn, maxRetries = 3, delay = 1000) {
+  let retries = 0;
+
+  while (retries < maxRetries) {
+    try {
+      return await fn();
+    } catch (error) {
+      retries++;
+
+      if (retries >= maxRetries) {
+        throw error;
+      }
+
+      // Exponential backoff
+      await new Promise((resolve) =>
+        setTimeout(resolve, delay * Math.pow(2, retries - 1))
+      );
+    }
+  }
+}
+
+// Example usage
+app.post("/webhooks/meeting-baas", async (req, res) => {
+  // Always acknowledge receipt immediately
+  res.status(200).send("Webhook received");
+
+  // Process with retry logic
+  try {
+    await processWithRetry(async () => {
+      // Your processing logic here
+    });
+  } catch (error) {
+    console.error("Failed after multiple retries", error);
+    // Log to monitoring system, add to dead letter queue, etc.
+  }
+});
+```
+
+</Step>
+
+</Steps>
+
+## Error Handling and Troubleshooting
+
+<Steps>
+
+<Step>
+### Common Errors
+
+#### OAuth Token Expiration
+
+OAuth refresh tokens can expire or be revoked. If this happens, you'll receive a webhook with:
+
+```json
+{
+  "event": "calendar.auth_error",
+  "data": {
+    "calendar_id": "cal_12345abcde",
+    "error": "refresh_token_expired",
+    "timestamp": "2023-09-01T15:30:45Z"
+  }
+}
+```
+
+When this occurs, you need to prompt the user to reauthorize calendar access by:
+
+1. Detecting this special webhook type
+2. Updating your database to mark the calendar integration as requiring reauthorization
+3. Prompting the user to reconnect their calendar when they next access your application
+
+```javascript
+app.post("/webhooks/meeting-baas", async (req, res) => {
+  const event = req.body;
+
+  // Always acknowledge receipt immediately
+  res.status(200).send("Webhook received");
+
+  if (event.event === "calendar.auth_error") {
+    // Update your database
+    await markCalendarAsRequiringReauth(event.data.calendar_id);
+
+    // Optionally, notify the user via email or other channels
+    await notifyUserOfCalendarDisconnection(event.data.calendar_id);
+  }
+
+  // Process other event types...
+});
+```
+
+</Step>
+
+<Step>
+### Rate Limiting Considerations
+
+Calendar APIs enforce rate limits. Meeting BaaS handles these gracefully, but if you encounter persistent sync issues, check:
+
+1. The frequency of your calendar operations
+2. The number of events being synced
+3. Other applications using the same OAuth credentials
+
+<Callout type="info">
+  For Google Workspace, you're limited to 1 million queries per day per project.
+  For Microsoft, limits vary by subscription type.
+</Callout>
+
+If you're building a high-volume application, consider implementing these best practices:
+
+- Batch calendar operations where possible
+- Implement exponential backoff for retries
+- Monitor your API usage with logging and alerts
+- Consider using multiple projects for very high-volume needs
+
+</Step>
+
+</Steps>
+
+## Maintenance and Cleanup
+
+<Steps>
+
+<Step>
+### Removing Calendar Integrations
+
+To remove a calendar integration, use the <a href="/docs/api/reference/calendars/delete_calendar" target="_blank">Delete Calendar</a> endpoint.
+
+```bash
+curl -X DELETE "https://api.meetingbaas.com/calendars/cal_12345abcde" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+This will:
+
+1. Stop syncing the calendar
+2. Cancel any scheduled recordings for events from this calendar
+3. Remove the calendar integration from your account
+
+<Callout type="info">
+  This operation does not revoke OAuth access. To completely remove access,
+  users should also revoke access via Google or Microsoft security settings.
+</Callout>
+
+</Step>
+
+<Step>
+### Monitoring Calendar Health
+
+Regularly check the health of your calendar integrations by:
+
+1. Setting up alerts for `calendar.auth_error` webhooks
+2. Periodically listing calendars and checking their status
+3. Tracking sync success rates and response times
+4. Implementing user-facing notifications for calendars requiring reauthorization
+
+```bash
+# Example of checking calendar status
+curl -X GET "https://api.meetingbaas.com/calendars" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+</Step>
+
+</Steps>
+
+## Next Steps
+
+Now that you've mastered calendar synchronization:
+
+- Learn about [custom meeting bot configurations](/docs/api/getting-started/sending-a-bot)
+- Explore our [Live Meeting Updates](/docs/api/getting-started/getting-the-data) for real-time meeting data
+- Check out our [Community & Support](/docs/api/getting-started/community-support) resources

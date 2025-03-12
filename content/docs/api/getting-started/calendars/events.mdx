@@ -1,0 +1,161 @@
+---
+title: Managing Calendar Events
+description: Learn how to work with calendar events and schedule recordings via the Meeting BaaS API
+icon: CalendarDays
+---
+
+import { Callout } from "@/components/fumadocs/callout";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { AlertTriangle, Info } from "lucide-react";
+
+After [setting up your calendar integration](/docs/api/getting-started/calendars/setup), you can work with calendar events and schedule recordings. This guide explains how to manage calendar events through the Meeting BaaS API.
+
+## Event Management
+
+<Steps>
+
+<Step>
+### Listing and Retrieving Events
+
+Monitor and manage calendar events:
+
+- List Events: <a href="/docs/api/reference/calendars/list_events" target="_blank">List Events</a> - See all upcoming meetings
+- Get Event Details: <a href="/docs/api/reference/calendars/get_event" target="_blank">Get Event Details</a> - View meeting info and bot status
+
+#### List Events Example
+
+```bash
+curl -X GET "https://api.meetingbaas.com/calendars/cal_12345abcde/events" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "start_date_gte": "2023-09-01T00:00:00Z",
+    "start_date_lte": "2023-09-08T23:59:59Z",
+    "updated_at_gte": "2023-08-29T18:30:00Z"  // Optional, for webhook integration
+  }'
+```
+
+<Callout type="info">
+  The List Events endpoint supports various filtering options: - `calendar_id`
+  (required) - Which calendar's events to retrieve - `start_date_gte` - Filter
+  events starting on or after this timestamp - `start_date_lte` - Filter events
+  starting on or before this timestamp - `updated_at_gte` - Filter events
+  updated on or after this timestamp - `status` - Filter by meeting status
+  ("upcoming", "past", "all") - default is "upcoming" - `attendee_email` -
+  Filter events with a specific attendee - `organizer_email` - Filter events
+  with a specific organizer - `cursor` - For pagination through large result
+  sets See the{" "}
+  <a href="/docs/api-reference/calendars/list_events" target="_blank">
+    List Events API Reference
+  </a>{" "}
+  for full details.
+</Callout>
+
+#### Get Event Details Example
+
+```bash
+curl -X GET "https://api.meetingbaas.com/calendars/cal_12345abcde/events/evt_67890fghij" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+</Step>
+
+<Step>
+### Understanding Meeting Links
+
+Meeting BaaS automatically detects meeting links within calendar events and can deploy bots based on your configuration.
+
+<Callout type="info">
+  Meeting links are detected from the event location, description, or custom
+  properties depending on the calendar provider.
+</Callout>
+
+#### Supported Meeting Platforms
+
+Meeting BaaS supports deploying bots to various meeting platforms including:
+
+- Zoom
+- Google Meet
+- Microsoft Teams
+- Webex
+- BlueJeans
+- And more...
+
+Each platform has its own link format that our system automatically recognizes.
+
+</Step>
+
+<Step>
+### Recording Management
+
+You can schedule or cancel recording events for specific calendar events:
+
+- Schedule Recording: <a href="/docs/api/reference/calendars/schedule_record_event" target="_blank">Schedule Record Event</a> - Configure a bot to record a specific event
+- Cancel Recording: <a href="/docs/api/reference/calendars/unschedule_record_event" target="_blank">Unschedule Record Event</a> - Cancel a scheduled recording
+
+#### Schedule Recording Example
+
+```bash
+curl -X POST "https://api.meetingbaas.com/calendars/cal_12345abcde/events/evt_67890fghij/record" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "recording_mode": "speaker_view",
+    "include_transcription": true,
+    "bot_name": "Recording Bot",
+    "bot_avatar_url": "https://example.com/avatar.png",
+    "entry_message": "This meeting is being recorded for note-taking purposes."
+  }'
+```
+
+<Callout type="warn">
+  When scheduling a recording, the bot will automatically join the meeting at
+  the scheduled time and begin recording based on your configuration.
+</Callout>
+
+</Step>
+
+<Step>
+### Recording Options
+
+The recording configuration supports the same options as manual bot deployment:
+
+#### Visual Recording Options:
+
+- `speaker_view` - Records the active speaker (default)
+- `gallery_view` - Records all participants in a grid layout
+- `audio_only` - Records only the audio from the meeting
+
+#### Additional Features:
+
+- `include_transcription: true|false` - Generate speech-to-text transcription
+- `bot_name: "string"` - Custom name for the bot in the meeting
+- `bot_avatar_url: "url"` - Custom profile picture for the bot
+- `entry_message: "string"` - Message the bot will send upon joining
+
+#### Canceling a Scheduled Recording
+
+To cancel a scheduled recording:
+
+```bash
+curl -X DELETE "https://api.meetingbaas.com/calendars/cal_12345abcde/events/evt_67890fghij/record" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+<Callout type="info">
+  Remember to handle webhook notifications to track the recording status and
+  receive the final recording data. These updates can be used to determine
+  whether to record new or updated meetings.
+</Callout>
+
+</Step>
+
+</Steps>
+
+## Next Steps
+
+Now that you understand how to work with calendar events:
+
+- Learn about [webhooks for calendar updates](/docs/api/getting-started/calendars/webhooks)
+- Explore [custom meeting bot configurations](/docs/api/getting-started/sending-a-bot)
+- Check out our [Live Meeting Updates](/docs/api/getting-started/getting-the-data) system

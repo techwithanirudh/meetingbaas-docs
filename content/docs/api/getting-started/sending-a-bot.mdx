@@ -1,6 +1,6 @@
 ---
 title: Sending a bot
-description: Learn how to send AI bots to meetings through the Meeting Baas API, with options for immediate or scheduled joining and customizable settings
+description: Learn how to send AI bots to meetings through the Meeting BaaS API, with options for immediate or scheduled joining and customizable settings
 icon: Bot
 ---
 
@@ -135,7 +135,7 @@ Send a POST request to [https://api.meetingbaas.com/bots](https://api.meetingbaa
 ### Advanced Options
 
 - `webhook_url`: URL for webhook notifications
-- `deduplication_key`: String for deduplication. By default, Meeting Baas will reject you sending multiple bots to a same meeting within 5 minutes, to avoid spamming.
+- `deduplication_key`: String for deduplication. By default, Meeting BaaS will reject you sending multiple bots to a same meeting within 5 minutes, to avoid spamming.
 - `streaming`: Object containing optional WebSocket streaming configuration:
   - `audio_frequency`: Audio frequency for the WebSocket streams. Can be "16khz" or "24khz" (defaults to "24khz")
   - `input`: WebSocket endpoint to receive raw audio bytes and speaker diarization as JSON strings from the meeting

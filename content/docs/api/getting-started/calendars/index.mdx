@@ -1,5 +1,5 @@
 ---
-title: Syncing Calendars
+title: Calendar Synchronization
 description: Learn how to sync calendars with the API, and automatically send meeting bots to the right place at the right time
 icon: Calendar
 ---
@@ -8,21 +8,11 @@ import { Callout } from "@/components/fumadocs/callout";
 import { Card } from "@/components/fumadocs/card";
 import { ChevronRight } from "lucide-react";
 
-# Calendar Synchronization
+# Outline
 
-<Callout type="info">
-  This page has been moved to a new location. You'll be automatically redirected
-  to [Calendar Synchronization](/docs/api/getting-started/calendars).
-</Callout>
+Meeting BaaS allows you to automatically sync calendars from Outlook and Google Workspace to deploy bots to scheduled meetings.
 
-<meta
-  http-equiv="refresh"
-  content="0;url=/docs/api/getting-started/calendars"
-/>
-
-<script>window.location.href = "/docs/api/getting-started/calendars";</script>
-
-Meeting BaaS allows you to automatically sync calendars from Outlook and Google Workspace to deploy bots to scheduled meetings. This helps you automate recording and participation in meetings without manual intervention.
+This helps you automate recording and participation in meetings without manual intervention.
 
 <div className="grid grid-cols-1 gap-4 mt-6 md:grid-cols-2 lg:grid-cols-3">
   <Card title="1. Calendar Sync Setup" href="/docs/api/getting-started/calendars/setup" icon={<ChevronRight className="w-4 h-4" />}>
@@ -56,3 +46,22 @@ Meeting BaaS allows you to automatically sync calendars from Outlook and Google 
 3. Finally, [implement webhooks](/docs/api/getting-started/calendars/webhooks) to receive real-time updates and handle maintenance
 
 This modular approach allows you to implement each component at your own pace and focuses the documentation on specific aspects of the integration.
+
+## Customizable Business Logic
+
+One of the core strengths of our calendar synchronization API is how easily you can integrate your own business logic. The abstraction layer we provide gives you:
+
+- **Flexible Decision Making**: Decide which meetings should be recorded based on any criteria you define (participants, meeting titles, domains, etc.)
+- **Custom Automation Rules**: Automatically apply different recording configurations based on meeting types
+- **Error Handling Control**: Implement your own retry logic and error handling strategies tailored to your application's needs
+- **Integration with Your Systems**: Build your own connections to your workflows or other business systems
+
+For example, you might implement rules to only record meetings:
+
+- With external clients but not internal team meetings
+- That contain specific keywords in the title or description
+- Where the organizer has opted into recording
+- During specific business hours or for particular teams
+- With specific participant emails
+
+The webhook-based architecture ensures your business logic operates in real-time as calendar changes occur, giving you complete control over your meeting automation.

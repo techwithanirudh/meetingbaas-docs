@@ -1,0 +1,5 @@
+{
+  "title": "Calendar Synchronization",
+  "root": true,
+  "pages": ["index", "setup", "events", "webhooks"]
+}
