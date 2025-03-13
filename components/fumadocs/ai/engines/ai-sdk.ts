@@ -19,10 +19,11 @@ export async function createAiSdkEngine(): Promise<Engine> {
     abortController = new AbortController();
 
     try {
+      // todo: abort signal
       let textContent = '';
       const { messages, newMessage } = await continueConversation({
         history: userMessages,
-        // abortSignal: AbortSignal.timeout(5000)
+        // abortSignal: abortController.signal,
       });
 
       for await (const delta of readStreamableValue(newMessage)) {
