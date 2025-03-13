@@ -1,15 +1,15 @@
-'use server';
+"use server";
 
 import {
   experimental_createMCPClient as createMCPClient,
   smoothStream,
   streamText,
-} from 'ai';
-import { openai } from '@ai-sdk/openai';
-import { createStreamableValue } from 'ai/rsc';
+} from "ai";
+import { openai } from "@ai-sdk/openai";
+import { createStreamableValue } from "ai/rsc";
 
 export interface Message {
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
 }
 
@@ -28,9 +28,9 @@ export async function continueConversation({
     try {
       client = await createMCPClient({
         transport: {
-          type: 'sse',
-          url: 'https://model-context-protocol-mcp-with-vercel-functions-psi.vercel.app/sse',
-        },
+          type: "sse",
+          url: "https://model-context-protocol-mcp-with-vercel-functions-psi.vercel.app/sse",
+        }
       });
 
       const toolSet = await client.tools();
@@ -38,17 +38,19 @@ export async function continueConversation({
 
       const { textStream } = streamText({
         system:
-          'You are a friendly assistant. Do not use emojis in your responses. Make sure to format code blocks, and add language/title to it',
+          "You are a friendly assistant. Do not use emojis in your responses. Make sure to format code blocks, and add language/title to it",
         tools,
-        model: openai('gpt-4o-mini'),
+        model: openai("gpt-4o-mini"),
         experimental_transform: [
           smoothStream({
-            chunking: 'word',
+            chunking: "word",
           }),
         ],
         maxSteps: 5,
         messages: history,
         // abortSignal,
+        // todo: abortSignal, is broken, bcs it auto aborts, revert ai code for abort
+        // https://github.com/vercel/ai/issues/1122
       });
 
       for await (const text of textStream) {
@@ -58,11 +60,9 @@ export async function continueConversation({
       stream.done();
     } catch (error) {
       console.error(error);
-      stream.error('An error occurred, please try again!');
+      stream.error("An error occurred, please try again!");
     } finally {
-      if (client) {
-        await Promise.all([client.close()]);
-      }
+      client?.close()
     }
   })();
 
