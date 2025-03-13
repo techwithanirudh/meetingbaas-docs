@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
   createContext,
   type ReactNode,
@@ -7,14 +7,14 @@ import {
   useMemo,
   useRef,
   useState,
-} from 'react';
-import { useEffectEvent } from 'fumadocs-core/utils/use-effect-event';
+} from "react";
+import { useEffectEvent } from "fumadocs-core/utils/use-effect-event";
 
 export interface Engine {
   prompt: (
     text: string,
     onUpdate?: (full: string) => void,
-    onEnd?: (full: string) => void,
+    onEnd?: (full: string) => void
   ) => Promise<void>;
 
   abortAnswer: () => void;
@@ -22,12 +22,12 @@ export interface Engine {
   clearHistory: () => void;
   regenerateLast: (
     onUpdate?: (full: string) => void,
-    onEnd?: (full: string) => void,
+    onEnd?: (full: string) => void
   ) => Promise<void>;
 }
 
 export interface MessageRecord {
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
 
   suggestions?: string[];
@@ -41,7 +41,7 @@ export interface MessageReference {
   url: string;
 }
 
-type EngineType = 'inkeep' | 'orama' | 'ai-sdk'
+export type EngineType = "inkeep" | "orama" | "ai-sdk";
 
 const Context = createContext<{
   engine?: Engine;
@@ -72,29 +72,42 @@ export function AIProvider({
   const pendingRef = useRef(false);
   const [loading, setLoading] = useState(false);
   const [engine, setEngine] = useState<Engine>();
+  const prevTypeRef = useRef<EngineType>(type);
 
   useEffect(() => {
-    if (!loadEngine || pendingRef.current) return;
-    pendingRef.current = true;
-    // preload processor
-    void import('./markdown-processor');
-
-    if (type === 'ai-sdk') {
-      void import('./engines/ai-sdk').then(async (res) => {
-        setEngine(await res.createAiSdkEngine());
-      });
+    if (prevTypeRef.current !== type) {
+      pendingRef.current = false;
+      prevTypeRef.current = type;
+      setEngine(undefined);
     }
 
-    if (type === 'inkeep') {
-        void import('./engines/inkeep').then(async (res) => {
+    if (!loadEngine || pendingRef.current) return;
+    pendingRef.current = true;
+
+    // preload processor
+    void import("./markdown-processor");
+
+    try {
+      if (type === "ai-sdk") {
+        void import("./engines/ai-sdk").then(async (res) => {
+          setEngine(await res.createAiSdkEngine());
+        });
+      }
+
+      if (type === "inkeep") {
+        void import("./engines/inkeep").then(async (res) => {
           setEngine(await res.createInkeepEngine());
         });
       }
 
-    if (type === 'orama') {
-      void import('./engines/orama').then(async (res) => {
-        setEngine(await res.createOramaEngine());
-      });
+      if (type === "orama") {
+        void import("./engines/orama").then(async (res) => {
+          setEngine(await res.createOramaEngine());
+        });
+      }
+    } catch (error) {
+      console.error("Failed to load engine:", error);
+      pendingRef.current = false;
     }
   }, [type, loadEngine]);
 
@@ -133,7 +146,7 @@ export function AIProvider({
           regenerateLast,
           clearMessages,
         }),
-        [loading, onSubmit, engine, regenerateLast, clearMessages],
+        [loading, onSubmit, engine, regenerateLast, clearMessages]
       )}
     >
       {children}

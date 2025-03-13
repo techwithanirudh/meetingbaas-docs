@@ -2,6 +2,8 @@ import type { Engine, MessageRecord } from "@/components/fumadocs/ai/context";
 import { readStreamableValue } from 'ai/rsc';
 import { continueConversation } from "../actions";
 
+// todo: choose search orama and mcp agent
+// todo: cleanupFetchStream by condesnign to prompt
 export async function createAiSdkEngine(): Promise<Engine> {
   let conversation: MessageRecord[] = [];
   let abortController: AbortController | null = null;
@@ -11,13 +13,17 @@ export async function createAiSdkEngine(): Promise<Engine> {
     onUpdate?: (full: string) => void,
     onEnd?: (full: string) => void,
   ) {
+    if (abortController) {
+      abortController.abort();
+    }
     abortController = new AbortController();
 
     try {
       let textContent = '';
-      const { messages, newMessage } = await continueConversation([
-        ...userMessages
-      ]);
+      const { messages, newMessage } = await continueConversation({
+        history: userMessages,
+        // abortSignal: AbortSignal.timeout(5000)
+      });
 
       for await (const delta of readStreamableValue(newMessage)) {
         textContent = `${textContent}${delta}`;
@@ -56,7 +62,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
       }
 
       conversation.pop();
-      
+
       await fetchStream(conversation, onUpdate, onEnd);
     },
     getHistory() {
