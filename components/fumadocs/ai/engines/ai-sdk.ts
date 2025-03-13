@@ -2,8 +2,6 @@ import type { Engine, MessageRecord } from '@/components/fumadocs/ai/context';
 import { readStreamableValue } from 'ai/rsc';
 import { continueConversation } from '../actions';
 
-// todo: choose search orama and mcp agent
-// todo: cleanupFetchStream by condesnign to prompt
 export async function createAiSdkEngine(): Promise<Engine> {
   let conversation: MessageRecord[] = [];
   let abortController: AbortController | null = null;
@@ -19,14 +17,17 @@ export async function createAiSdkEngine(): Promise<Engine> {
     abortController = new AbortController();
 
     try {
-      // todo: abort signal
       let textContent = '';
       const { messages, newMessage } = await continueConversation({
         history: userMessages,
-        // abortSignal: abortController.signal,
+        abortSignal: abortController.signal,
       });
 
       for await (const delta of readStreamableValue(newMessage)) {
+        if (abortController.signal.aborted) {
+          break;
+        }
+
         textContent = `${textContent}${delta}`;
         conversation = [
           ...messages,
@@ -35,7 +36,11 @@ export async function createAiSdkEngine(): Promise<Engine> {
         onUpdate?.(textContent);
       }
 
-      onEnd?.(textContent);
+      if (!abortController.signal.aborted) {
+        onEnd?.(textContent);
+      }
+
+      return textContent;
     } catch (error) {
       if (error instanceof Error && error.name !== 'AbortError') {
         console.error('Error in AI stream:', error);
@@ -45,6 +50,10 @@ export async function createAiSdkEngine(): Promise<Engine> {
         return errorMessage;
       }
       return '';
+    } finally {
+      if (abortController && abortController.signal.aborted) {
+        abortController = null;
+      }
     }
   }
 

@@ -1,6 +1,10 @@
 'use server';
 
-import { experimental_createMCPClient as createMCPClient, smoothStream, streamText } from "ai";
+import {
+  experimental_createMCPClient as createMCPClient,
+  smoothStream,
+  streamText,
+} from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { createStreamableValue } from 'ai/rsc';
 
@@ -33,12 +37,13 @@ export async function continueConversation({
       const tools = { ...toolSet };
 
       const { textStream } = streamText({
-        system: "You are a friendly assistant. Do not use emojis in your responses. Make sure to format code blocks, and add language/title to it",
+        system:
+          'You are a friendly assistant. Do not use emojis in your responses. Make sure to format code blocks, and add language/title to it',
         tools,
         model: openai('gpt-4o-mini'),
         experimental_transform: [
           smoothStream({
-            chunking: "word",
+            chunking: 'word',
           }),
         ],
         maxSteps: 5,
