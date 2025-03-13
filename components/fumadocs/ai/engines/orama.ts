@@ -2,16 +2,16 @@ import type {
   Engine,
   MessageRecord,
   MessageReference,
-} from "@/components/fumadocs/ai/context";
-import { OramaClient } from "@oramacloud/client";
+} from '@/components/fumadocs/ai/context';
+import { OramaClient } from '@oramacloud/client';
 
 const context =
-  "The user is a web developer who knows some Next.js and React.js, but is new to Fumadocs.";
+  'The user is a web developer who knows some Next.js and React.js, but is new to Fumadocs.';
 const endpoint = process.env.NEXT_PUBLIC_ORAMA_AI_ENDPOINT;
 const apiKey = process.env.NEXT_PUBLIC_ORAMA_AI_API_KEY;
 
 export async function createOramaEngine(): Promise<Engine> {
-  if (!endpoint || !apiKey) throw new Error("Failed to find api keys");
+  if (!endpoint || !apiKey) throw new Error('Failed to find api keys');
   const client = new OramaClient({
     endpoint,
     api_key: apiKey,
@@ -19,7 +19,7 @@ export async function createOramaEngine(): Promise<Engine> {
 
   const instance = client.createAnswerSession({
     userContext: context,
-    inferenceType: "documentation",
+    inferenceType: 'documentation',
     events: {
       onSourceChange(sources) {
         const last = instance.getMessages().at(-1);
@@ -42,7 +42,7 @@ export async function createOramaEngine(): Promise<Engine> {
 
   return {
     async prompt(text, onUpdate, onEnd) {
-      let v = "";
+      let v = '';
       const stream = await instance.askStream({
         term: text,
       });
@@ -64,7 +64,7 @@ export async function createOramaEngine(): Promise<Engine> {
     },
     async regenerateLast(onUpdate, onEnd) {
       const result = await instance.regenerateLast({ stream: true });
-      let v = "";
+      let v = '';
 
       for await (const block of result) {
         v = block;

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   type FormHTMLAttributes,
   type HTMLAttributes,
@@ -7,24 +7,24 @@ import {
   useEffect,
   useRef,
   useState,
-} from "react";
-import { Loader2, RefreshCw, Send, X } from "lucide-react";
-import defaultMdxComponents from "fumadocs-ui/mdx";
-import { cn } from "@/lib/cn";
-import { buttonVariants } from "@/components/ui/button";
-import type { Processor } from "./markdown-processor";
-import Link from "fumadocs-core/link";
+} from 'react';
+import { Loader2, RefreshCw, Send, X } from 'lucide-react';
+import defaultMdxComponents from 'fumadocs-ui/mdx';
+import { cn } from '@/lib/cn';
+import { buttonVariants } from '@/components/ui/button';
+import type { Processor } from './markdown-processor';
+import Link from 'fumadocs-core/link';
 import {
   AIProvider,
   EngineType,
   type MessageRecord,
   useAI,
   useAIMessages,
-} from "@/components/fumadocs/ai/context";
+} from '@/components/fumadocs/ai/context';
 import {
   ScrollArea,
   ScrollViewport,
-} from "fumadocs-ui/components/ui/scroll-area";
+} from 'fumadocs-ui/components/ui/scroll-area';
 import {
   Dialog,
   DialogClose,
@@ -33,8 +33,8 @@ import {
   DialogPortal,
   type DialogProps,
   DialogTitle,
-} from "@radix-ui/react-dialog";
-import { cva } from "class-variance-authority";
+} from '@radix-ui/react-dialog';
+import { cva } from 'class-variance-authority';
 
 function SearchAIMessages() {
   const messages = useAIMessages();
@@ -55,14 +55,14 @@ function SearchAIActions() {
   if (messages.length === 0) return null;
   return (
     <div className="sticky bottom-0 bg-gradient-to-t from-fd-popover px-3 py-1.5 flex flex-row items-center justify-end gap-2 empty:hidden">
-      {!loading && messages.at(-1)?.role === "assistant" && (
+      {!loading && messages.at(-1)?.role === 'assistant' && (
         <button
           type="button"
           className={cn(
             buttonVariants({
-              variant: "secondary",
+              variant: 'secondary',
             }),
-            "text-fd-muted-foreground rounded-full gap-1.5"
+            'text-fd-muted-foreground rounded-full gap-1.5',
           )}
           onClick={regenerateLast}
         >
@@ -74,9 +74,9 @@ function SearchAIActions() {
         type="button"
         className={cn(
           buttonVariants({
-            variant: "secondary",
+            variant: 'secondary',
           }),
-          "text-fd-muted-foreground rounded-full"
+          'text-fd-muted-foreground rounded-full',
         )}
         onClick={clearMessages}
       >
@@ -88,37 +88,37 @@ function SearchAIActions() {
 
 function SearchAIInput(props: FormHTMLAttributes<HTMLFormElement>) {
   const { loading, onSubmit, abortAnswer } = useAI();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
 
   const onStart = (e?: React.FormEvent) => {
     e?.preventDefault();
-    setMessage("");
+    setMessage('');
     onSubmit(message);
   };
 
   useEffect(() => {
-    if (!loading) document.getElementById("nd-ai-input")?.focus();
+    if (!loading) document.getElementById('nd-ai-input')?.focus();
   }, [loading]);
 
   return (
     <form
       {...props}
       className={cn(
-        "flex flex-row items-start rounded-xl border pe-2 bg-fd-popover text-fd-popover-foreground transition-colors shadow-lg",
-        loading && "bg-fd-muted",
-        props.className
+        'flex flex-row items-start rounded-xl border pe-2 bg-fd-popover text-fd-popover-foreground transition-colors shadow-lg',
+        loading && 'bg-fd-muted',
+        props.className,
       )}
       onSubmit={onStart}
     >
       <Input
         value={message}
-        placeholder={loading ? "AI is answering..." : "Ask AI something"}
+        placeholder={loading ? 'AI is answering...' : 'Ask AI something'}
         disabled={loading}
         onChange={(e) => {
           setMessage(e.target.value);
         }}
         onKeyDown={(event) => {
-          if (!event.shiftKey && event.key === "Enter") {
+          if (!event.shiftKey && event.key === 'Enter') {
             onStart();
             event.preventDefault();
           }
@@ -129,9 +129,9 @@ function SearchAIInput(props: FormHTMLAttributes<HTMLFormElement>) {
           type="button"
           className={cn(
             buttonVariants({
-              variant: "secondary",
-              className: "rounded-full mt-2 gap-2",
-            })
+              variant: 'secondary',
+              className: 'rounded-full mt-2 gap-2',
+            }),
           )}
           onClick={abortAnswer}
         >
@@ -143,9 +143,9 @@ function SearchAIInput(props: FormHTMLAttributes<HTMLFormElement>) {
           type="submit"
           className={cn(
             buttonVariants({
-              variant: "ghost",
-              className: "rounded-full mt-2 p-1.5",
-            })
+              variant: 'ghost',
+              className: 'rounded-full mt-2 p-1.5',
+            }),
           )}
           disabled={message.length === 0}
         >
@@ -156,7 +156,7 @@ function SearchAIInput(props: FormHTMLAttributes<HTMLFormElement>) {
   );
 }
 
-function List(props: Omit<HTMLAttributes<HTMLDivElement>, "dir">) {
+function List(props: Omit<HTMLAttributes<HTMLDivElement>, 'dir'>) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -168,7 +168,7 @@ function List(props: Omit<HTMLAttributes<HTMLDivElement>, "dir">) {
 
       container.scrollTo({
         top: container.scrollHeight,
-        behavior: "instant",
+        behavior: 'instant',
       });
     });
 
@@ -200,7 +200,7 @@ function List(props: Omit<HTMLAttributes<HTMLDivElement>, "dir">) {
 
 function Input(props: TextareaHTMLAttributes<HTMLTextAreaElement>) {
   const ref = useRef<HTMLDivElement>(null);
-  const shared = cn("col-start-1 row-start-1 max-h-60 min-h-12 p-3");
+  const shared = cn('col-start-1 row-start-1 max-h-60 min-h-12 p-3');
 
   return (
     <div className="grid flex-1">
@@ -208,12 +208,12 @@ function Input(props: TextareaHTMLAttributes<HTMLTextAreaElement>) {
         id="nd-ai-input"
         className={cn(
           shared,
-          "resize-none bg-transparent placeholder:text-fd-muted-foreground focus-visible:outline-none"
+          'resize-none bg-transparent placeholder:text-fd-muted-foreground focus-visible:outline-none',
         )}
         {...props}
       />
-      <div ref={ref} className={cn(shared, "invisible whitespace-pre-wrap")}>
-        {`${props.value?.toString() ?? ""}\n`}
+      <div ref={ref} className={cn(shared, 'invisible whitespace-pre-wrap')}>
+        {`${props.value?.toString() ?? ''}\n`}
       </div>
     </div>
   );
@@ -223,8 +223,8 @@ let processor: Processor | undefined;
 const map = new Map<string, ReactNode>();
 
 const roleName: Record<string, string> = {
-  user: "you",
-  assistant: "basstheprogrammingfish",
+  user: 'you',
+  assistant: 'basstheprogrammingfish',
 };
 
 function Message({ message }: { message: MessageRecord }) {
@@ -235,11 +235,11 @@ function Message({ message }: { message: MessageRecord }) {
     <div>
       <p
         className={cn(
-          "mb-1 text-xs font-medium text-fd-muted-foreground",
-          message.role === "assistant" && "text-fd-primary"
+          'mb-1 text-xs font-medium text-fd-muted-foreground',
+          message.role === 'assistant' && 'text-fd-primary',
         )}
       >
-        {roleName[message.role] ?? "unknown"}
+        {roleName[message.role] ?? 'unknown'}
       </p>
       <div className="prose text-sm">
         <Markdown text={message.content} />
@@ -254,7 +254,7 @@ function Message({ message }: { message: MessageRecord }) {
             >
               <p className="font-medium">{item.title}</p>
               <p className="text-fd-muted-foreground">
-                {item.description ?? "Reference"}
+                {item.description ?? 'Reference'}
               </p>
             </Link>
           ))}
@@ -268,9 +268,9 @@ function Message({ message }: { message: MessageRecord }) {
               type="button"
               className={cn(
                 buttonVariants({
-                  variant: "ghost",
-                  className: "text-nowrap",
-                })
+                  variant: 'ghost',
+                  className: 'text-nowrap',
+                }),
               )}
               onClick={() => {
                 onSubmit(item);
@@ -290,7 +290,7 @@ function Markdown({ text }: { text: string }) {
   const [rendered, setRendered] = useState<ReactNode>(map.get(text));
 
   async function run() {
-    const { createProcessor } = await import("./markdown-processor");
+    const { createProcessor } = await import('./markdown-processor');
 
     processor ??= createProcessor();
     let result = map.get(text);
@@ -324,19 +324,19 @@ function ShowOnMessages({ children }: { children: ReactNode }) {
 }
 
 const typeButtonVariants = cva(
-  "inline-flex items-center justify-center rounded-lg px-2 py-1 text-sm font-medium transition-colors duration-100",
+  'inline-flex items-center justify-center rounded-lg px-2 py-1 text-sm font-medium transition-colors duration-100',
   {
     variants: {
       active: {
-        true: "bg-fd-primary/10 text-fd-primary",
-        false: "text-fd-muted-foreground",
+        true: 'bg-fd-primary/10 text-fd-primary',
+        false: 'text-fd-muted-foreground',
       },
     },
-  }
+  },
 );
 
 export default function AISearch(props: DialogProps) {
-  const [type, setType] = useState<EngineType>("orama");
+  const [type, setType] = useState<EngineType>('orama');
 
   return (
     <Dialog {...props}>
@@ -347,7 +347,7 @@ export default function AISearch(props: DialogProps) {
 
           <DialogContent
             onOpenAutoFocus={(e) => {
-              document.getElementById("nd-ai-input")?.focus();
+              document.getElementById('nd-ai-input')?.focus();
               e.preventDefault();
             }}
             aria-describedby={undefined}
@@ -364,20 +364,20 @@ export default function AISearch(props: DialogProps) {
               <div className="flex flex-row items-center">
                 <button
                   className={cn(
-                    typeButtonVariants({ active: type === "orama" })
+                    typeButtonVariants({ active: type === 'orama' }),
                   )}
                   onClick={() => {
-                    setType("orama");
+                    setType('orama');
                   }}
                 >
                   Search
                 </button>
                 <button
                   className={cn(
-                    typeButtonVariants({ active: type === "ai-sdk" })
+                    typeButtonVariants({ active: type === 'ai-sdk' }),
                   )}
                   onClick={() => {
-                    setType("ai-sdk");
+                    setType('ai-sdk');
                   }}
                 >
                   Agent
@@ -385,22 +385,22 @@ export default function AISearch(props: DialogProps) {
               </div>
               <div className="flex flex-row gap-2 items-center">
                 <DialogTitle className="text-xs flex-1">
-                  Powered by{" "}
+                  Powered by{' '}
                   <a
                     href={
-                      type === "orama"
-                        ? "https://orama.com"
-                        : type === "inkeep"
-                          ? "https://inkeep.com"
-                          : "https://sdk.vercel.ai"
+                      type === 'orama'
+                        ? 'https://orama.com'
+                        : type === 'inkeep'
+                          ? 'https://inkeep.com'
+                          : 'https://sdk.vercel.ai'
                     }
                     target="_blank"
                     className="font-medium text-fd-popover-foreground"
                     rel="noreferrer noopener"
                   >
-                    {type === "orama" && "Orama AI"}
-                    {type === "inkeep" && "Inkeep"}
-                    {type === "ai-sdk" && "AI SDK"}
+                    {type === 'orama' && 'Orama AI'}
+                    {type === 'inkeep' && 'Inkeep'}
+                    {type === 'ai-sdk' && 'AI SDK'}
                   </a>
                   . AI can be inaccurate, please verify the information.
                 </DialogTitle>

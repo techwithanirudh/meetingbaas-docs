@@ -4,9 +4,9 @@ description: Work with calendar events and schedule recordings
 icon: CalendarDays
 ---
 
-import { Callout } from "@/components/fumadocs/callout";
-import { Step, Steps } from "fumadocs-ui/components/steps";
-import { AlertTriangle, Info } from "lucide-react";
+import { Callout } from '@/components/fumadocs/callout';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { AlertTriangle, Info } from 'lucide-react';
 
 After [setting up your calendar integration](/docs/api/getting-started/calendars/setup), you can work with calendar events and schedule recordings. This guide explains how to manage calendar events through the Meeting BaaS API.
 
@@ -44,10 +44,10 @@ curl -X GET "https://api.meetingbaas.com/calendars/cal_12345abcde/events" \
   ("upcoming", "past", "all") - default is "upcoming" - `attendee_email` -
   Filter events with a specific attendee - `organizer_email` - Filter events
   with a specific organizer - `cursor` - For pagination through large result
-  sets See the{" "}
+  sets See the{' '}
   <a href="/docs/api-reference/calendars/list_events" target="_blank">
     List Events API Reference
-  </a>{" "}
+  </a>{' '}
   for full details.
 </Callout>
 

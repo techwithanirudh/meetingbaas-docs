@@ -1,6 +1,6 @@
-import type { Engine, MessageRecord } from "@/components/fumadocs/ai/context";
+import type { Engine, MessageRecord } from '@/components/fumadocs/ai/context';
 import { readStreamableValue } from 'ai/rsc';
-import { continueConversation } from "../actions";
+import { continueConversation } from '../actions';
 
 // todo: choose search orama and mcp agent
 // todo: cleanupFetchStream by condesnign to prompt
@@ -30,7 +30,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
         conversation = [
           ...messages,
           { role: 'assistant', content: textContent },
-        ]
+        ];
         onUpdate?.(textContent);
       }
 
@@ -38,7 +38,8 @@ export async function createAiSdkEngine(): Promise<Engine> {
     } catch (error) {
       if (error instanceof Error && error.name !== 'AbortError') {
         console.error('Error in AI stream:', error);
-        const errorMessage = "Sorry, an error occurred while generating a response.";
+        const errorMessage =
+          'Sorry, an error occurred while generating a response.';
         onEnd?.(errorMessage);
         return errorMessage;
       }

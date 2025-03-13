@@ -4,9 +4,9 @@ description: Receive real-time updates, handle errors, and maintain your calenda
 icon: Bell
 ---
 
-import { Callout } from "@/components/fumadocs/callout";
-import { Step, Steps } from "fumadocs-ui/components/steps";
-import { AlertTriangle, Info } from "lucide-react";
+import { Callout } from '@/components/fumadocs/callout';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { AlertTriangle, Info } from 'lucide-react';
 
 ## Webhook Integration
 
@@ -70,19 +70,19 @@ There are two approaches to processing calendar updates:
 This approach gets all events updated after a certain timestamp:
 
 ```javascript
-app.post("/webhooks/meeting-baas", async (req, res) => {
+app.post('/webhooks/meeting-baas', async (req, res) => {
   const event = req.body;
 
   // Acknowledge receipt immediately with 200 OK
-  res.status(200).send("Webhook received");
+  res.status(200).send('Webhook received');
 
   // Process the event asynchronously
-  if (event.event === "calendar.sync_events") {
+  if (event.event === 'calendar.sync_events') {
     try {
       // Fetch updated events
       const updatedEvents = await fetchUpdatedEvents(
         event.data.calendar_id,
-        event.data.last_updated_ts
+        event.data.last_updated_ts,
       );
 
       // Process each event based on your business logic
@@ -95,7 +95,7 @@ app.post("/webhooks/meeting-baas", async (req, res) => {
       }
     } catch (error) {
       // Log error and implement retry mechanism
-      console.error("Failed to process calendar sync event", error);
+      console.error('Failed to process calendar sync event', error);
       // Add to retry queue
     }
   }
@@ -107,15 +107,15 @@ app.post("/webhooks/meeting-baas", async (req, res) => {
 This approach only processes the specific events that changed:
 
 ```javascript
-app.post("/webhooks/meeting-baas", async (req, res) => {
+app.post('/webhooks/meeting-baas', async (req, res) => {
   const event = req.body;
 
   // Acknowledge receipt immediately with 200 OK
-  res.status(200).send("Webhook received");
+  res.status(200).send('Webhook received');
 
   // Process the event asynchronously
   if (
-    event.event === "calendar.sync_events" &&
+    event.event === 'calendar.sync_events' &&
     event.data.affected_event_uuids &&
     event.data.affected_event_uuids.length > 0
   ) {
@@ -124,7 +124,7 @@ app.post("/webhooks/meeting-baas", async (req, res) => {
       for (const eventUuid of event.data.affected_event_uuids) {
         const eventDetails = await fetchEventDetails(
           event.data.calendar_id,
-          eventUuid
+          eventUuid,
         );
 
         // Apply your business logic
@@ -139,7 +139,7 @@ app.post("/webhooks/meeting-baas", async (req, res) => {
       }
     } catch (error) {
       // Log error and implement retry mechanism
-      console.error("Failed to process calendar sync event", error);
+      console.error('Failed to process calendar sync event', error);
       // Add to retry queue
     }
   }
@@ -176,12 +176,12 @@ Implement idempotent webhook processing - you may receive the same webhook multi
 // Example of idempotent processing using a processed events cache
 const processedEvents = new Set();
 
-app.post("/webhooks/meeting-baas", async (req, res) => {
+app.post('/webhooks/meeting-baas', async (req, res) => {
   const event = req.body;
   const eventId = `${event.event}-${event.data.calendar_id}-${event.data.last_updated_ts}`;
 
   // Always acknowledge receipt immediately
-  res.status(200).send("Webhook received");
+  res.status(200).send('Webhook received');
 
   // Skip if we've already processed this exact event
   if (processedEvents.has(eventId)) {
@@ -220,16 +220,16 @@ async function processWithRetry(fn, maxRetries = 3, delay = 1000) {
 
       // Exponential backoff
       await new Promise((resolve) =>
-        setTimeout(resolve, delay * Math.pow(2, retries - 1))
+        setTimeout(resolve, delay * Math.pow(2, retries - 1)),
       );
     }
   }
 }
 
 // Example usage
-app.post("/webhooks/meeting-baas", async (req, res) => {
+app.post('/webhooks/meeting-baas', async (req, res) => {
   // Always acknowledge receipt immediately
-  res.status(200).send("Webhook received");
+  res.status(200).send('Webhook received');
 
   // Process with retry logic
   try {
@@ -237,7 +237,7 @@ app.post("/webhooks/meeting-baas", async (req, res) => {
       // Your processing logic here
     });
   } catch (error) {
-    console.error("Failed after multiple retries", error);
+    console.error('Failed after multiple retries', error);
     // Log to monitoring system, add to dead letter queue, etc.
   }
 });

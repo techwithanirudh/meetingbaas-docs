@@ -9,7 +9,13 @@ export interface Message {
   content: string;
 }
 
-export async function continueConversation({ history, abortSignal }: { history: Message[], abortSignal?: AbortSignal | undefined }) {
+export async function continueConversation({
+  history,
+  abortSignal,
+}: {
+  history: Message[];
+  abortSignal?: AbortSignal | undefined;
+}) {
   'use server';
 
   const stream = createStreamableValue();
@@ -20,7 +26,7 @@ export async function continueConversation({ history, abortSignal }: { history: 
       system:
         "You are a dude that doesn't drop character until the DVD commentary.",
       messages: history,
-      abortSignal
+      abortSignal,
     });
 
     for await (const text of textStream) {

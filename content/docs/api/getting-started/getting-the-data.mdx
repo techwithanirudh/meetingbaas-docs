@@ -4,13 +4,14 @@ description: Learn how to receive meeting data through webhooks
 icon: HardDriveDownload
 ---
 
-import { Callout } from "@/components/fumadocs/callout";
-import { Step, Steps } from "fumadocs-ui/components/steps";
-import { AlertTriangle, Info } from "lucide-react";
+import { Callout } from '@/components/fumadocs/callout';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { AlertTriangle, Info } from 'lucide-react';
 
 # Getting Meeting Data
 
 Your webhook URL will receive two types of data:
+
 1. Live meeting events during the meeting
 2. Final meeting data after completion
 
@@ -54,9 +55,11 @@ x-meeting-baas-api-key: YOUR-API-KEY
 - `data.status.created_at`: An ISO string of the datetime of the event.
 
 When receiving an `in_call_recording` event, additional data is provided:
+
 - `data.status.start_time`: The timestamp when the recording started.
 
 For `meeting_error` events, additional error details are provided:
+
 - `data.status.error_message`: A description of the error that occurred.
 - `data.status.error_type`: The type of error encountered.
 
@@ -65,6 +68,7 @@ For `meeting_error` events, additional error details are provided:
 You'll receive either a `complete` or `failed` event.
 
 ### Success Response (`complete`)
+
 ```http
 POST /your-endpoint
 x-meeting-baas-api-key: YOUR-API-KEY
@@ -103,7 +107,9 @@ x-meeting-baas-api-key: YOUR-API-KEY
 ```
 
 <Callout type="warn" icon={<AlertTriangle className="h-5 w-5" />}>
-  **IMPORTANT**: The mp4 URL is a pre-signed AWS S3 URL that is only valid for 2 hours. Make sure to download the recording promptly or generate a new URL through the API if needed.
+  **IMPORTANT**: The mp4 URL is a pre-signed AWS S3 URL that is only valid for 2
+  hours. Make sure to download the recording promptly or generate a new URL
+  through the API if needed.
 </Callout>
 
 #### Complete Response Fields
@@ -119,6 +125,7 @@ x-meeting-baas-api-key: YOUR-API-KEY
     - `transcript.words.word`: The word itself
 
 ### Failure Response (`failed`)
+
 ```http
 POST /your-endpoint
 x-meeting-baas-api-key: YOUR-API-KEY
@@ -133,21 +140,23 @@ x-meeting-baas-api-key: YOUR-API-KEY
 ```
 
 ### Error Types
-| Error | Description |
-|-------|-------------|
-| CannotJoinMeeting | The bot could not join the meeting URL provided. In most cases, this is because the meeting URL was only accessible for logged-in users invited to the meeting. |
+
+| Error                 | Description                                                                                                                                                                                                    |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CannotJoinMeeting     | The bot could not join the meeting URL provided. In most cases, this is because the meeting URL was only accessible for logged-in users invited to the meeting.                                                |
 | TimeoutWaitingToStart | The bot has quit after waiting to be accepted. By default this is 10 minutes, configurable via `automatic_leave.waiting_room_timeout` or `automatic_leave.noone_joined_timeout` (both default to 600 seconds). |
-| BotNotAccepted | The bot has been refused in the meeting. |
-| BotRemoved | The bot was removed from the meeting by a participant. |
-| InternalError | An unexpected error occurred. Please contact us if the issue persists. |
-| InvalidMeetingUrl | The meeting URL provided is not a valid (Zoom, Meet, Teams) URL. |
+| BotNotAccepted        | The bot has been refused in the meeting.                                                                                                                                                                       |
+| BotRemoved            | The bot was removed from the meeting by a participant.                                                                                                                                                         |
+| InternalError         | An unexpected error occurred. Please contact us if the issue persists.                                                                                                                                         |
+| InvalidMeetingUrl     | The meeting URL provided is not a valid (Zoom, Meet, Teams) URL.                                                                                                                                               |
 
 ### Recording End Reasons
-| Reason | Description |
-|--------|-------------|
-| bot_removed | Bot removed by participant |
-| no_attendees | No participants present |
-| no_speaker | Extended silence |
-| recording_timeout | Maximum duration reached |
-| api_request | Bot [removed via API](/docs/api/getting-started/removing-a-bot) |
-| meeting_error | An error occurred during the meeting (e.g., connection issues) |
+
+| Reason            | Description                                                     |
+| ----------------- | --------------------------------------------------------------- |
+| bot_removed       | Bot removed by participant                                      |
+| no_attendees      | No participants present                                         |
+| no_speaker        | Extended silence                                                |
+| recording_timeout | Maximum duration reached                                        |
+| api_request       | Bot [removed via API](/docs/api/getting-started/removing-a-bot) |
+| meeting_error     | An error occurred during the meeting (e.g., connection issues)  |

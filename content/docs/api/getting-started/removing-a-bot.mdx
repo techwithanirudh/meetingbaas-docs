@@ -4,13 +4,14 @@ description: Learn how to remove a bot from an ongoing meeting using the API
 icon: BotOff
 ---
 
-import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
 # Removing a Bot
 
 ## Overview
 
 When you need to end a bot's participation in a meeting, you can use the API to remove it immediately. This is useful for:
+
 - Ending recordings early
 - Freeing up bot resources
 - Responding to meeting conclusion
@@ -44,6 +45,7 @@ Send a DELETE request to `https://api.meetingbaas.com/bots/{YOUR_BOT_ID}`:
     else:
         print("Failed to remove the bot:", response.json())
     ```
+
   </Tab>
   <Tab value="JavaScript">
     ```javascript title="leave_meeting.js"

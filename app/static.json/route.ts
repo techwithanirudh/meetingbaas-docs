@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
-import { source } from "@/lib/source";
-import type { OramaDocument } from "fumadocs-core/search/orama-cloud";
+import { NextResponse } from 'next/server';
+import { source } from '@/lib/source';
+import type { OramaDocument } from 'fumadocs-core/search/orama-cloud';
 
 export const revalidate = false;
 
@@ -18,7 +18,7 @@ export async function GET(): Promise<Response> {
         title: page.data.title,
         description: page.data.description,
       } satisfies OramaDocument;
-    })
+    }),
   );
 
   return NextResponse.json(results);
