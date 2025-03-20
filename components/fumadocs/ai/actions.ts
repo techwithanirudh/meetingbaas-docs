@@ -1,6 +1,8 @@
 'use server';
 
 import { openai } from '@ai-sdk/openai';
+import { Experimental_StdioMCPTransport as StdioMCPTransport } from 'ai/mcp-stdio';
+
 import {
   experimental_createMCPClient as createMCPClient,
   smoothStream,
@@ -27,10 +29,10 @@ export async function continueConversation({
 
     try {
       client = await createMCPClient({
-        transport: {
-          type: 'sse',
-          url: `https://baas-mcp-on-vercel.vercel.app/sse`,
-        },
+        transport: new StdioMCPTransport({
+          command: 'npx',
+          args: ["-y", "@modelcontextprotocol/server-memory"] ,
+        }),
         onUncaughtError: (error) => {
           console.error('MCP Client error:', error);
         },
@@ -58,11 +60,13 @@ export async function continueConversation({
         // https://github.com/vercel/ai/issues/1122
       });
 
-      for await (const text of textStream) {
-        stream.update(text);
+      try {
+        for await (const text of textStream) {
+          stream.update(text);
+        }
+      } finally {
+        stream.done();
       }
-
-      stream.done();
     } catch (error) {
       console.error(error);
       stream.error('An error occurred, please try again!');

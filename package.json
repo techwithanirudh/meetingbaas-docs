@@ -17,6 +17,7 @@
   "dependencies": {
     "@ai-sdk/openai": "^1.2.6",
     "@ai-sdk/react": "^1.1.24",
+    "@ai-sdk/ui-utils": "^1.1.20",
     "@inkeep/ai-api": "^0.8.0",
     "@next/bundle-analyzer": "^15.2.3",
     "@next/env": "^15.2.3",

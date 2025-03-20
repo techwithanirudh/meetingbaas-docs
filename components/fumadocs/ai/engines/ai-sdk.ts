@@ -2,6 +2,7 @@ import type { Engine, MessageRecord } from '@/components/fumadocs/ai/context';
 import { readStreamableValue } from 'ai/rsc';
 import { continueConversation } from '../actions';
 
+
 export async function createAiSdkEngine(): Promise<Engine> {
   let conversation: MessageRecord[] = [];
   let abortController: AbortController | null = null;
@@ -18,9 +19,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
 
     try {
       let textContent = '';
-      const { messages, newMessage } = await continueConversation({
-        history: userMessages,
-      });
+      
 
       for await (const delta of readStreamableValue(newMessage)) {
         if (abortController.signal.aborted) {
