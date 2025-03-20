@@ -57,7 +57,6 @@ export async function createAiSdkEngine(): Promise<Engine> {
       }
 
       onEnd?.(textContent);
-      return textContent;
     } catch (error) {
       if (error instanceof Error && error.name !== "AbortError") {
         console.error("Error in AI stream:", error);
@@ -77,12 +76,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
         content: text,
       });
 
-      const content = await fetchStream(messages, onUpdate, onEnd);
-
-      messages.push({
-        role: "assistant",
-        content,
-      });
+      await fetchStream(messages, onUpdate, onEnd);
     },
     async regenerateLast(onUpdate, onEnd) {
       const last = messages.at(-1);
@@ -92,12 +86,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
 
       messages.pop();
 
-      const content = await fetchStream(messages, onUpdate, onEnd);
-
-      messages.push({
-        role: "assistant",
-        content,
-      });
+      await fetchStream(messages, onUpdate, onEnd);
     },
     getHistory() {
       return messages;
