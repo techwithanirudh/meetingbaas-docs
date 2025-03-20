@@ -1,15 +1,15 @@
-"use server";
+'use server';
 
+import { openai } from '@ai-sdk/openai';
 import {
   experimental_createMCPClient as createMCPClient,
   smoothStream,
   streamText,
-} from "ai";
-import { openai } from "@ai-sdk/openai";
-import { createStreamableValue } from "ai/rsc";
+} from 'ai';
+import { createStreamableValue } from 'ai/rsc';
 
 export interface Message {
-  role: "user" | "assistant";
+  role: 'user' | 'assistant';
   content: string;
 }
 
@@ -28,9 +28,12 @@ export async function continueConversation({
     try {
       client = await createMCPClient({
         transport: {
-          type: "sse",
-          url: "https://model-context-protocol-mcp-with-vercel-functions-psi.vercel.app/sse",
-        }
+          type: 'sse',
+          url: `https://baas-mcp-on-vercel.vercel.app/sse`,
+        },
+        onUncaughtError: (error) => {
+          console.error('MCP Client error:', error);
+        },
       });
 
       const toolSet = await client.tools();
@@ -38,17 +41,19 @@ export async function continueConversation({
 
       const { textStream } = streamText({
         system:
-          "You are a friendly assistant. Do not use emojis in your responses. Make sure to format code blocks, and add language/title to it",
+          'You are a friendly assistant. Do not use emojis in your responses. Make sure to format code blocks, and add language/title to it',
         tools,
-        model: openai("gpt-4o-mini"),
+        model: openai('gpt-4o-mini'),
         experimental_transform: [
           smoothStream({
-            chunking: "word",
+            chunking: 'word',
           }),
         ],
-        maxSteps: 5,
+        maxSteps: 10,
         messages: history,
-        // abortSignal,
+        onStepFinish: async ({ toolResults }) => {
+          console.log(`STEP RESULTS: ${JSON.stringify(toolResults, null, 2)}`);
+        },
         // todo: abortSignal, is broken, bcs it auto aborts, revert ai code for abort
         // https://github.com/vercel/ai/issues/1122
       });
@@ -60,9 +65,9 @@ export async function continueConversation({
       stream.done();
     } catch (error) {
       console.error(error);
-      stream.error("An error occurred, please try again!");
+      stream.error('An error occurred, please try again!');
     } finally {
-      client?.close()
+      client?.close();
     }
   })();
 
