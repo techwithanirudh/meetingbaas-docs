@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     const tools = await client.tools();
 
     const result = streamText({
-      model: openai("gpt-4o-mini", { structuredOutputs: true }),
+      model: openai("gpt-4o-mini"),
       tools,
       maxSteps: 10,
       experimental_transform: [
