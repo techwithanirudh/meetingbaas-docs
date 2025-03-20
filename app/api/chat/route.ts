@@ -1,5 +1,5 @@
 import { openai } from "@ai-sdk/openai";
-import { experimental_createMCPClient, generateText, Message, streamText } from "ai";
+import { experimental_createMCPClient, generateText, Message, smoothStream, streamText } from "ai";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -21,10 +21,15 @@ export async function POST(request: NextRequest) {
 
     const tools = await client.tools();
 
-    const result = await streamText({
+    const result = streamText({
       model: openai("gpt-4o-mini", { structuredOutputs: true }),
       tools,
       maxSteps: 10,
+      experimental_transform: [
+        smoothStream({
+          chunking: 'word',
+        }),
+      ],
       onStepFinish: async ({ toolResults }) => {
         console.log(`STEP RESULTS: ${JSON.stringify(toolResults, null, 2)}`);
       },

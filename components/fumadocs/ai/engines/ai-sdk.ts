@@ -3,14 +3,14 @@ import { consumeReadableStream } from "@/lib/consume-stream";
 
 export async function createAiSdkEngine(): Promise<Engine> {
   let messages: MessageRecord[] = [];
-  let abortController: AbortController | null = null;
+  let controller: AbortController | null = null;
 
   async function fetchStream(
     userMessages: MessageRecord[],
     onUpdate?: (full: string) => void,
     onEnd?: (full: string) => void
   ) {
-    abortController = new AbortController();
+    controller = new AbortController();
 
     try {
       const response = await fetch("/api/chat", {
@@ -24,7 +24,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
             content: msg.content,
           })),
         }),
-        signal: abortController.signal,
+        signal: controller.signal,
       });
 
       if (!response.ok) {
@@ -43,20 +43,16 @@ export async function createAiSdkEngine(): Promise<Engine> {
               console.error("Error parsing JSON:", error);
             }
 
-            messages = [
-              ...messages,
-              { role: 'assistant', content: textContent },
-            ];
-          
             onUpdate?.(textContent);
           },
-          abortController.signal
+          controller.signal
         );
       } else {
         throw new Error("Response body is null");
       }
 
       onEnd?.(textContent);
+      return textContent;
     } catch (error) {
       if (error instanceof Error && error.name !== "AbortError") {
         console.error("Error in AI stream:", error);
@@ -76,7 +72,11 @@ export async function createAiSdkEngine(): Promise<Engine> {
         content: text,
       });
 
-      await fetchStream(messages, onUpdate, onEnd);
+      const response = await fetchStream(messages, onUpdate, onEnd);
+      messages.push({
+        role: "assistant",
+        content: response,
+      });
     },
     async regenerateLast(onUpdate, onEnd) {
       const last = messages.at(-1);
@@ -86,7 +86,11 @@ export async function createAiSdkEngine(): Promise<Engine> {
 
       messages.pop();
 
-      await fetchStream(messages, onUpdate, onEnd);
+      const response = await fetchStream(messages, onUpdate, onEnd);
+      messages.push({
+        role: "assistant",
+        content: response,
+      });
     },
     getHistory() {
       return messages;
@@ -95,7 +99,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
       messages = [];
     },
     abortAnswer() {
-      abortController?.abort();
+      controller?.abort();
     },
   };
 }
