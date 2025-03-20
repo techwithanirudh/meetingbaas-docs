@@ -3,6 +3,7 @@ import { processDataStream } from "@ai-sdk/ui-utils"
 export async function consumeReadableStream(
   stream: ReadableStream<Uint8Array>,
   callback: (chunk: string) => void,
+  error: (reason: string) => void,
   signal: AbortSignal
 ): Promise<void> {
   let isFirstReasoningPart = true
@@ -29,6 +30,7 @@ export async function consumeReadableStream(
       },
       onErrorPart: value => {
         console.log("onErrorPart:", value)
+        error(value)
       }
     })
   } catch (error) {

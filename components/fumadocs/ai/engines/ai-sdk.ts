@@ -45,6 +45,9 @@ export async function createAiSdkEngine(): Promise<Engine> {
 
             onUpdate?.(textContent);
           },
+          (reason) => {
+            textContent = reason;
+          },
           controller.signal
         );
       } else {
