@@ -19,7 +19,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
     try {
       let textContent = '';
       const { messages, newMessage } = await continueConversation({
-        history: userMessages
+        history: userMessages,
       });
 
       for await (const delta of readStreamableValue(newMessage)) {
