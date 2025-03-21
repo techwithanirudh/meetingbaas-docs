@@ -42,6 +42,19 @@
         "summary": "Leave",
         "description": "Leave",
         "operationId": "leave",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uuid",
+            "description": "The UUID identifier",
+            "required": true,
+            "schema": {
+              "description": "The UUID identifier",
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -85,6 +98,19 @@
         "summary": "Delete Data",
         "description": "Deletes a bot's data including recording, transcription, and logs. Only metadata is retained. Rate limited to 5 requests per minute per API key.",
         "operationId": "delete_data",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uuid",
+            "description": "The UUID identifier",
+            "required": true,
+            "schema": {
+              "description": "The UUID identifier",
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -336,6 +362,19 @@
         "summary": "Get Calendar",
         "description": "Retrieves detailed information about a specific calendar integration by its UUID. Returns comprehensive calendar data including the calendar name, email address, provider details (Google, Microsoft), sync status, and other metadata. This endpoint is useful for displaying calendar information to users or verifying the status of a calendar integration before performing operations on its events.",
         "operationId": "get_calendar",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uuid",
+            "description": "The UUID identifier",
+            "required": true,
+            "schema": {
+              "description": "The UUID identifier",
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -352,6 +391,19 @@
         "summary": "Delete Calendar",
         "description": "Permanently removes a calendar integration by its UUID, including all associated events and bot configurations. This operation cancels any active subscriptions with the calendar provider, stops all webhook notifications, and unschedules any pending recordings. All related resources are cleaned up in the database. This action cannot be undone, and subsequent requests to this calendar's UUID will return 404 Not Found errors.",
         "operationId": "delete_calendar",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uuid",
+            "description": "The UUID identifier",
+            "required": true,
+            "schema": {
+              "description": "The UUID identifier",
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
         "responses": { "200": { "description": "no content" } }
       },
       "patch": {
@@ -359,6 +411,19 @@
         "summary": "Update Calendar",
         "description": "Updates a calendar integration with new credentials or platform while maintaining the same UUID. This operation is performed as an atomic transaction to ensure data integrity. The system automatically unschedules existing bots to prevent duplicates, updates the calendar credentials, and triggers a full resync of all events. Useful when OAuth tokens need to be refreshed or when migrating a calendar between providers. Returns the updated calendar object with its new configuration.",
         "operationId": "update_calendar",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uuid",
+            "description": "The UUID identifier",
+            "required": true,
+            "schema": {
+              "description": "The UUID identifier",
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -387,6 +452,19 @@
         "summary": "Get Event",
         "description": "Retrieves comprehensive details about a specific calendar event by its UUID. Returns complete event information including title, meeting link, start and end times, organizer status, recurrence information, and the full list of attendees with their names and email addresses. Also includes any associated bot parameters if recording is scheduled for this event. The raw calendar data from the provider is also included for advanced use cases.",
         "operationId": "get_event",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uuid",
+            "description": "The UUID identifier",
+            "required": true,
+            "schema": {
+              "description": "The UUID identifier",
+              "type": "string"
+            },
+            "style": "simple"
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
@@ -406,6 +484,17 @@
         "description": "Configures a bot to automatically join and record a specific calendar event at its scheduled time. The request body contains detailed bot configuration, including recording options, streaming settings, and webhook notification URLs. For recurring events, the 'all_occurrences' parameter can be set to true to schedule recording for all instances of the recurring series, or false (default) to schedule only the specific instance. Returns the updated event(s) with the bot parameters attached.",
         "operationId": "schedule_record_event",
         "parameters": [
+          {
+            "in": "path",
+            "name": "uuid",
+            "description": "The UUID identifier",
+            "required": true,
+            "schema": {
+              "description": "The UUID identifier",
+              "type": "string"
+            },
+            "style": "simple"
+          },
           {
             "in": "query",
             "name": "all_occurrences",
@@ -446,6 +535,17 @@
         "operationId": "unschedule_record_event",
         "parameters": [
           {
+            "in": "path",
+            "name": "uuid",
+            "description": "The UUID identifier",
+            "required": true,
+            "schema": {
+              "description": "The UUID identifier",
+              "type": "string"
+            },
+            "style": "simple"
+          },
+          {
             "in": "query",
             "name": "all_occurrences",
             "description": "unschedule a bot from all occurences of a recurring event",
@@ -476,6 +576,17 @@
         "description": "Updates the configuration of a bot already scheduled to record an event. Allows modification of recording settings, webhook URLs, and other bot parameters without canceling and recreating the scheduled recording. For recurring events, the 'all_occurrences' parameter determines whether changes apply to all instances or just the specific occurrence. Returns the updated event(s) with the modified bot parameters.",
         "operationId": "patch_bot",
         "parameters": [
+          {
+            "in": "path",
+            "name": "uuid",
+            "description": "The UUID identifier",
+            "required": true,
+            "schema": {
+              "description": "The UUID identifier",
+              "type": "string"
+            },
+            "style": "simple"
+          },
           {
             "in": "query",
             "name": "all_occurrences",
@@ -734,6 +845,18 @@
           }
         }
       },
+      "BotIdParam": {
+        "description": "Bot ID path parameter for API endpoints (uses database ID) This parameter is for internal use only and not exposed in public API",
+        "type": "object",
+        "required": ["bot_id"],
+        "properties": {
+          "bot_id": {
+            "description": "The bot ID",
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "BotPagined": {
         "type": "object",
         "required": ["bots", "has_more"],
@@ -973,6 +1096,17 @@
           "email": { "type": "string" },
           "id": { "type": "string" },
           "is_primary": { "type": "boolean" }
+        }
+      },
+      "CalendarUuidParam": {
+        "description": "Calendar UUID path parameter for API endpoints",
+        "type": "object",
+        "required": ["calendar_uuid"],
+        "properties": {
+          "calendar_uuid": {
+            "description": "The calendar UUID",
+            "type": "string"
+          }
         }
       },
       "CreateCalendarParams": {
@@ -1885,6 +2019,14 @@
             "format": "partial-date-time"
           },
           "total_tokens_purchased": { "type": "string" }
+        }
+      },
+      "UuidParam": {
+        "description": "UUID path parameter for API endpoints",
+        "type": "object",
+        "required": ["uuid"],
+        "properties": {
+          "uuid": { "description": "The UUID identifier", "type": "string" }
         }
       },
       "Version": {

@@ -1,44 +1,60 @@
 import type { Engine, MessageRecord } from '@/components/fumadocs/ai/context';
-import { readStreamableValue } from 'ai/rsc';
-import { continueConversation } from '../actions';
+import { consumeReadableStream } from '@/lib/consume-stream';
 
 export async function createAiSdkEngine(): Promise<Engine> {
-  let conversation: MessageRecord[] = [];
-  let abortController: AbortController | null = null;
+  let messages: MessageRecord[] = [];
+  let controller: AbortController | null = null;
 
   async function fetchStream(
     userMessages: MessageRecord[],
     onUpdate?: (full: string) => void,
     onEnd?: (full: string) => void,
   ) {
-    if (abortController) {
-      abortController.abort();
-    }
-    abortController = new AbortController();
+    controller = new AbortController();
 
     try {
-      let textContent = '';
-      const { messages, newMessage } = await continueConversation({
-        history: userMessages,
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: userMessages.map((msg) => ({
+            role: msg.role,
+            content: msg.content,
+          })),
+        }),
+        signal: controller.signal,
       });
 
-      for await (const delta of readStreamableValue(newMessage)) {
-        if (abortController.signal.aborted) {
-          break;
-        }
-
-        textContent = `${textContent}${delta}`;
-        conversation = [
-          ...messages,
-          { role: 'assistant', content: textContent },
-        ];
-        onUpdate?.(textContent);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      if (!abortController.signal.aborted) {
-        onEnd?.(textContent);
+      let textContent = '';
+
+      if (response.body) {
+        await consumeReadableStream(
+          response.body,
+          (chunk) => {
+            try {
+              textContent += chunk;
+            } catch (error) {
+              console.error('Error parsing JSON:', error);
+            }
+
+            onUpdate?.(textContent);
+          },
+          (reason) => {
+            textContent = reason;
+          },
+          controller.signal,
+        );
+      } else {
+        throw new Error('Response body is null');
       }
 
+      onEnd?.(textContent);
       return textContent;
     } catch (error) {
       if (error instanceof Error && error.name !== 'AbortError') {
@@ -49,40 +65,44 @@ export async function createAiSdkEngine(): Promise<Engine> {
         return errorMessage;
       }
       return '';
-    } finally {
-      if (abortController && abortController.signal.aborted) {
-        abortController = null;
-      }
     }
   }
 
   return {
     async prompt(text, onUpdate, onEnd) {
-      conversation.push({
+      messages.push({
         role: 'user',
         content: text,
       });
 
-      await fetchStream(conversation, onUpdate, onEnd);
+      const response = await fetchStream(messages, onUpdate, onEnd);
+      messages.push({
+        role: 'assistant',
+        content: response,
+      });
     },
     async regenerateLast(onUpdate, onEnd) {
-      const last = conversation.at(-1);
+      const last = messages.at(-1);
       if (!last || last.role === 'user') {
         return;
       }
 
-      conversation.pop();
+      messages.pop();
 
-      await fetchStream(conversation, onUpdate, onEnd);
+      const response = await fetchStream(messages, onUpdate, onEnd);
+      messages.push({
+        role: 'assistant',
+        content: response,
+      });
     },
     getHistory() {
-      return conversation;
+      return messages;
     },
     clearHistory() {
-      conversation = [];
+      messages = [];
     },
     abortAnswer() {
-      abortController?.abort();
+      controller?.abort();
     },
   };
 }

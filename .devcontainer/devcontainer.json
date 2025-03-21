@@ -19,8 +19,6 @@
       "onAutoForward": "notify"
     }
   },
-  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-  "remoteUser": "root",
   // Add more features. See complete list https://github.com/devcontainers/features
   "features": {
     "ghcr.io/devcontainers/features/common-utils:2": {
