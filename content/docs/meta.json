@@ -1,3 +1,27 @@
 {
-  "pages": ["api", "transcript-seeker", "speaking-bots"]
+  "pages": ["api", "transcript-seeker", "speaking-bots", "ai-chat"],
+  "items": {
+    "api": {
+      "title": "MeetingBaas API",
+      "icon": "Webhook"
+    },
+    "transcript-seeker": {
+      "title": "Transcript Seeker",
+      "icon": "Album"
+    },
+    "speaking-bots": {
+      "title": "Speaking Bots",
+      "icon": "Bot"
+    },
+    "ai-chat": {
+      "title": "AI Chat",
+      "icon": "MessageSquare"
+    }
+  },
+  "standalone": {
+    "ai-chat": {
+      "title": "AI Chat",
+      "icon": "MessageSquare"
+    }
+  }
 }

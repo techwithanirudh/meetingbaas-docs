@@ -9,7 +9,11 @@ import {
   ToolExecutionError,
 } from 'ai';
 import { NextRequest } from 'next/server';
-import { Experimental_StdioMCPTransport as StdioMCPTransport } from 'ai/mcp-stdio';
+
+const MCP_SERVER_URL =
+  process.env.MCP_SERVER_URL ||
+  'https://model-context-protocol-mcp-with-vercel-functions-psi.vercel.app/sse';
+const MCP_API_KEY = process.env.MCP_API_KEY;
 
 export async function POST(request: NextRequest) {
   const {
@@ -19,10 +23,16 @@ export async function POST(request: NextRequest) {
   } = await request.json();
 
   try {
+    // Add authorization header to the URL if API key is present
+    const url = new URL(MCP_SERVER_URL);
+    if (MCP_API_KEY) {
+      url.searchParams.set('authorization', `Bearer ${MCP_API_KEY}`);
+    }
+
     let client = await createMCPClient({
       transport: {
         type: 'sse',
-        url: 'https://model-context-protocol-mcp-with-vercel-functions-psi.vercel.app/sse',
+        url: url.toString(),
       },
       onUncaughtError: (error) => {
         client.close();

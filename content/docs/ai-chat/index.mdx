@@ -1,0 +1,14 @@
+---
+title: AI Chat
+icon: MessageSquare
+index: true
+full: true
+hideTitle: true
+---
+
+import { ChatInterface } from '@/components/fumadocs/ai/chat-interface';
+import { AIProvider } from '@/components/fumadocs/ai/context';
+
+<AIProvider type="ai-sdk" loadEngine={true}>
+  <ChatInterface />
+</AIProvider>

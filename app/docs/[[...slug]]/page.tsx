@@ -1,14 +1,14 @@
-import { source, openapi } from '@/lib/source';
+import { createMetadata } from '@/lib/metadata';
+import { metadataImage } from '@/lib/metadata-image';
+import { openapi, source } from '@/lib/source';
+import defaultMdxComponents from 'fumadocs-ui/mdx';
 import {
-  DocsPage,
   DocsBody,
   DocsDescription,
+  DocsPage,
   DocsTitle,
 } from 'fumadocs-ui/page';
 import { notFound } from 'next/navigation';
-import defaultMdxComponents from 'fumadocs-ui/mdx';
-import { createMetadata } from '@/lib/metadata';
-import { metadataImage } from '@/lib/metadata-image';
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -29,12 +29,12 @@ export default async function Page(props: {
         style: 'clerk',
         single: false,
       }}
-      // editOnGithub={{
-      //   repo: "docs",
-      //   owner: "Meeting-Baas",
-      //   sha: "main",
-      //   path,
-      // }}
+    // editOnGithub={{
+    //   repo: "docs",
+    //   owner: "Meeting-Baas",
+    //   sha: "main",
+    //   path,
+    // }}
     >
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>

@@ -23,7 +23,8 @@
         "name": "next"
       }
     ],
-    "ignoreDeprecations": "5.0"
+    "ignoreDeprecations": "5.0",
+    "typeRoots": ["./node_modules/@types", "./types"]
   },
   "include": [
     "next-env.d.ts",
