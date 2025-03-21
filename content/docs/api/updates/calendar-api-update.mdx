@@ -17,18 +17,18 @@ We're excited to announce several improvements to our Calendar API endpoints. Th
 
 ### Webhook Configuration Flexibility
 
-- The `webhook_url` parameter is now optional on [`POST /calendar`](/docs/api/reference/create_calendar) endpoint if a webhook URL is already configured on the account
+- The `webhook_url` parameter is now optional on [`POST /calendar`](/docs/api/reference/calendars/create_calendar) endpoint if a webhook URL is already configured on the account
 
 ### Enhanced Event Information
 
-- [`GET /calendar_events`](/docs/api/reference/list_events) now includes attendees information for each event
-- [`GET /calendar_events/uuid`](/docs/api/reference/get_event) now returns the `calendar_id` of the event
+- [`GET /calendar_events`](/docs/api/reference/calendars/list_events) now includes attendees information for each event
+- [`GET /calendar_events/uuid`](/docs/api/reference/calendars/get_event) now returns the `calendar_id` of the event
 
 ### Recurring Events Bot Management
 
-- New query parameter `all_occurrences` added to [`POST /calendar_events/uuid/bot`](/docs/api/reference/schedule_record_event)
+- New query parameter `all_occurrences` added to [`POST /calendar_events/uuid/bot`](/docs/api/reference/calendars/schedule_record_event)
 - Allows scheduling a bot for all instances of a recurring event
-- Same functionality added to [`DELETE /calendar_events/uuid/bot`](/docs/api/reference/unschedule_record_event)
+- Same functionality added to [`DELETE /calendar_events/uuid/bot`](/docs/api/reference/calendars/unschedule_record_event)
 - Enables bot removal from all occurrences of a recurring event
 
 ## Breaking Changes
@@ -36,14 +36,14 @@ We're excited to announce several improvements to our Calendar API endpoints. Th
 <Callout type="warn">
 ### Bot Management Response Format
 
-- [`POST /calendar_events/uuid/bot`](/docs/api/reference/schedule_record_event) now returns an array of events instead of a single event
-- [`DELETE /calendar_events/uuid/bot`](/docs/api/reference/unschedule_record_event) now returns an array of events instead of a single event
+- [`POST /calendar_events/uuid/bot`](/docs/api/reference/calendars/schedule_record_event) now returns an array of events instead of a single event
+- [`DELETE /calendar_events/uuid/bot`](/docs/api/reference/calendars/unschedule_record_event) now returns an array of events instead of a single event
 
 </Callout>
 
 <Callout type="warn">
 ### Pagination Changes
-- [`GET /calendar_events`](/docs/api/reference/list_events) endpoint no longer supports `offset/limit` pagination
+- [`GET /calendar_events`](/docs/api/reference/calendars/list_events) endpoint no longer supports `offset/limit` pagination
 - Implemented cursor-based pagination
 - Response format changed to include a `next` field for fetching subsequent events
 - Events are returned in batches of 100

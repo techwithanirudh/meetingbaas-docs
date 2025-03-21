@@ -1,11 +1,15 @@
 ---
-title: Setup
-icon: Key
+title: Setting Up Calendar Integration
+description: Learn how to set up calendar integration with Meeting BaaS
+icon: Calendar
 ---
 
 import { Callout } from "@/components/fumadocs/callout";
-import { Step, Steps } from "fumadocs-ui/components/steps";
-import { AlertTriangle, Info } from "lucide-react";
+import { Card } from "@/components/fumadocs/card";
+import { Step, Steps } from "@/components/fumadocs/steps";
+import { ChevronRight } from "lucide-react";
+
+# Setting Up Calendar Integration
 
 Meeting BaaS allows you to automatically sync calendars from Outlook and Google Workspace to deploy bots to scheduled meetings.
 
@@ -21,36 +25,28 @@ Before starting the calendar sync integration, ensure you have:
 
 <Step>
 
-### Authentication: Get your OAuth credentials
+### Create OAuth Credentials
 
-To start syncing calendars, you'll need two sets of credentials:
+First, you'll need to create OAuth credentials for the calendar provider you want to integrate with. This involves setting up a project in the provider's developer console and configuring OAuth consent.
 
-1. **Your App's Credentials (Service Level)**
+For **Google Calendar**:
 
-- For Outlook: Your app's Microsoft Client ID and Client Secret
-- For Google Workspace: Your app's Google Client ID and Client Secret
-
-2. **End User's Credentials (User Level)**
-
-- OAuth refresh token obtained when user grants calendar access to your app
-
-<Callout type="info">
-  Best Practice: Request calendar access as a separate step after initial user
-  signup. Users are more likely to grant calendar access when it's clearly tied
-  to a specific feature they want to use.
-</Callout>
-
-#### Required OAuth Scopes
-
-For **Google Workspace**:
-
-- `https://www.googleapis.com/auth/calendar.readonly` - To read calendar and event data
-- `https://www.googleapis.com/auth/calendar.events.readonly` - To access event details
+1. Go to the [Google Cloud Console](https://console.cloud.google.com)
+2. Create a new project or select an existing one
+3. Enable the Google Calendar API
+4. Create OAuth 2.0 credentials
+5. Configure the OAuth consent screen
+6. Add the following scopes:
+   - `https://www.googleapis.com/auth/calendar.readonly` - To read calendar and event data
+   - `https://www.googleapis.com/auth/calendar.events` - Required if you need to modify calendar events
 
 For **Microsoft Outlook**:
 
-- `Calendars.Read` - To read calendar and event data
-- `Calendars.ReadWrite` - Required if you need to modify calendar events
+1. Go to the [Microsoft Azure Portal](https://portal.azure.com)
+2. Register a new application or select an existing one
+3. Add the following permissions:
+   - `Calendars.Read` - To read calendar and event data
+   - `Calendars.ReadWrite` - Required if you need to modify calendar events
 
 </Step>
 
