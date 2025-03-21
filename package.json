@@ -15,7 +15,7 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^1.2.7",
+    "@ai-sdk/openai": "^1.2.8",
     "@ai-sdk/react": "^1.1.25",
     "@ai-sdk/ui-utils": "^1.1.21",
     "@inkeep/ai-api": "^0.8.0",
@@ -26,7 +26,7 @@
     "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-slot": "^1.1.2",
     "@shikijs/rehype": "^3.2.1",
-    "ai": "^4.1.64",
+    "ai": "^4.1.66",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "fumadocs-core": "15.0.18",
