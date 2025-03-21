@@ -1,10 +1,10 @@
-import * as fs from "node:fs/promises";
-import { CloudManager } from "@oramacloud/client";
-import fg from "fast-glob";
-import matter from "gray-matter";
-import path from "node:path";
-import { remark } from "remark";
-import remarkGfm from "remark-gfm";
+import * as fs from 'node:fs/promises';
+import { CloudManager } from '@oramacloud/client';
+import fg from 'fast-glob';
+import matter from 'gray-matter';
+import path from 'node:path';
+import { remark } from 'remark';
+import remarkGfm from 'remark-gfm';
 import { fileGenerator, remarkDocGen, remarkInstall } from 'fumadocs-docgen';
 import remarkStringify from 'remark-stringify';
 import remarkMdx from 'remark-mdx';
@@ -16,7 +16,7 @@ export async function updateOramaAi(): Promise<void> {
   const index = process.env.ORAMA_AI_INDEX_ID;
 
   if (!apiKey || !index) {
-    console.log("no api key for Orama found, skipping");
+    console.log('no api key for Orama found, skipping');
     return;
   }
 
@@ -24,22 +24,23 @@ export async function updateOramaAi(): Promise<void> {
   const indexManager = manager.index(index);
 
   const files = await fg([
-    "./content/docs/**/*.mdx",
+    './content/docs/**/*.mdx',
     '!./content/docs/api/reference/**/*',
   ]);
   const records: unknown[] = [];
 
-  console.log("processing documents for AI");
+  console.log('processing documents for AI');
   const scan = files.map(async (file) => {
     const fileContent = await fs.readFile(file);
     const { content, data } = matter(fileContent.toString());
 
     const dir = path.dirname(file).split(path.sep).at(3);
     const category = {
-      api: "MeetingBaas API, the main purpose of the documentation",
-      "transcript-seeker": "Transcript Seeker, the open-source transcription playground",
-      "speaking-bots": "Speaking Bots, the Pipecat-powered bots",
-    }[dir ?? ""];
+      api: 'MeetingBaas API, the main purpose of the documentation',
+      'transcript-seeker':
+        'Transcript Seeker, the open-source transcription playground',
+      'speaking-bots': 'Speaking Bots, the Pipecat-powered bots',
+    }[dir ?? ''];
 
     const processed = await processContent(file, content);
 
@@ -58,7 +59,6 @@ export async function updateOramaAi(): Promise<void> {
   await indexManager.snapshot(records);
   await indexManager.deploy();
 }
-
 
 async function processContent(path: string, content: string): Promise<string> {
   const file = await remark()

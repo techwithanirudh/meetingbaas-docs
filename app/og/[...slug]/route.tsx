@@ -8,7 +8,7 @@ export const GET = metadataImage.createAPI((page) => {
     site: 'Meeting BaaS',
     // 176 100% 43% - replace the hex codes too
     primaryColor: '#13c9bd',
-    primaryTextColor: '#13c9bd'
+    primaryTextColor: '#13c9bd',
   });
 });
 

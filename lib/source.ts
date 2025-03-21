@@ -3,8 +3,8 @@ import { loader } from 'fumadocs-core/source';
 import { attachFile, createOpenAPI } from 'fumadocs-openapi/server';
 import { docs, meta } from '@/.source';
 
-import { icons } from "lucide-react";
-import { createElement } from "react";
+import { icons } from 'lucide-react';
+import { createElement } from 'react';
 
 export const source = loader({
   baseUrl: '/docs',
@@ -19,5 +19,5 @@ export const source = loader({
 });
 
 export const openapi = createOpenAPI({
-  proxyUrl: 'https://meetingbaas-api-proxy.vercel.app/api/'
+  proxyUrl: 'https://meetingbaas-api-proxy.vercel.app/api/',
 });

@@ -16,6 +16,7 @@ import type { Processor } from './markdown-processor';
 import Link from 'fumadocs-core/link';
 import {
   AIProvider,
+  EngineType,
   type MessageRecord,
   useAI,
   useAIMessages,
@@ -33,6 +34,7 @@ import {
   type DialogProps,
   DialogTitle,
 } from '@radix-ui/react-dialog';
+import { cva } from 'class-variance-authority';
 
 function SearchAIMessages() {
   const messages = useAIMessages();
@@ -321,13 +323,28 @@ function ShowOnMessages({ children }: { children: ReactNode }) {
   return children;
 }
 
+const typeButtonVariants = cva(
+  'inline-flex items-center justify-center rounded-lg px-2 py-1 text-sm font-medium transition-colors duration-100',
+  {
+    variants: {
+      active: {
+        true: 'bg-fd-primary/10 text-fd-primary',
+        false: 'text-fd-muted-foreground',
+      },
+    },
+  },
+);
+
 export default function AISearch(props: DialogProps) {
+  const [type, setType] = useState<EngineType>('orama');
+
   return (
     <Dialog {...props}>
       {props.children}
-      <AIProvider type="orama" loadEngine={props.open}>
+      <AIProvider type={type} loadEngine={props.open}>
         <DialogPortal>
           <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm data-[state=closed]:animate-fd-fade-out data-[state=open]:animate-fd-fade-in" />
+
           <DialogContent
             onOpenAutoFocus={(e) => {
               document.getElementById('nd-ai-input')?.focus();
@@ -343,26 +360,59 @@ export default function AISearch(props: DialogProps) {
               </List>
             </ShowOnMessages>
             <SearchAIInput className="rounded-b-none border-b-0" />
-            <div className="flex flex-row gap-2 items-center bg-fd-muted text-fd-muted-foreground px-3 py-1.5 rounded-b-xl border-b border-x shadow-lg">
-              <DialogTitle className="text-xs flex-1">
-                Powered by{' '}
-                <a
-                  href="https://orama.com"
-                  target="_blank"
-                  className="font-medium text-fd-popover-foreground"
-                  rel="noreferrer noopener"
+            <div className="flex flex-row gap-2 items-center bg-fd-muted text-fd-muted-foreground px-3 py-1.5 rounded-b-xl border-b border-x shadow-lg justify-between flex-wrap">
+              <div className="flex flex-row items-center">
+                <button
+                  className={cn(
+                    typeButtonVariants({ active: type === 'orama' }),
+                  )}
+                  onClick={() => {
+                    setType('orama');
+                  }}
                 >
-                  Orama AI
-                </a>
-                . AI can be inaccurate, please verify the information.
-              </DialogTitle>
-              <DialogClose
-                aria-label="Close"
-                tabIndex={-1}
-                className="rounded-full p-1.5 -me-1.5 hover:bg-fd-accent hover:text-fd-accent-foreground"
-              >
-                <X className="size-4" />
-              </DialogClose>
+                  Search
+                </button>
+                <button
+                  className={cn(
+                    typeButtonVariants({ active: type === 'ai-sdk' }),
+                  )}
+                  onClick={() => {
+                    setType('ai-sdk');
+                  }}
+                >
+                  Agent
+                </button>
+              </div>
+              <div className="flex flex-row gap-2 items-center">
+                <DialogTitle className="text-xs flex-1">
+                  Powered by{' '}
+                  <a
+                    href={
+                      type === 'orama'
+                        ? 'https://orama.com'
+                        : type === 'inkeep'
+                          ? 'https://inkeep.com'
+                          : 'https://sdk.vercel.ai'
+                    }
+                    target="_blank"
+                    className="font-medium text-fd-popover-foreground"
+                    rel="noreferrer noopener"
+                  >
+                    {type === 'orama' && 'Orama AI'}
+                    {type === 'inkeep' && 'Inkeep'}
+                    {type === 'ai-sdk' && 'AI SDK'}
+                  </a>
+                  . AI can be inaccurate, please verify the information.
+                </DialogTitle>
+
+                <DialogClose
+                  aria-label="Close"
+                  tabIndex={-1}
+                  className="rounded-full p-1.5 -me-1.5 hover:bg-fd-accent hover:text-fd-accent-foreground"
+                >
+                  <X className="size-4" />
+                </DialogClose>
+              </div>
             </div>
           </DialogContent>
         </DialogPortal>

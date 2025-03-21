@@ -1,9 +1,9 @@
-"use client";
-import { RootProvider } from "fumadocs-ui/provider";
-import dynamic from "next/dynamic";
-import type { ReactNode } from "react";
+'use client';
+import { RootProvider } from 'fumadocs-ui/provider';
+import dynamic from 'next/dynamic';
+import type { ReactNode } from 'react';
 
-const SearchDialog = dynamic(() => import("@/components/search")); // lazy load
+const SearchDialog = dynamic(() => import('@/components/search')); // lazy load
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
@@ -12,7 +12,7 @@ export function Providers({ children }: { children: ReactNode }) {
         SearchDialog,
       }}
       theme={{
-        enabled: false
+        enabled: false,
       }}
     >
       {children}

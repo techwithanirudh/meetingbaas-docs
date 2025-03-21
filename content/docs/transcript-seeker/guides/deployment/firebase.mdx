@@ -4,8 +4,8 @@ description: Learn how to deploy Transcript Seeker to Firebase.
 icon: Flame
 ---
 
-import { Step, Steps } from "fumadocs-ui/components/steps";
-import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
 ## Setup
 
@@ -61,10 +61,10 @@ yarn global add firebase-tools@latest
 </Tabs>
 
 <Callout>
-  {" "}
+  {' '}
   Make sure to use version
   [^11.18.0](https://github.com/firebase/firebase-tools/releases/tag/v11.18.0)
-  or higher to deploy `nodejs18` functions.{" "}
+  or higher to deploy `nodejs18` functions.{' '}
 </Callout>
 
 </Step>
@@ -198,7 +198,9 @@ The command below builds and deploys the Cloud Run service. Modify the `SERVICE_
 </Callout>
 
 <Callout>
-  If you have already deployed the frontend and are encountering a CORS error, it may be due to the API being built for production. Once the build is complete, the CORS error should be resolved.
+  If you have already deployed the frontend and are encountering a CORS error,
+  it may be due to the API being built for production. Once the build is
+  complete, the CORS error should be resolved.
 </Callout>
 
 ```bash title="Terminal"

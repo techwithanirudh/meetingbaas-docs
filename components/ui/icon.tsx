@@ -1,7 +1,7 @@
-import type { LucideIcon } from "lucide-react";
-import { TerminalIcon } from "lucide-react";
-import type { HTMLAttributes } from "react";
-import { cn } from "@/lib/cn";
+import type { LucideIcon } from 'lucide-react';
+import { TerminalIcon } from 'lucide-react';
+import type { HTMLAttributes } from 'react';
+import { cn } from '@/lib/cn';
 
 export function IconContainer({
   icon: Icon,
@@ -13,7 +13,7 @@ export function IconContainer({
     <div
       {...props}
       className={cn(
-        "rounded-md border bg-linear-to-b from-muted to-secondary p-0.5 shadow-md [a[data-active=true]_&]:from-primary/60 [a[data-active=true]_&]:to-primary [a[data-active=true]_&]:text-primary-foreground",
+        'rounded-md border bg-linear-to-b from-muted to-secondary p-0.5 shadow-md [a[data-active=true]_&]:from-primary/60 [a[data-active=true]_&]:to-primary [a[data-active=true]_&]:text-primary-foreground',
         props.className,
       )}
     >

@@ -1,14 +1,14 @@
-import { source, openapi } from "@/lib/source";
+import { source, openapi } from '@/lib/source';
 import {
   DocsPage,
   DocsBody,
   DocsDescription,
   DocsTitle,
-} from "fumadocs-ui/page";
-import { notFound, redirect } from "next/navigation";
-import defaultMdxComponents from "fumadocs-ui/mdx";
-import { createMetadata } from "@/lib/metadata";
-import { metadataImage } from "@/lib/metadata-image";
+} from 'fumadocs-ui/page';
+import { notFound, redirect } from 'next/navigation';
+import defaultMdxComponents from 'fumadocs-ui/mdx';
+import { createMetadata } from '@/lib/metadata';
+import { metadataImage } from '@/lib/metadata-image';
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -26,7 +26,7 @@ export default async function Page(props: {
       toc={page.data.toc}
       full={page.data.full}
       tableOfContent={{
-        style: "clerk",
+        style: 'clerk',
         single: false,
       }}
       // editOnGithub={{
@@ -60,15 +60,15 @@ export async function generateMetadata(props: {
 
   const description =
     page.data.description ??
-    "Deploy AI for video meetings through a single unified API.";
+    'Deploy AI for video meetings through a single unified API.';
 
   return createMetadata(
     metadataImage.withImage(page.slugs, {
       title: page.data.title,
       description,
       openGraph: {
-        url: `/docs/${page.slugs.join("/")}`,
+        url: `/docs/${page.slugs.join('/')}`,
       },
-    })
+    }),
   );
 }
