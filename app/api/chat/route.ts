@@ -9,7 +9,6 @@ import {
   ToolExecutionError,
 } from 'ai';
 import { NextRequest } from 'next/server';
-import { Experimental_StdioMCPTransport as StdioMCPTransport } from 'ai/mcp-stdio';
 
 export async function POST(request: NextRequest) {
   const {
@@ -22,7 +21,7 @@ export async function POST(request: NextRequest) {
     let client = await createMCPClient({
       transport: {
         type: 'sse',
-        url: 'https://model-context-protocol-mcp-with-vercel-functions-psi.vercel.app/sse',
+        url: 'https://baas-mcp.vercel.app/sse',
       },
       onUncaughtError: (error) => {
         client.close();
@@ -34,6 +33,7 @@ export async function POST(request: NextRequest) {
     const tools = { ...toolSet };
 
     const result = streamText({
+      // todo: add models.ts file
       model: openai('gpt-4o-mini'),
       tools,
       maxSteps: 10,
