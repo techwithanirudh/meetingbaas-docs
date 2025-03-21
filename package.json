@@ -9,7 +9,7 @@
     "dev": "next dev",
     "start": "next start",
     "postinstall": "fumadocs-mdx",
-    "lint": "fumadocs-mdx && tsx ./scripts/lint.mts && eslint .",
+    "lint": "fumadocs-mdx && tsx ./scripts/lint.mts && next lint",
     "build:docs": "tsx ./scripts/generate-docs.mts",
     "docs:watch": "./.devcontainer/build_auto.sh",
     "with-env": "dotenv -e ../../.env --"
@@ -64,6 +64,8 @@
     "@types/react-dom": "^19.0.4",
     "chokidar": "^4.0.3",
     "dotenv-cli": "^8.0.0",
+    "eslint": "^9",
+    "eslint-config-next": "15.2.3",
     "fast-glob": "^3.3.3",
     "gray-matter": "^4.0.3",
     "next-validate-link": "^1.5.2",

@@ -5,7 +5,7 @@ import {
   DocsDescription,
   DocsTitle,
 } from 'fumadocs-ui/page';
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import { createMetadata } from '@/lib/metadata';
 import { metadataImage } from '@/lib/metadata-image';

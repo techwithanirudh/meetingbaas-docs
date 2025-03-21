@@ -159,6 +159,7 @@ export function useAI() {
 }
 
 export function useAIMessages() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, update] = useState(0);
   const { engine } = useAI();
 

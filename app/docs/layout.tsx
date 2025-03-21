@@ -1,13 +1,10 @@
 import { DocsLayout, type DocsLayoutProps } from 'fumadocs-ui/layouts/notebook';
 import type { ReactNode } from 'react';
 import { MessageCircle } from 'lucide-react';
-import { Slot } from '@radix-ui/react-slot';
-import { baseOptions, linkItems } from '@/app/layout.config';
+import { baseOptions } from '@/app/layout.config';
 import 'fumadocs-twoslash/twoslash.css';
 import { source } from '@/lib/source';
 import { AISearchTrigger } from '@/components/fumadocs/ai';
-import { cn } from '@/lib/cn';
-import { buttonVariants } from '@/components/ui/button';
 
 const docsOptions: DocsLayoutProps = {
   ...baseOptions,
