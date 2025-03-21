@@ -17,7 +17,7 @@ We've expanded our Calendar API with new filtering capabilities and improved cal
 
 ### Enhanced Event Filtering
 
-The [`GET /calendar_events`](/docs/api/reference/list_events) endpoint now supports additional filtering parameters:
+The [`GET /calendar_events`](/docs/api/reference/calendars/list_events) endpoint now supports additional filtering parameters:
 
 - `attendeeEmail` - Filter events by attendee email address
 - `organizerEmail` - Filter events by organizer email address
@@ -31,7 +31,7 @@ The `Attendee` object now includes a `name` field that provides the display name
 
 ### Full Calendar Resync
 
-New [`POST /calendars/resync_all`](/docs/api/reference/resync_all_calendars) endpoint to initiate a complete refresh of all connected calendars:
+New [`POST /calendars/resync_all`](/docs/api/reference/calendars/resync_all_calendars) endpoint to initiate a complete refresh of all connected calendars:
 
 - Performs a deep sync with each calendar provider
 - Tracks success or failure for each calendar individually
