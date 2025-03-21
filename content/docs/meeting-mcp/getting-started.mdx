@@ -1,0 +1,86 @@
+---
+title: Getting Started
+description: Set up and run your Meeting BaaS MCP server
+icon: Rocket
+---
+
+import { Callout } from "@/components/fumadocs/callout";
+import { Card, Cards } from "fumadocs-ui/components/card";
+import { ChevronRight } from "lucide-react";
+
+## Environment Setup
+
+```bash
+# Required
+node >= 16
+pnpm >= 8
+MEETINGBAAS_API_KEY=your_key_here
+
+# Optional
+PORT=7017                    # Default MCP server port
+API_BASE_URL=https://api.meetingbaas.com
+```
+
+## Quick Start
+
+```bash
+# Clone and setup
+git clone https://github.com/Meeting-Baas/meeting-mcp.git
+cd meeting-mcp
+pnpm install
+pnpm build
+
+# Start server
+pnpm start
+```
+
+Server runs at `http://localhost:7017/mcp`
+
+## Basic Usage
+
+### Create Meeting Bot
+
+```bash
+# Join meeting
+"Create a bot for my Zoom meeting at https://zoom.us/j/123456789"
+
+# Check status
+"What's the status of my meeting recording for the Zoom call I started earlier?"
+```
+
+### Calendar Setup
+
+```bash
+# Get OAuth credentials
+"I want to integrate my Google Calendar. How do I get OAuth credentials?"
+
+# Integrate calendar
+"Integrate my Google Calendar using these credentials:
+- Platform: Google
+- Client ID: your-client-id
+- Client Secret: your-client-secret
+- Refresh Token: your-refresh-token"
+
+# Schedule recording
+"Schedule a recording for my team meeting with event ID abc-123"
+```
+
+## Development
+
+```bash
+# Development mode
+pnpm dev
+
+# Test tools
+pnpm inspect
+
+# Clean logs
+pnpm cleanup
+```
+
+## Next Steps
+
+- [Tools](/docs/meeting-mcp/tools) - Available MCP tools
+- [Calendar](/docs/meeting-mcp/calendar-integration) - Calendar integration
+- [Config](/docs/meeting-mcp/configuration) - Server configuration
+- [Dev](/docs/meeting-mcp/development) - Development guide

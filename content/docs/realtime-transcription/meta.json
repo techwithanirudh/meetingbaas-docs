@@ -1,0 +1,7 @@
+{
+  "title": "Real-Time Transcription",
+  "icon": "Mic",
+  "description": "Real-time meeting transcription using MeetingBaas and Gladia APIs",
+  "root": true,
+  "pages": ["index", "getting-started", "concepts", "guides"]
+}

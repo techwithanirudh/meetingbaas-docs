@@ -1,0 +1,68 @@
+---
+title: Future Developments
+description: SDK generator and upcoming features
+icon: Sparkles
+---
+
+import { Callout } from "@/components/fumadocs/callout";
+import { Card, Cards } from "fumadocs-ui/components/card";
+import { GithubIcon } from "lucide-react";
+
+## SDK Generator (WIP)
+
+[View on GitHub](https://github.com/Meeting-Baas/sdk-generator)
+
+```bash
+# Prerequisites
+node >= 18
+pnpm >= 8
+ANTHROPIC_API_KEY=your_key_here
+
+# Build process
+pnpm openapi:clean    # Clean generated files
+pnpm openapi:generate # Generate TypeScript client
+pnpm build           # Build SDK
+pnpm tools:generate  # Generate MCP tools
+pnpm tools:register  # Register with MCP server
+```
+
+### Features
+
+- OpenAPI to MCP tool generation
+- TypeScript types and validation
+- Custom tool templates
+- Claude-powered definitions
+- Local/hosted deployment options
+
+## Roadmap
+
+### Q2 2024
+
+- Hosted MCP service
+- Rate limiting
+- Team permissions
+- Analytics API
+
+### Q3 2024
+
+- Semantic search
+- Custom tool builder
+- Webhook system
+- Export API
+
+### Q4 2024
+
+- Additional calendar providers
+- Meeting templates
+- Bot customization
+- Enterprise features
+
+## Contributing
+
+[Meeting MCP](https://github.com/Meeting-Baas/meeting-mcp) | [SDK Generator](https://github.com/Meeting-Baas/sdk-generator)
+
+1. Fork repository
+2. Create feature branch
+3. Submit PR
+
+<Callout>SDK generator is in development. Features may change.</Callout>

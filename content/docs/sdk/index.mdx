@@ -1,0 +1,148 @@
+---
+title: Introduction
+description: TypeScript SDK for interacting with the Meeting BaaS API
+icon: Code
+---
+
+import { Callout } from "@/components/fumadocs/callout";
+import { GithubInfo } from "fumadocs-ui/components/github-info";
+
+The Meeting BaaS TypeScript SDK provides strongly typed functions for interacting with the Meeting BaaS API - the unified API for Google Meet, Zoom, and Microsoft Teams. This package is automatically generated from our OpenAPI specification.
+
+<GithubInfo
+  owner="Meeting-Baas"
+  repo="sdk-generator"
+  token={process.env.GITHUB_TOKEN}
+/>
+
+## Features
+
+- **BaaS API Client**: Strongly typed functions for interacting with the Meeting BaaS API
+- **Bot Management**: Create, join, and manage meeting bots across platforms
+- **Calendar Integration**: Connect calendars and automatically schedule meeting recordings
+- **Complete API Coverage**: Access to all Meeting BaaS API endpoints
+- **TypeScript Support**: Full TypeScript definitions for all APIs
+- **MPC Tool Registration**: Simple way to register client tools with an MPC server
+
+## Installation
+
+```bash
+# With npm
+npm install @meeting-baas/sdk
+
+# With yarn
+yarn add @meeting-baas/sdk
+
+# With pnpm
+pnpm add @meeting-baas/sdk
+```
+
+## Quick Start
+
+```typescript
+import { BaasClient } from "@meeting-baas/sdk";
+
+// Create a BaaS client
+const client = new BaasClient({
+  apiKey: "your-api-key", // Get yours at https://meetingbaas.com
+});
+
+// Join a meeting
+const botId = await client.joinMeeting({
+  botName: "Meeting Assistant",
+  meetingUrl: "https://meet.google.com/abc-def-ghi",
+  reserved: true,
+});
+
+// Get meeting data
+const meetingData = await client.getMeetingData(botId);
+console.log("Meeting data:", meetingData);
+```
+
+## Usage Examples
+
+### Basic Usage
+
+```typescript
+import { BaasClient } from "@meeting-baas/sdk";
+
+// Create a BaaS client
+const client = new BaasClient({
+  apiKey: "your-api-key",
+});
+
+// Join a meeting
+const botId = await client.joinMeeting({
+  botName: "My Assistant",
+  meetingUrl: "https://meet.google.com/abc-def-ghi",
+  reserved: true,
+});
+
+// Get meeting data
+const meetingData = await client.getMeetingData(botId);
+console.log("Meeting data:", meetingData);
+
+// Delete meeting data
+await client.deleteData(botId);
+```
+
+### Using MPC Tools
+
+```typescript
+import { register_tool } from "your-mpc-server";
+import {
+  join_meeting_tool,
+  get_meeting_data_tool,
+  delete_data_tool,
+} from "@meeting-baas/sdk/tools";
+
+// Register tools with your MPC server
+register_tool(join_meeting_tool);
+register_tool(get_meeting_data_tool);
+register_tool(delete_data_tool);
+```
+
+### Calendar Integration
+
+```typescript
+import { BaasClient, Provider } from "@meeting-baas/sdk";
+
+const client = new BaasClient({
+  apiKey: "your-api-key",
+});
+
+// Create a calendar integration
+const calendar = await client.createCalendar({
+  oauthClientId: "your-oauth-client-id",
+  oauthClientSecret: "your-oauth-client-secret",
+  oauthRefreshToken: "your-oauth-refresh-token",
+  platform: Provider.Google,
+});
+
+// List all calendars
+const calendars = await client.listCalendars();
+
+// List events from a calendar
+const events = await client.listEvents(calendar.uuid);
+
+// Schedule a recording for an event
+await client.scheduleRecordEvent(events[0].uuid, {
+  botName: "Event Recording Bot",
+  extra: { customId: "my-event-123" },
+});
+```
+
+## Available MPC Tools
+
+The SDK includes pre-generated MPC tools for all API endpoints:
+
+- **Meeting Management**: Join meetings, leave meetings, get meeting data
+- **Transcript Tools**: Get formatted transcripts, search within transcripts, find key moments
+- **Calendar Integration**: List calendars, integrate with OAuth, schedule recordings
+- **Data Management**: Delete meeting data, list bots with metadata
+
+## Next Steps
+
+- [Getting Started](/docs/meeting-baas/sdk/getting-started) - Set up and use the SDK
+- [API Reference](/docs/meeting-baas/sdk/api-reference) - Complete API documentation
+- [MPC Tools](/docs/meeting-baas/sdk/mpc-tools) - Using MPC tools with the SDK

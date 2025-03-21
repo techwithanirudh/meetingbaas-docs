@@ -1,0 +1,15 @@
+{
+  "title": "Meeting MCP",
+  "icon": "Server",
+  "description": "Model Context Protocol server for AI assistants to create meeting bots, search transcripts, and manage meeting recordings",
+  "root": true,
+  "pages": [
+    "index",
+    "getting-started",
+    "tools",
+    "calendar-integration",
+    "configuration",
+    "development",
+    "future"
+  ]
+}

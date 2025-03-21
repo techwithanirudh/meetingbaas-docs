@@ -1,3 +1,11 @@
 {
-  "pages": ["api", "transcript-seeker", "speaking-bots"]
+  "title": "Documentation",
+  "pages": [
+    "api",
+    "transcript-seeker",
+    "speaking-bots",
+    "realtime-transcription",
+    "meeting-mcp",
+    "meeting-baas/sdk"
+  ]
 }

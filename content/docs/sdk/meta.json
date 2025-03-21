@@ -1,0 +1,6 @@
+{
+  "title": "TypeScript SDK",
+  "icon": "Code",
+  "description": "Official TypeScript SDK for interacting with the Meeting BaaS API",
+  "pages": ["index", "getting-started", "api-reference", "mpc-tools"]
+}

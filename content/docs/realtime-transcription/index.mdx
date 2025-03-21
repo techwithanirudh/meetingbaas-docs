@@ -1,0 +1,77 @@
+---
+title: Introduction
+description: Real-time meeting transcription using MeetingBaas and Gladia APIs
+icon: Mic
+---
+
+import { Callout } from "@/components/fumadocs/callout";
+import { GithubInfo } from "fumadocs-ui/components/github-info";
+
+Demo of MeetingBaas's capablitites to set up real-time meeting transcription, using a third party API (Gladia) to transcribe the audio.
+This demo logs the transcriptions to the terminal and to a file.
+
+<GithubInfo
+  owner="Meeting-Baas"
+  repo="realtime-meeting-transcription"
+  token={process.env.GITHUB_TOKEN}
+/>
+
+## How It Works
+
+```
+Meeting ─────┐
+            Audio Stream
+                │
+                ▼
+        ┌─── MeetingBaas ───┐
+        │                   │
+     Audio              Transcript
+        │                   │
+        ▼                   ▲
+    Gladia API ────────────┘
+        │
+        ▼
+     Storage
+```
+
+## Key Features
+
+- **Universal Meeting Support**: Works with Zoom, Google Meet, Microsoft Teams
+- **Real-time Processing**: Live audio streaming and transcription
+- **Speaker Detection**: Identifies and labels different speakers
+- **Easy Integration**: Simple setup and configuration
+- **Flexible Deployment**: Run locally or in the cloud
+
+## Use Cases
+
+- Meeting documentation and notes
+- Accessibility and transcription
+- Knowledge management
+- Compliance and auditing
+- Team collaboration
+
+## Quick Start
+
+```bash
+# Install
+git clone https://github.com/Meeting-Baas/realtime-meeting-transcription.git
+cd realtime-meeting-transcription
+pnpm install
+
+# Configure
+cp .env.example .env
+# Edit .env with your API keys
+
+# Run
+pnpm start
+```
+
+## Next Steps
+
+- [Getting Started](/docs/realtime-transcription/getting-started) - Set up your transcription service
+- [Concepts](/docs/realtime-transcription/concepts) - Core concepts and architecture
+- [Guides](/docs/realtime-transcription/guides) - Usage guides and examples
+
+```
+
+```

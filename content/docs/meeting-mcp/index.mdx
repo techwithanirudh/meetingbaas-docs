@@ -1,0 +1,75 @@
+---
+title: Introduction
+description: Model Context Protocol server for AI assistants to create meeting bots, search transcripts, and manage meeting recordings
+icon: Server
+---
+
+import { Callout } from "@/components/fumadocs/callout";
+import { GithubInfo } from "fumadocs-ui/components/github-info";
+
+The Meeting MCP (Model Context Protocol) server is a powerful tool that enables AI assistants to seamlessly interact with video meetings. It provides a standardized interface for creating meeting bots, managing transcripts, and handling meeting recordings across multiple platforms.
+
+<GithubInfo
+  owner="Meeting-Baas"
+  repo="meeting-mcp"
+  token={process.env.GITHUB_TOKEN}
+/>
+
+## How It Works
+
+```
+AI Assistant ──────┐
+                  MCP Tools
+                     │
+                     ▼
+            ┌──── MCP Server ────┐
+            │         │         │
+         Meeting    Audio    Calendar
+           BaaS      │       Service
+            │        │         │
+            └────────┼─────────┘
+                     │
+                     ▼
+                  Storage
+```
+
+## Key Features
+
+- **Universal Meeting Support**: Works with Zoom, Google Meet, Microsoft Teams
+- **Real-time Processing**: Live audio streaming and transcription
+- **Speaker Detection**: Identifies and labels different speakers
+- **Calendar Integration**: Schedule and manage recordings
+- **Search & Analytics**: Find and analyze meeting content
+
+## Use Cases
+
+- Meeting documentation and notes
+- Accessibility and transcription
+- Knowledge management
+- Compliance and auditing
+- Team collaboration
+
+## Quick Start
+
+```bash
+# Install
+git clone https://github.com/Meeting-Baas/meeting-mcp.git
+cd meeting-mcp
+pnpm install
+pnpm build
+
+# Run
+pnpm start
+```
+
+## Next Steps
+
+- [Getting Started](/docs/meeting-mcp/getting-started) - Set up your MCP server
+- [Tools](/docs/meeting-mcp/tools) - Available MCP tools
+- [Calendar](/docs/meeting-mcp/calendar-integration) - Calendar integration
+- [Config](/docs/meeting-mcp/configuration) - Server configuration
+- [Dev](/docs/meeting-mcp/development) - Development guide
+
+```
+
+```

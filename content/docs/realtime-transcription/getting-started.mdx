@@ -1,0 +1,154 @@
+---
+title: Getting Started
+description: Set up and run your first real-time meeting transcription
+---
+
+import { File, Files, Folder } from "@/components/fumadocs/files";
+import { Card, Cards } from "fumadocs-ui/components/card";
+import { GithubIcon } from "lucide-react";
+
+This guide will help you set up and run your first real-time meeting transcription using MeetingBaas and Gladia APIs.
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+- Node.js (v16 or later) installed
+- pnpm (or npm/yarn) package manager
+- A MeetingBaas API key
+- A Gladia API key
+- Ngrok or similar tool for exposing local webhook endpoints
+
+## Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Meeting-Baas/realtime-meeting-transcription.git
+cd real-time-meeting-transcription
+```
+
+2. Install dependencies:
+
+```bash
+pnpm install
+```
+
+3. Create a `.env` file in the root directory with your API keys:
+
+```env
+MEETING_BAAS_API_KEY=your_meetingbaas_api_key
+GLADIA_API_KEY=your_gladia_api_key
+PROXY_HOST=0.0.0.0
+PROXY_PORT=3000
+```
+
+## Running Your First Transcription
+
+1. Start ngrok to create a public URL for your webhook:
+
+```bash
+ngrok http 3000
+```
+
+Note the https URL that ngrok provides (e.g., https://abcd-123-456-789.ngrok-free.app).
+
+2. Run the application with your meeting URL:
+
+```bash
+pnpm run dev <meeting_url> <bot_name> <ngrok_url>
+```
+
+For example:
+
+```bash
+pnpm run dev https://us06web.zoom.us/j/12345?pwd=abcdef "Transcription Bot" https://abcd-123-456-789.ngrok-free.app
+```
+
+3. The bot will join the meeting and begin transcribing audio in real-time.
+
+4. To stop the transcription service, press `Ctrl+C` in your terminal. The application will gracefully shutdown.
+
+## Project Structure
+
+<Files>
+  <Folder name="src" description="Core application code">
+    <File
+      name="meetingbaas.ts"
+      description="MeetingBaas API client and bot management"
+    />
+    <File name="gladia.ts" description="Gladia transcription API integration" />
+    <File
+      name="proxy.ts"
+      description="WebSocket proxy server for audio streaming"
+    />
+    <File
+      name="config.ts"
+      description="Application configuration and environment setup"
+    />
+    <File name="types.ts" description="TypeScript type definitions" />
+  </Folder>
+  <File name="package.json" description="Project dependencies and scripts" />
+  <File name="tsconfig.json" description="TypeScript configuration" />
+  <File name=".env.example" description="Environment variables template" />
+  <File name="README.md" description="Project documentation" />
+</Files>
+
+## Available Scripts
+
+The project includes several npm scripts to help you run different components:
+
+- `pnpm run dev` - Run the application in development mode
+- `pnpm run build` - Build the TypeScript code
+- `pnpm run start` - Run the built application
+- `pnpm run bot` - Run only the bot component
+- `pnpm run proxy` - Run only the proxy server
+- `pnpm run meetingbaas` - Run the MeetingBaas bot creation script
+- `pnpm run clean` - Clean and reinstall dependencies
+
+## Configuration Options
+
+You can configure the application through environment variables in your `.env` file:
+
+```env
+# Required
+MEETING_BAAS_API_KEY=your_meetingbaas_api_key
+GLADIA_API_KEY=your_gladia_api_key
+
+# Optional (with defaults)
+PROXY_HOST=0.0.0.0
+PROXY_PORT=3000
+MEETING_BAAS_API_URL=https://api.meetingbaas.com
+```
+
+## Troubleshooting
+
+If you encounter issues, check the following:
+
+1. **API Keys**
+
+   - Verify your MeetingBaas API key is correct
+   - Verify your Gladia API key is valid
+   - Check that both keys are properly set in your `.env` file
+
+2. **WebSocket Connections**
+
+   - Ensure your ngrok URL is correct and accessible
+   - Check that the proxy server is running
+   - Verify the WebSocket connection between components
+
+3. **Meeting Access**
+
+   - Confirm the meeting URL is valid
+   - Ensure the meeting is accessible without additional authentication
+   - Check that the meeting hasn't ended
+
+4. **Audio Issues**
+   - Verify that audio is being captured from the meeting
+   - Check that the audio format matches Gladia's requirements
+   - Ensure the WebSocket connection is stable
+
+## Next Steps
+
+- [Core Concepts](/docs/realtime-transcription/concepts) - Learn about the key components and how they work together
+- [Guides](/docs/realtime-transcription/guides) - Explore advanced usage and customization options

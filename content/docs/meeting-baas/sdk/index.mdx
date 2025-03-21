@@ -1,0 +1,76 @@
+---
+title: Introduction
+description: TypeScript SDK for interacting with the Meeting BaaS API
+icon: Code
+---
+
+import { Callout } from "@/components/fumadocs/callout";
+import { GithubInfo } from "fumadocs-ui/components/github-info";
+
+The Meeting BaaS TypeScript SDK provides strongly-typed functions for interacting with our API, enabling seamless integration with Google Meet, Zoom, and Microsoft Teams. This package is automatically generated from our OpenAPI specification.
+
+<GithubInfo
+  owner="Meeting-Baas"
+  repo="sdk-generator"
+  token={process.env.GITHUB_TOKEN}
+/>
+
+## Installation
+
+```bash
+# With npm
+npm install @meeting-baas/sdk
+
+# With yarn
+yarn add @meeting-baas/sdk
+
+# With pnpm
+pnpm add @meeting-baas/sdk
+```
+
+## Quick Start
+
+```typescript
+import { BaasClient } from "@meeting-baas/sdk";
+
+// Create a BaaS client
+const client = new BaasClient({
+  apiKey: "your-api-key", // Get yours at https://meetingbaas.com
+});
+
+// Join a meeting
+const botId = await client.joinMeeting({
+  botName: "Meeting Assistant",
+  meetingUrl: "https://meet.google.com/abc-def-ghi",
+  reserved: true,
+});
+
+// Get meeting data
+const meetingData = await client.getMeetingData(botId);
+console.log("Meeting data:", meetingData);
+```
+
+## Key Features
+
+- **BaaS API Client**: Strongly typed functions for interacting with the Meeting BaaS API
+- **Bot Management**: Create, join, and manage meeting bots across platforms
+- **Calendar Integration**: Connect calendars and automatically schedule recordings
+- **Complete API Coverage**: Access to all Meeting BaaS API endpoints
+- **TypeScript Support**: Full TypeScript definitions for all APIs
+- **MPC Tool Registration**: Simple way to register client tools with an MPC server
+
+## Available MPC Tools
+
+The SDK includes pre-generated MPC tools for all API endpoints:
+
+- **Meeting Management**: Join meetings, leave meetings, get meeting data
+- **Transcript Tools**: Get formatted transcripts, search within transcripts, find key moments
+- **Calendar Integration**: List calendars, integrate with OAuth, schedule recordings
+- **Data Management**: Delete meeting data, list bots with metadata
+
+## Next Steps
+
+- [Getting Started](/docs/meeting-baas/sdk/getting-started) - Set up and use the SDK
+- [MPC Tools](/docs/meeting-baas/sdk/mpc-tools) - Using MPC tools with your server
+- [Calendar](/docs/meeting-baas/sdk/calendar) - Calendar integration guide
+- [Examples](/docs/meeting-baas/sdk/examples) - Code examples and use cases

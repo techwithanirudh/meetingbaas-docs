@@ -4,27 +4,26 @@ description: Deploy AI-powered speaking agents in video meetings
 icon: Book
 ---
 
-import { Files, File, Folder } from '@/components/fumadocs/files';
-import { Card, Cards } from 'fumadocs-ui/components/card';
-import { GithubIcon } from 'lucide-react';
+import { File, Files, Folder } from '@/components/fumadocs/files';
+import { GithubInfo } from 'fumadocs-ui/components/github-info';
 
 This repository demonstrates the capabilities of [MeetingBaas](https://meetingbaas.com) 🐟's video meeting APIs by integrating with [Pipecat](https://github.com/pipecat-ai/pipecat)'s Python framework for building voice and multimodal conversational agents.
 
 Our implementation creates AI meeting agents that can join and participate in Google Meet and Microsoft Teams meetings with distinct personalities and context defined in Markdown files.
+
+<GithubInfo
+  owner="Meeting-Baas"
+  repo="speaking-meeting-bot"
+  token={process.env.GITHUB_TOKEN}
+/>
+
+## Features
 
 This implementation extends Pipecat's [WebSocket server implementation](https://github.com/pipecat-ai/pipecat/tree/main/examples/websocket-server) to create:
 
 - Meeting agents that can join Google Meet, Zoom or Microsoft Teams through the [MeetingBaas API](https://meetingbaas.com)
 - Customizable personas with unique context
 - Support for running multiple instances locally or at scale
-
-<Card
-  icon={<GithubIcon />}
-  title="Speaking Meeting Bot"
-  href="https://github.com/Meeting-Baas/speaking-meeting-bot"
-  description="Clone and star our repository to launch and scale AI-powered meeting agents"
-  external
-/>
 
 ## Directory Structure
 
@@ -105,3 +104,25 @@ This implementation extends Pipecat's [WebSocket server implementation](https://
     <File name="batch.py" description="Multiple bot deployment script" />
   </Folder>
 </Files>
+
+## Quick Start
+
+```bash
+# Install
+git clone https://github.com/Meeting-Baas/speaking-meeting-bot.git
+cd speaking-meeting-bot
+pnpm install
+
+# Configure
+cp .env.example .env
+# Edit .env with your API keys
+
+# Run
+pnpm start
+```
+
+## Next Steps
+
+- [Getting Started](/docs/speaking-bots/getting-started) - Set up your speaking bot
+- [Features](/docs/speaking-bots/features) - Available features and capabilities
+- [Integration](/docs/speaking-bots/integration) - Connect with other tools
