@@ -1,5 +1,5 @@
-import type { Engine, MessageRecord } from "@/components/fumadocs/ai/context";
-import { consumeReadableStream } from "@/lib/consume-stream";
+import type { Engine, MessageRecord } from '@/components/fumadocs/ai/context';
+import { consumeReadableStream } from '@/lib/consume-stream';
 
 export async function createAiSdkEngine(): Promise<Engine> {
   let messages: MessageRecord[] = [];
@@ -8,15 +8,15 @@ export async function createAiSdkEngine(): Promise<Engine> {
   async function fetchStream(
     userMessages: MessageRecord[],
     onUpdate?: (full: string) => void,
-    onEnd?: (full: string) => void
+    onEnd?: (full: string) => void,
   ) {
     controller = new AbortController();
 
     try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
+      const response = await fetch('/api/chat', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           messages: userMessages.map((msg) => ({
@@ -31,7 +31,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      let textContent = "";
+      let textContent = '';
 
       if (response.body) {
         await consumeReadableStream(
@@ -40,7 +40,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
             try {
               textContent += chunk;
             } catch (error) {
-              console.error("Error parsing JSON:", error);
+              console.error('Error parsing JSON:', error);
             }
 
             onUpdate?.(textContent);
@@ -48,42 +48,42 @@ export async function createAiSdkEngine(): Promise<Engine> {
           (reason) => {
             textContent = reason;
           },
-          controller.signal
+          controller.signal,
         );
       } else {
-        throw new Error("Response body is null");
+        throw new Error('Response body is null');
       }
 
       onEnd?.(textContent);
       return textContent;
     } catch (error) {
-      if (error instanceof Error && error.name !== "AbortError") {
-        console.error("Error in AI stream:", error);
+      if (error instanceof Error && error.name !== 'AbortError') {
+        console.error('Error in AI stream:', error);
         const errorMessage =
-          "Sorry, an error occurred while generating a response.";
+          'Sorry, an error occurred while generating a response.';
         onEnd?.(errorMessage);
         return errorMessage;
       }
-      return "";
+      return '';
     }
   }
 
   return {
     async prompt(text, onUpdate, onEnd) {
       messages.push({
-        role: "user",
+        role: 'user',
         content: text,
       });
 
       const response = await fetchStream(messages, onUpdate, onEnd);
       messages.push({
-        role: "assistant",
+        role: 'assistant',
         content: response,
       });
     },
     async regenerateLast(onUpdate, onEnd) {
       const last = messages.at(-1);
-      if (!last || last.role === "user") {
+      if (!last || last.role === 'user') {
         return;
       }
 
@@ -91,7 +91,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
 
       const response = await fetchStream(messages, onUpdate, onEnd);
       messages.push({
-        role: "assistant",
+        role: 'assistant',
         content: response,
       });
     },

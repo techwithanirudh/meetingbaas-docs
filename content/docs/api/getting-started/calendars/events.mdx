@@ -38,23 +38,24 @@ curl -X GET "https://api.meetingbaas.com/calendars/cal_12345abcde/events" \
 <Callout type="info">
   The List Events endpoint supports various filtering options:
 
-  - `calendar_id` (required) - Which calendar's events to retrieve
-  
-  - `start_date_gte` - Filter events starting on or after this timestamp
-  
-  - `start_date_lte` - Filter events starting on or before this timestamp
-  
-  - `updated_at_gte` - Filter events updated on or after this timestamp
-  
-  - `status` - Filter by meeting status ("upcoming", "past", "all") - default is "upcoming"
-  
-  - `attendee_email` - Filter events with a specific attendee
-  
-  - `organizer_email` - Filter events with a specific organizer
-  
-  - `cursor` - For pagination through large result sets
-  
-  See the <a href="/docs/api-reference/calendars/list_events" target="_blank">List Events API Reference</a> for full details.
+- `calendar_id` (required) - Which calendar's events to retrieve
+
+- `start_date_gte` - Filter events starting on or after this timestamp
+
+- `start_date_lte` - Filter events starting on or before this timestamp
+
+- `updated_at_gte` - Filter events updated on or after this timestamp
+
+- `status` - Filter by meeting status ("upcoming", "past", "all") - default is "upcoming"
+
+- `attendee_email` - Filter events with a specific attendee
+
+- `organizer_email` - Filter events with a specific organizer
+
+- `cursor` - For pagination through large result sets
+
+See the <a href="/docs/api/reference/calendars/list_events" target="_blank">List Events API Reference</a> for full details.
+
 </Callout>
 
 #### Get Event Details Example
@@ -73,7 +74,8 @@ Meeting BaaS automatically detects meeting links within calendar events and can 
 
 <Callout type="info">
   Meeting links are detected from the event location, description, or custom
-  properties depending on the calendar provider, habits or integrations of the user.
+  properties depending on the calendar provider, habits or integrations of the
+  user.
 </Callout>
 
 Each platform has its own link format that our system automatically recognizes.

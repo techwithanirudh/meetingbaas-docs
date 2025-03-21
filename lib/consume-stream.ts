@@ -1,43 +1,43 @@
-import { processDataStream } from "@ai-sdk/ui-utils"
+import { processDataStream } from '@ai-sdk/ui-utils';
 
 export async function consumeReadableStream(
   stream: ReadableStream<Uint8Array>,
   callback: (chunk: string) => void,
   error: (reason: string) => void,
-  signal: AbortSignal
+  signal: AbortSignal,
 ): Promise<void> {
-  let isFirstReasoningPart = true
-  let isFirstTextPart = true
+  let isFirstReasoningPart = true;
+  let isFirstTextPart = true;
 
   try {
     await processDataStream({
       stream,
-      onTextPart: value => {
+      onTextPart: (value) => {
         if (isFirstTextPart && !isFirstReasoningPart) {
-          isFirstTextPart = false
-          callback("</think>" + value)
+          isFirstTextPart = false;
+          callback('</think>' + value);
         } else {
-          callback(value)
+          callback(value);
         }
       },
-      onReasoningPart: value => {
+      onReasoningPart: (value) => {
         if (isFirstReasoningPart) {
-          isFirstReasoningPart = false
-          callback("<think>" + value)
+          isFirstReasoningPart = false;
+          callback('<think>' + value);
         } else {
-          callback(value)
+          callback(value);
         }
       },
-      onErrorPart: value => {
-        console.log("onErrorPart:", value)
-        error(value)
-      }
-    })
+      onErrorPart: (value) => {
+        console.log('onErrorPart:', value);
+        error(value);
+      },
+    });
   } catch (error) {
     if (signal.aborted) {
-      console.error("Stream reading was aborted:", error)
+      console.error('Stream reading was aborted:', error);
     } else {
-      console.error("Error consuming stream:", error)
+      console.error('Error consuming stream:', error);
     }
   }
 }
