@@ -20,10 +20,10 @@ export async function POST(request: NextRequest) {
 
   try {
     let client = await createMCPClient({
-      transport: new StdioMCPTransport({
-        command: 'npx',
-        args: ['-y', '@modelcontextprotocol/server-filesystem', './mcp-data'],
-      }),
+      transport: {
+        type: 'sse',
+        url: 'https://model-context-protocol-mcp-with-vercel-functions-psi.vercel.app/sse',
+      },
       onUncaughtError: (error) => {
         client.close();
         console.error('MCP Client error:', error);
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
         }),
       ],
       onStepFinish: async ({ toolResults }) => {
-        console.log(`STEP RESULTS: ${JSON.stringify(toolResults, null, 2)}`);
+        console.log(`Step Results: ${JSON.stringify(toolResults, null, 2)}`);
       },
       onFinish: async () => {
         client.close();
