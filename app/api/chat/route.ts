@@ -9,6 +9,7 @@ import {
   ToolExecutionError,
 } from 'ai';
 import { NextRequest } from 'next/server';
+import { Experimental_StdioMCPTransport as StdioMCPTransport } from 'ai/mcp-stdio';
 
 export async function POST(request: NextRequest) {
   const {
@@ -17,15 +18,14 @@ export async function POST(request: NextRequest) {
     messages: Array<Message>;
   } = await request.json();
 
-  let client;
-
   try {
-    client = await createMCPClient({
-      transport: {
-        type: 'sse',
-        url: 'https://model-context-protocol-mcp-with-vercel-functions-psi.vercel.app/sse',
-      },
+    let client = await createMCPClient({
+      transport: new StdioMCPTransport({
+        command: 'npx',
+        args: ['-y', '@modelcontextprotocol/server-filesystem', './mcp-data'],
+      }),
       onUncaughtError: (error) => {
+        client.close();
         console.error('MCP Client error:', error);
       },
     });
@@ -45,6 +45,12 @@ export async function POST(request: NextRequest) {
       onStepFinish: async ({ toolResults }) => {
         console.log(`STEP RESULTS: ${JSON.stringify(toolResults, null, 2)}`);
       },
+      onFinish: async () => {
+        client.close();
+      },
+      onError: async () => {
+        client.close();
+      },
       system:
         'You are a friendly assistant. Do not use emojis in your responses. Make sure to format code blocks, and add language/title to it',
       messages,
@@ -57,6 +63,7 @@ export async function POST(request: NextRequest) {
         } else if (InvalidToolArgumentsError.isInstance(error)) {
           return 'The model called a tool with invalid arguments.';
         } else if (ToolExecutionError.isInstance(error)) {
+          console.log(error);
           return 'An error occurred during tool execution.';
         } else {
           return 'An unknown error occurred.';
@@ -66,7 +73,5 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error(error);
     return Response.json({ error: 'Failed to generate text' });
-  } finally {
-    await client?.close();
   }
 }
