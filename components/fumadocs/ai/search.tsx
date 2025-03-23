@@ -379,6 +379,7 @@ export default function AISearch(props: DialogProps) {
                   onClick={() => {
                     setType('ai-sdk');
                   }}
+                  disabled
                 >
                   Agent
                 </button>
