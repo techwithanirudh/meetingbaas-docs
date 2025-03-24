@@ -24,7 +24,6 @@ export async function POST(request: NextRequest) {
         url: 'https://mcp.meetingbaas.com/sse',
       },
       onUncaughtError: (error) => {
-        client.close();
         console.error('MCP Client error:', error);
       },
     });
