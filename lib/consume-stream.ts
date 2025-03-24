@@ -20,6 +20,14 @@ export async function consumeReadableStream(
           callback(value);
         }
       },
+      onToolCallPart: (value) => {
+        if (isFirstTextPart && !isFirstReasoningPart) {
+          isFirstTextPart = false;
+          callback('</think>' + JSON.stringify(value));
+        } else {
+          callback(JSON.stringify(value));
+        }
+      },
       onReasoningPart: (value) => {
         if (isFirstReasoningPart) {
           isFirstReasoningPart = false;
