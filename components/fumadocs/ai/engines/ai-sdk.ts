@@ -1,5 +1,5 @@
 import type { Engine, MessageRecord } from '@/components/fumadocs/ai/context';
-import { processChatResponse } from '@/lib/consume-stream';
+import { processChatResponse } from '@/lib/ai/process-chat-response';
 import { generateId } from 'ai';
 import type { Message, ToolCall, } from "ai";
 
