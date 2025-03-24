@@ -7,7 +7,6 @@ export const setApiKeyTool = createTool({
     apiKey: z.string().describe('The MeetingBaas API Key'),
   }),
   execute: async function ({ apiKey }) {
-    // await new Promise(resolve => setTimeout(resolve, 2000));
     return {
       message: `Storing MeetingBaas API Key: ${apiKey}`,
     };
