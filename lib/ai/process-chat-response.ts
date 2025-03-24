@@ -1,3 +1,4 @@
+// derived from https://github.com/vercel/ai/blob/93bd8992e496edf28424e766b6f31313ee054e5d/packages/ui-utils/src/process-chat-response.ts
 import { LanguageModelV1FinishReason } from '@ai-sdk/provider';
 import { generateId as generateIdFunction } from 'ai';
 import { processDataStream, parsePartialJson } from '@ai-sdk/ui-utils';
