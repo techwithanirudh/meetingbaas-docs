@@ -1,12 +1,14 @@
 import type { Engine, MessageRecord } from '@/components/fumadocs/ai/context';
-import { consumeReadableStream } from '@/lib/consume-stream';
+import { processChatResponse } from '@/lib/consume-stream';
+import { generateId } from 'ai';
+import type { Message, } from "ai";
 
 export async function createAiSdkEngine(): Promise<Engine> {
-  let messages: MessageRecord[] = [];
+  let messages: Message[] = [];
   let controller: AbortController | null = null;
 
   async function fetchStream(
-    userMessages: MessageRecord[],
+    userMessages: Message[],
     onUpdate?: (full: string) => void,
     onEnd?: (full: string) => void,
   ) {
@@ -34,22 +36,24 @@ export async function createAiSdkEngine(): Promise<Engine> {
       let textContent = '';
 
       if (response.body) {
-        await consumeReadableStream(
-          response.body,
-          (chunk) => {
-            try {
-              textContent += chunk;
-            } catch (error) {
-              console.error('Error parsing JSON:', error);
-            }
-
+        await processChatResponse({
+          stream: response.body,
+          update: (chunk) => {
+            textContent = chunk.message.content;
             onUpdate?.(textContent);
           },
-          (reason) => {
-            textContent = reason;
+          lastMessage: {
+            ...messages[messages.length - 1],
+            parts: []
           },
-          controller.signal,
-        );
+          onToolCall: (tool) => {
+            console.log(tool);
+          },
+          onFinish({ message, finishReason }) {
+            console.log(message, finishReason);
+          },
+          generateId,
+        });
       } else {
         throw new Error('Response body is null');
       }
@@ -71,12 +75,14 @@ export async function createAiSdkEngine(): Promise<Engine> {
   return {
     async prompt(text, onUpdate, onEnd) {
       messages.push({
+        id: generateId(),
         role: 'user',
         content: text,
       });
 
       const response = await fetchStream(messages, onUpdate, onEnd);
       messages.push({
+        id: generateId(),
         role: 'assistant',
         content: response,
       });
@@ -91,12 +97,13 @@ export async function createAiSdkEngine(): Promise<Engine> {
 
       const response = await fetchStream(messages, onUpdate, onEnd);
       messages.push({
+        id: generateId(),
         role: 'assistant',
         content: response,
       });
     },
     getHistory() {
-      return messages;
+      return messages as MessageRecord[];
     },
     clearHistory() {
       messages = [];
