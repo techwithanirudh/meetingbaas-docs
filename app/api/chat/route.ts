@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     let client = await createMCPClient({
       transport: {
         type: 'sse',
-        url: `https://mcp.meetingbaas.com/sse?apiKey=${apiKey}`,
+        url: `https://mcp.meetingbaas.com/sse`,
       },
       onUncaughtError: (error) => {
         console.error('MCP Client error:', error);
