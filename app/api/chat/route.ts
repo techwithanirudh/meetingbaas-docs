@@ -17,11 +17,29 @@ export async function POST(request: NextRequest) {
     messages: Array<Message>;
   } = await request.json();
 
+  // Get API key from request headers
+  const apiKey = request.headers.get('x-meeting-baas-api-key');
+
+  if (!apiKey) {
+    return new Response(
+      JSON.stringify({
+        error:
+          'API key is required. Please provide it in the x-meeting-baas-api-key header.',
+      }),
+      {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  }
+
   try {
     let client = await createMCPClient({
       transport: {
         type: 'sse',
-        url: 'https://mcp.meetingbaas.com/sse',
+        url: 'https://mcp.meetingbaas.com/sse?apiKey=' + apiKey,
       },
       onUncaughtError: (error) => {
         console.error('MCP Client error:', error);

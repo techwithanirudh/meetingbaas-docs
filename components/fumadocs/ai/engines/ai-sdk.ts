@@ -17,6 +17,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'x-meeting-baas-api-key': localStorage.getItem('apiKey') || '',
         },
         body: JSON.stringify({
           messages: userMessages.map((msg) => ({

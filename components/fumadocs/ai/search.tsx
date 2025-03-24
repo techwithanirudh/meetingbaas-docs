@@ -1,30 +1,23 @@
 'use client';
 import {
-  type FormHTMLAttributes,
-  type HTMLAttributes,
-  type ReactNode,
-  type TextareaHTMLAttributes,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { Loader2, RefreshCw, Send, X } from 'lucide-react';
-import defaultMdxComponents from 'fumadocs-ui/mdx';
-import { cn } from '@/lib/cn';
-import { buttonVariants } from '@/components/ui/button';
-import type { Processor } from './markdown-processor';
-import Link from 'fumadocs-core/link';
-import {
   AIProvider,
   EngineType,
   type MessageRecord,
   useAI,
   useAIMessages,
 } from '@/components/fumadocs/ai/context';
+import { buttonVariants } from '@/components/ui/button';
 import {
-  ScrollArea,
-  ScrollViewport,
-} from 'fumadocs-ui/components/ui/scroll-area';
+  Credenza,
+  CredenzaBody,
+  CredenzaClose,
+  CredenzaContent,
+  CredenzaDescription,
+  CredenzaFooter,
+  CredenzaHeader,
+  CredenzaTitle,
+} from '@/components/ui/credenza';
+import { cn } from '@/lib/cn';
 import {
   Dialog,
   DialogClose,
@@ -35,6 +28,23 @@ import {
   DialogTitle,
 } from '@radix-ui/react-dialog';
 import { cva } from 'class-variance-authority';
+import Link from 'fumadocs-core/link';
+import {
+  ScrollArea,
+  ScrollViewport,
+} from 'fumadocs-ui/components/ui/scroll-area';
+import defaultMdxComponents from 'fumadocs-ui/mdx';
+import { Loader2, RefreshCw, Send, X } from 'lucide-react';
+import {
+  type FormHTMLAttributes,
+  type HTMLAttributes,
+  type ReactNode,
+  type TextareaHTMLAttributes,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import type { Processor } from './markdown-processor';
 
 function SearchAIMessages() {
   const messages = useAIMessages();
@@ -89,11 +99,30 @@ function SearchAIActions() {
 function SearchAIInput(props: FormHTMLAttributes<HTMLFormElement>) {
   const { loading, onSubmit, abortAnswer } = useAI();
   const [message, setMessage] = useState('');
+  const [showApiKeyModal, setShowApiKeyModal] = useState(false);
+  const [apiKey, setApiKey] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('baas-api-key') || '';
+    }
+    return '';
+  });
 
   const onStart = (e?: React.FormEvent) => {
     e?.preventDefault();
+    if (!apiKey) {
+      setShowApiKeyModal(true);
+      return;
+    }
     setMessage('');
     onSubmit(message);
+  };
+
+  const handleApiKeySubmit = (key: string) => {
+    setApiKey(key);
+    localStorage.setItem('baas-api-key', key);
+    if (message) {
+      onSubmit(message);
+    }
   };
 
   useEffect(() => {
@@ -101,58 +130,117 @@ function SearchAIInput(props: FormHTMLAttributes<HTMLFormElement>) {
   }, [loading]);
 
   return (
-    <form
-      {...props}
-      className={cn(
-        'flex flex-row items-start rounded-xl border pe-2 bg-fd-popover text-fd-popover-foreground transition-colors shadow-lg',
-        loading && 'bg-fd-muted',
-        props.className,
-      )}
-      onSubmit={onStart}
-    >
-      <Input
-        value={message}
-        placeholder={loading ? 'AI is answering...' : 'Ask AI something'}
-        disabled={loading}
-        onChange={(e) => {
-          setMessage(e.target.value);
-        }}
-        onKeyDown={(event) => {
-          if (!event.shiftKey && event.key === 'Enter') {
-            onStart();
-            event.preventDefault();
-          }
-        }}
-      />
-      {loading ? (
-        <button
-          type="button"
-          className={cn(
-            buttonVariants({
-              variant: 'secondary',
-              className: 'rounded-full mt-2 gap-2',
-            }),
-          )}
-          onClick={abortAnswer}
-        >
-          <Loader2 className="size-4 animate-spin text-fd-muted-foreground" />
-          Abort Answer
-        </button>
-      ) : (
-        <button
-          type="submit"
-          className={cn(
-            buttonVariants({
-              variant: 'ghost',
-              className: 'rounded-full mt-2 p-1.5',
-            }),
-          )}
-          disabled={message.length === 0}
-        >
-          <Send className="size-4" />
-        </button>
-      )}
-    </form>
+    <>
+      <form
+        {...props}
+        className={cn(
+          'flex flex-row items-start rounded-xl border pe-2 bg-fd-popover text-fd-popover-foreground transition-colors shadow-lg',
+          loading && 'bg-fd-muted',
+          props.className,
+        )}
+        onSubmit={onStart}
+      >
+        <Input
+          value={message}
+          placeholder={loading ? 'AI is answering...' : 'Ask AI something'}
+          disabled={loading}
+          onChange={(e) => {
+            setMessage(e.target.value);
+          }}
+          onKeyDown={(event) => {
+            if (!event.shiftKey && event.key === 'Enter') {
+              onStart();
+              event.preventDefault();
+            }
+          }}
+        />
+        {loading ? (
+          <button
+            type="button"
+            className={cn(
+              buttonVariants({
+                variant: 'secondary',
+                className: 'rounded-full mt-2 gap-2',
+              }),
+            )}
+            onClick={abortAnswer}
+          >
+            <Loader2 className="size-4 animate-spin text-fd-muted-foreground" />
+            Abort Answer
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className={cn(
+              buttonVariants({
+                variant: 'ghost',
+                className: 'rounded-full mt-2 p-1.5',
+              }),
+            )}
+            disabled={message.length === 0}
+          >
+            <Send className="size-4" />
+          </button>
+        )}
+      </form>
+
+      <Credenza open={showApiKeyModal} onOpenChange={setShowApiKeyModal}>
+        <CredenzaContent>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            const key = formData.get('apiKey') as string;
+            handleApiKeySubmit(key);
+            setShowApiKeyModal(false);
+          }}>
+            <CredenzaHeader>
+              <CredenzaTitle>Enter API Key</CredenzaTitle>
+              <CredenzaDescription>
+                Please enter your Meeting BaaS API key to continue.
+              </CredenzaDescription>
+            </CredenzaHeader>
+            <CredenzaBody>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label
+                    htmlFor="apiKey"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    API Key
+                  </label>
+                  <input
+                    id="apiKey"
+                    name="apiKey"
+                    type="password"
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Enter your API key"
+                    required
+                  />
+                </div>
+              </div>
+            </CredenzaBody>
+            <CredenzaFooter>
+              <div className="flex justify-end gap-2">
+                <CredenzaClose asChild>
+                  <button
+                    type="button"
+                    className={buttonVariants({ variant: "outline" })}
+                  >
+                    Cancel
+                  </button>
+                </CredenzaClose>
+                <button
+                  type="submit"
+                  className={buttonVariants()}
+                >
+                  Save
+                </button>
+              </div>
+            </CredenzaFooter>
+          </form>
+        </CredenzaContent>
+      </Credenza>
+    </>
   );
 }
 
