@@ -9,6 +9,8 @@ import {
     CredenzaHeader,
     CredenzaTitle,
 } from '@/components/ui/credenza';
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 
 interface ApiKeyModalProps {
     open: boolean;
@@ -17,6 +19,8 @@ interface ApiKeyModalProps {
 }
 
 export function ApiKeyModal({ open, onOpenChange, onSubmit }: ApiKeyModalProps) {
+    const [showApiKey, setShowApiKey] = useState(false);
+
     return (
         <Credenza open={open} onOpenChange={onOpenChange}>
             <CredenzaContent>
@@ -42,14 +46,28 @@ export function ApiKeyModal({ open, onOpenChange, onSubmit }: ApiKeyModalProps) 
                                 >
                                     API Key
                                 </label>
-                                <input
-                                    id="apiKey"
-                                    name="apiKey"
-                                    type="password"
-                                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                    placeholder="Enter your API key"
-                                    required
-                                />
+                                <div className="relative">
+                                    <input
+                                        id="apiKey"
+                                        name="apiKey"
+                                        type={showApiKey ? "text" : "password"}
+                                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pr-10"
+                                        placeholder="Enter your API key"
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowApiKey(!showApiKey)}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                                        aria-label={showApiKey ? "Hide API key" : "Show API key"}
+                                    >
+                                        {showApiKey ? (
+                                            <EyeOff className="h-4 w-4" />
+                                        ) : (
+                                            <Eye className="h-4 w-4" />
+                                        )}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </CredenzaBody>
