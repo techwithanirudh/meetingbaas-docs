@@ -17,6 +17,7 @@ import {
   CredenzaHeader,
   CredenzaTitle,
 } from '@/components/ui/credenza';
+import { useApiKey } from '@/lib/api-key';
 import { cn } from '@/lib/cn';
 import {
   Dialog,
@@ -100,12 +101,7 @@ function SearchAIInput(props: FormHTMLAttributes<HTMLFormElement>) {
   const { loading, onSubmit, abortAnswer } = useAI();
   const [message, setMessage] = useState('');
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
-  const [apiKey, setApiKey] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('baas-api-key') || '';
-    }
-    return '';
-  });
+  const { apiKey, setApiKey } = useApiKey();
 
   const onStart = (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -119,7 +115,6 @@ function SearchAIInput(props: FormHTMLAttributes<HTMLFormElement>) {
 
   const handleApiKeySubmit = (key: string) => {
     setApiKey(key);
-    localStorage.setItem('baas-api-key', key);
     if (message) {
       onSubmit(message);
     }
