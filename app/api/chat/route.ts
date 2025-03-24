@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
   process.env.BAAS_API_KEY = apiKey;
 
   try {
-    let client = await createMCPClient({
+    const client = await createMCPClient({
       transport: {
         type: 'sse',
         url: `https://mcp.meetingbaas.com/sse?apiKey=${encodeURIComponent(apiKey)}`,
