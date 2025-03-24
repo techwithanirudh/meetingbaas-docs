@@ -22,7 +22,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { useMediaQuery } from '@/hooks/use-media-query';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/cn';
 
 interface BaseProps {
@@ -54,12 +54,12 @@ const useCredenzaContext = () => {
 };
 
 const Credenza = ({ children, ...props }: RootCredenzaProps) => {
-  const isDesktop = useMediaQuery('(min-width: 768px)');
-  const Credenza = isDesktop ? Dialog : Drawer;
+  const isMobile = useIsMobile();
+  const Credenza = isMobile ? Drawer : Dialog;
 
   return (
-    <CredenzaContext.Provider value={{ isDesktop }}>
-      <Credenza {...props} {...(!isDesktop && { autoFocus: true })}>
+    <CredenzaContext.Provider value={{ isDesktop: !isMobile }}>
+      <Credenza {...props} {...(isMobile && { autoFocus: true })}>
         {children}
       </Credenza>
     </CredenzaContext.Provider>
