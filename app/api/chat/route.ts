@@ -21,10 +21,9 @@ export async function POST(request: NextRequest) {
     let client = await createMCPClient({
       transport: {
         type: 'sse',
-        url: 'https://mcp.meetingbaas.com/sse',
+        url: 'https://baas-mcp.vercel.app/sse',
       },
       onUncaughtError: (error) => {
-        client.close();
         console.error('MCP Client error:', error);
       },
     });
