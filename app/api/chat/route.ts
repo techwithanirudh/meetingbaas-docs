@@ -24,11 +24,13 @@ export async function POST(request: NextRequest) {
 
   try {
     // todo: do not renew the client on every request
-    // todo: do not pass apiKey in query string
     let client = await createMCPClient({
       transport: {
         type: 'sse',
         url: 'https://mcp.meetingbaas.com/sse',
+        headers: {
+          'x-meeting-baas-api-key': apiKey,
+        }
       },
       onUncaughtError: (error) => {
         console.error('MCP Client error:', error);
