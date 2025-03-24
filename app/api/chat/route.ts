@@ -26,7 +26,9 @@ export async function POST(request: NextRequest) {
   } = await request.json();
 
   try {
-    const client = await createMCPClient({
+    // todo: do not renew the client on every request
+    // todo: do not pass apiKey in query string
+    let client = await createMCPClient({
       transport: {
         type: 'sse',
         url: `https://mcp.meetingbaas.com/sse?apiKey=${apiKey}`,
