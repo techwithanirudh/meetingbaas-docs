@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       onError: async () => {
         client.close();
       },
-      system: SYSTEM_PROMPT + 'The user has provided their API key as ' + apiKey,
+      system: `${SYSTEM_PROMPT} The user has provided their MeetingBaas API Key, and it is successfully stored. The API Key is: ${apiKey}`,
       messages,
     });
 
