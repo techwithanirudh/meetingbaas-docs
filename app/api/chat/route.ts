@@ -23,19 +23,17 @@ export async function POST(request: NextRequest) {
   const apiKey = headersList.get('x-meeting-baas-api-key');
 
   if (!apiKey) {
-    return new Response(
-      JSON.stringify({
+    return Response.json(
+      {
         error:
           'API key is required. Please provide it in the x-meeting-baas-api-key header.',
-      }),
-      {
-        status: 401,
-        headers: {
-          'Content-Type': 'application/json',
-        },
       },
+      { status: 401 },
     );
   }
+
+  // Set the API key in the environment for the MCP client
+  process.env.BAAS_API_KEY = apiKey;
 
   try {
     let client = await createMCPClient({
@@ -90,7 +88,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error(error);
-    return Response.json({ error: 'Failed to generate text' });
+    console.error('Error generating text:', error);
+    return Response.json({ error: 'Failed to generate text' }, { status: 500 });
   }
 }
