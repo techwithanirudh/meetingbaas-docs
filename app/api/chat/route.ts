@@ -23,6 +23,8 @@ export async function POST(request: NextRequest) {
   } = await request.json();
 
   try {
+    // todo: do not renew the client on every request
+    // todo: do not pass apiKey in query string
     let client = await createMCPClient({
       transport: {
         type: 'sse',
