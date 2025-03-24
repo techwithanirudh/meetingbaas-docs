@@ -3,6 +3,21 @@ import { processChatResponse } from '@/lib/ai/process-chat-response';
 import { generateId } from 'ai';
 import type { Message, ToolCall, } from "ai";
 
+// TODO: Decide the best method for handling API key input and storage:
+// Option 1: Use the `getApiKey` tool call to prompt the user for their API key. (similar to generative ui)
+// - This shows a UI for input, writes the key to localStorage, and appends a message to the chat history.
+// - However, the tool call itself returns a blank response like "getting key", which doesn't make much sense semantically.
+// - This seems like the better option because it's a one-shot flow that's more user-friendly and doesn't require the client to handle the key. But, as we can't use react components in the AI engine, it'll be a bit more complex to implement.
+//
+// Option 2: Use the `setApiKey` tool call to set the API key directly from the engine.
+// - The AI asks the user for the API key, then checks for the tool call on the client side to set it in localStorage.
+// - This feels messier: it's an extra tool call that just says "setting key" on the server, but the client handles it by checking for this tool call and then saving the key.
+// - It's not really a one-shot flow and feels kind of lazy or clunky.
+// 
+// Figure out which method is more reliable, clean, and user-friendly in the context of the current architecture.
+// UPDATE: I'm going with option 2 for now, as it's simpler to implement and doesn't require any UI components in the AI engine.
+// If we need to change this later, we can refactor it to use the `getApiKey` tool call instead.
+
 export async function createAiSdkEngine(): Promise<Engine> {
   let messages: Message[] = [];
   let controller: AbortController | null = null;
