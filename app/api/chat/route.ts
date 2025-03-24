@@ -9,18 +9,27 @@ import {
   ToolExecutionError,
 } from 'ai';
 import { NextRequest } from 'next/server';
-import { apiKeyTool } from '@/lib/ai/tools';
+import { setApiKeyTool } from '@/lib/ai/tools';
+
+const SYSTEM_PROMPT = 'You are a friendly assistant. Do not use emojis in your responses. Make sure to format code blocks, and add language/title to it. When an information is provided, if possible, try to store it for future reference.';
 
 type RequestProps = { messages: Array<Message> };
 
 export async function POST(request: NextRequest) {
-  const { messages }: RequestProps = (await request.json()) as RequestProps;
+  // const { messages }: RequestProps = (await request.json()) as RequestProps;
+  const {
+    messages,
+    apiKey
+  }: {
+    messages: Array<Message>;
+    apiKey: string;
+  } = await request.json();
 
   try {
     const client = await createMCPClient({
       transport: {
         type: 'sse',
-        url: 'https://mcp.meetingbaas.com/sse?apiKey=hi',
+        url: `https://mcp.meetingbaas.com/sse?apiKey=${apiKey}`,
       },
       onUncaughtError: (error) => {
         console.error('MCP Client error:', error);
@@ -28,7 +37,7 @@ export async function POST(request: NextRequest) {
     });
 
     const toolSet = await client.tools();
-    const tools = { ...toolSet, apiKeyTool };
+    const tools = { ...toolSet, setApiKey: setApiKeyTool };
 
     const result = streamText({
       // todo: add models.ts file
@@ -51,8 +60,7 @@ export async function POST(request: NextRequest) {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         await client.close();
       },
-      system:
-        'You are a friendly assistant. Do not use emojis in your responses. Make sure to format code blocks, and add language/title to it',
+      system: SYSTEM_PROMPT,
       messages,
     });
 

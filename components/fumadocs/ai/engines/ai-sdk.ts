@@ -1,17 +1,19 @@
 import type { Engine, MessageRecord } from '@/components/fumadocs/ai/context';
 import { processChatResponse } from '@/lib/consume-stream';
 import { generateId } from 'ai';
-import type { Message, } from "ai";
+import type { Message, ToolCall, } from "ai";
 
 export async function createAiSdkEngine(): Promise<Engine> {
   let messages: Message[] = [];
   let controller: AbortController | null = null;
+  let apiKey: string | null = null;
 
   async function fetchStream(
     userMessages: Message[],
     onUpdate?: (full: string) => void,
     onEnd?: (full: string) => void,
   ) {
+    apiKey = localStorage.getItem('meetingbaas-api-key');
     controller = new AbortController();
 
     try {
@@ -25,6 +27,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
             role: msg.role,
             content: msg.content,
           })),
+          apiKey: apiKey || '',
         }),
         signal: controller.signal,
       });
@@ -34,6 +37,17 @@ export async function createAiSdkEngine(): Promise<Engine> {
       }
 
       let textContent = '';
+
+      const onToolCall = async (props: { toolCall: ToolCall<string, unknown> }) => {
+        const { toolCall: tool } = props;
+        if (tool.toolName === 'setApiKey') {
+          const parameters = tool.args as { apiKey: string };
+          apiKey = parameters?.apiKey;
+          
+          console.log(apiKey, 'set')
+          localStorage.setItem('meetingbaas-api-key', apiKey);
+        }
+      };
 
       if (response.body) {
         await processChatResponse({
@@ -46,9 +60,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
             ...messages[messages.length - 1],
             parts: []
           },
-          onToolCall: (tool) => {
-            console.log('tool', tool);
-          },
+          onToolCall: onToolCall,
           onFinish({ message, finishReason }) {
             onEnd?.(message?.content || '');
             // console.log('chat', finishReason);

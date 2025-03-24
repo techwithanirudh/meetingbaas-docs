@@ -1,19 +1,15 @@
 import { tool as createTool } from 'ai';
 import { z } from 'zod';
 
-export const apiKeyTool = createTool({
-  description: 'Asks the user to provide their MeetingBaas API Key',
+export const setApiKeyTool = createTool({
+  description: 'Stores the user\'s MeetingBaas API Key, in storage, so in the future the user does not have to provide it again',
   parameters: z.object({
-    reason: z.string().describe('The reason why the user is being asked for their API Key'),
+    apiKey: z.string().describe('The MeetingBaas API Key'),
   }),
-  execute: async function ({ reason }) {
+  execute: async function ({ apiKey }) {
     // await new Promise(resolve => setTimeout(resolve, 2000));
     return {
-      message: `Please provide your MeetingBaas API Key. ${reason}`,
+      message: `Storing MeetingBaas API Key: ${apiKey}`,
     };
   },
 });
-
-export const tools = {
-  askApiKey: apiKeyTool,
-};
