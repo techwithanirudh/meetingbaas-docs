@@ -47,10 +47,11 @@ export async function createAiSdkEngine(): Promise<Engine> {
             parts: []
           },
           onToolCall: (tool) => {
-            console.log(tool);
+            console.log('tool', tool);
           },
           onFinish({ message, finishReason }) {
-            console.log(message, finishReason);
+            onEnd?.(message?.content || '');
+            // console.log('chat', finishReason);
           },
           generateId,
         });
@@ -58,7 +59,6 @@ export async function createAiSdkEngine(): Promise<Engine> {
         throw new Error('Response body is null');
       }
 
-      onEnd?.(textContent);
       return textContent;
     } catch (error) {
       if (error instanceof Error && error.name !== 'AbortError') {
