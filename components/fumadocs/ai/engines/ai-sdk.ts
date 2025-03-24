@@ -16,6 +16,15 @@ export async function createAiSdkEngine(): Promise<Engine> {
     apiKey = localStorage.getItem('meetingbaas-api-key');
     controller = new AbortController();
 
+    // todo: turn off for secuirty reasons
+    if (apiKey) {
+      messages.push({
+        id: generateId(),
+        role: 'assistant',
+        content: `The user\'s MeetingBaas API Key is ${apiKey}`,
+      });
+    }
+
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -43,8 +52,7 @@ export async function createAiSdkEngine(): Promise<Engine> {
         if (tool.toolName === 'setApiKey') {
           const parameters = tool.args as { apiKey: string };
           apiKey = parameters?.apiKey;
-          
-          console.log(apiKey, 'set')
+
           localStorage.setItem('meetingbaas-api-key', apiKey);
         }
       };
