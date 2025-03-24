@@ -8,6 +8,7 @@ import {
   streamText,
   ToolExecutionError,
 } from 'ai';
+import { headers } from 'next/headers';
 import { NextRequest } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -18,7 +19,8 @@ export async function POST(request: NextRequest) {
   } = await request.json();
 
   // Get API key from request headers
-  const apiKey = request.headers.get('x-meeting-baas-api-key');
+  const headersList = await headers();
+  const apiKey = headersList.get('x-meeting-baas-api-key');
 
   if (!apiKey) {
     return new Response(
