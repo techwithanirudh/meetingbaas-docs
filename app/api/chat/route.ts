@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         await client.close();
       },
-      system: SYSTEM_PROMPT + 'The user has provided their API key as ' + apiKey,
+      system: `${SYSTEM_PROMPT} The user has provided their MeetingBaas API Key, and it is successfully stored. The API Key is: ${apiKey}`,
       messages,
     });
 
