@@ -16,15 +16,6 @@ export async function createAiSdkEngine(): Promise<Engine> {
     apiKey = localStorage.getItem('meetingbaas-api-key');
     controller = new AbortController();
 
-    // todo: turn off for secuirty reasons
-    if (apiKey) {
-      messages.push({
-        id: generateId(),
-        role: 'assistant',
-        content: `The user\'s MeetingBaas API Key is ${apiKey}`,
-      });
-    }
-
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
