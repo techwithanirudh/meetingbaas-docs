@@ -9,6 +9,7 @@ import {
   ToolExecutionError,
 } from 'ai';
 import { NextRequest } from 'next/server';
+import { apiKeyTool } from '@/lib/ai/tools';
 
 export async function POST(request: NextRequest) {
   const {
@@ -21,7 +22,7 @@ export async function POST(request: NextRequest) {
     let client = await createMCPClient({
       transport: {
         type: 'sse',
-        url: 'https://mcp.meetingbaas.com/sse',
+        url: 'https://mcp.meetingbaas.com/sse?apiKey=hi',
       },
       onUncaughtError: (error) => {
         console.error('MCP Client error:', error);
@@ -29,7 +30,7 @@ export async function POST(request: NextRequest) {
     });
 
     const toolSet = await client.tools();
-    const tools = { ...toolSet };
+    const tools = { ...toolSet, apiKeyTool };
 
     const result = streamText({
       // todo: add models.ts file
