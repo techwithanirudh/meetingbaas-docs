@@ -51,7 +51,7 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       fumadocs-core:
-        specifier: ^15.2.1
+        specifier: ^15.2.2
         version: 15.2.2(@oramacloud/client@2.1.4)(@types/react@19.1.0)(next@15.2.4(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       fumadocs-docgen:
         specifier: 2.0.0
@@ -151,7 +151,7 @@ importers:
         specifier: 15.2.4
         version: 15.2.4
       '@tailwindcss/postcss':
-        specifier: ^4.0.17
+        specifier: ^4.1.1
         version: 4.1.1
       '@types/hast':
         specifier: ^3.0.4
@@ -163,10 +163,10 @@ importers:
         specifier: 22.13.16
         version: 22.13.16
       '@types/react':
-        specifier: ^19.0.12
+        specifier: ^19.1.0
         version: 19.1.0
       '@types/react-dom':
-        specifier: ^19.0.4
+        specifier: ^19.1.1
         version: 19.1.1(@types/react@19.1.0)
       eslint:
         specifier: ^9.23.0
@@ -190,7 +190,7 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       tailwindcss:
-        specifier: ^4.0.17
+        specifier: ^4.1.1
         version: 4.1.1
       tailwindcss-animate:
         specifier: ^1.0.7
