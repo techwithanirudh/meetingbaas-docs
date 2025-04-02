@@ -1,3 +1,4 @@
+'use client';
 const emailAddress = 'hello@meetingbaas.com';
 const subject = encodeURIComponent('Interest in Meeting BaaS Services');
 const body = encodeURIComponent(`Hello Meeting BaaS Team,

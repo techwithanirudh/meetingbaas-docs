@@ -11,7 +11,7 @@ import {
 } from './ui/collapsible';
 
 const itemVariants = cva(
-  'flex flex-row items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-fd-accent hover:text-fd-accent-foreground [&_svg]:size-4',
+  'flex flex-row items-center justify-between gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-fd-accent hover:text-fd-accent-foreground [&_svg]:size-4',
 );
 
 export function Files({
@@ -31,12 +31,14 @@ export function Files({
 export interface FileProps extends HTMLAttributes<HTMLDivElement> {
   name: string;
   icon?: ReactNode;
+  description?: string;
 }
 
 export interface FolderProps extends HTMLAttributes<HTMLDivElement> {
   name: string;
 
   disabled?: boolean;
+  description?: string;
 
   /**
    * Open folder by default
@@ -49,13 +51,19 @@ export interface FolderProps extends HTMLAttributes<HTMLDivElement> {
 export function File({
   name,
   icon = <FileIcon />,
+  description,
   className,
   ...rest
 }: FileProps): React.ReactElement {
   return (
     <div className={cn(itemVariants({ className }))} {...rest}>
-      {icon}
-      {name}
+      <div className="flex flex-row items-center gap-2">
+        {icon}
+        {name}
+      </div>
+      {description && (
+        <div className="text-xs text-fd-primary/80">{description}</div>
+      )}
     </div>
   );
 }
@@ -63,6 +71,7 @@ export function File({
 export function Folder({
   name,
   defaultOpen = false,
+  description,
   ...props
 }: FolderProps): React.ReactElement {
   const [open, setOpen] = useState(defaultOpen);
@@ -70,8 +79,13 @@ export function Folder({
   return (
     <Collapsible open={open} onOpenChange={setOpen} {...props}>
       <CollapsibleTrigger className={cn(itemVariants({ className: 'w-full' }))}>
-        {open ? <FolderOpen /> : <FolderIcon />}
-        {name}
+        <div className="flex flex-row items-center gap-2">
+          {open ? <FolderOpen /> : <FolderIcon />}
+          {name}
+        </div>
+        {description && (
+          <div className="text-xs text-fd-primary/80">{description}</div>
+        )}
       </CollapsibleTrigger>
       <CollapsibleContent>
         <div className="ms-2 flex flex-col border-l ps-2">{props.children}</div>

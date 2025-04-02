@@ -18,6 +18,7 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 import { Callout } from 'fumadocs-ui/components/callout';
 import { TypeTable } from 'fumadocs-ui/components/type-table';
 import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
+import { Step, Steps } from 'fumadocs-ui/components/steps';
 import { createMetadata } from '@/lib/metadata';
 import { openapi, source } from '@/lib/source';
 import { metadataImage } from '@/lib/metadata-image';
@@ -81,6 +82,8 @@ export default async function Page(props: {
             ),
             Accordion,
             Accordions,
+            Step,
+            Steps,
             File,
             Folder,
             Files,
@@ -88,7 +91,8 @@ export default async function Page(props: {
             APIPage: openapi.APIPage,
             DocsCategory: ({ slugs = params.slug }: { slugs?: string[] }) => (
               <DocsCategory page={source.getPage(slugs)!} from={source} />
-            )
+            ),
+            ...(await import('@/content/docs/api/community-and-support.client')),
           }}
         />
         {page.data.index ? <DocsCategory page={page} from={source} /> : null}
