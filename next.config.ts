@@ -21,10 +21,10 @@ const config: NextConfig = {
     'ts-morph',
     'typescript',
     'oxc-transform',
-    '@shikijs/twoslash',
+    'twoslash',
+    'shiki',
   ],
   images: {
-    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

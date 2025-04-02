@@ -12,7 +12,7 @@ export function Providers({ children }: { children: ReactNode }) {
         SearchDialog,
       }}
       theme={{
-        enabled: false,
+        defaultTheme: 'dark',
       }}
     >
       {children}

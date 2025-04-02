@@ -17,7 +17,7 @@ export default function Layout({
 
 function Footer(): React.ReactElement {
   return (
-    <footer className="mt-auto border-t bg-fd-card p-4 text-fd-secondary-foreground">
+    <footer className="bg-fd-card text-fd-secondary-foreground mt-auto border-t p-4">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="mb-1 text-sm font-semibold">Docs</p>

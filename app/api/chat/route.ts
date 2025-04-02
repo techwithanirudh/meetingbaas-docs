@@ -10,15 +10,13 @@ import {
 } from 'ai';
 import { NextRequest } from 'next/server';
 
+type RequestProps = { messages: Array<Message> };
+
 export async function POST(request: NextRequest) {
-  const {
-    messages,
-  }: {
-    messages: Array<Message>;
-  } = await request.json();
+  const { messages }: RequestProps = (await request.json()) as RequestProps;
 
   try {
-    let client = await createMCPClient({
+    const client = await createMCPClient({
       transport: {
         type: 'sse',
         url: 'https://mcp.meetingbaas.com/sse',
@@ -45,10 +43,12 @@ export async function POST(request: NextRequest) {
         console.log(`Step Results: ${JSON.stringify(toolResults, null, 2)}`);
       },
       onFinish: async () => {
-        client.close();
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        await client.close();
       },
       onError: async () => {
-        client.close();
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        await client.close();
       },
       system:
         'You are a friendly assistant. Do not use emojis in your responses. Make sure to format code blocks, and add language/title to it',

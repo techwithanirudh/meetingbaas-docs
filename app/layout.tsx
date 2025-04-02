@@ -1,14 +1,13 @@
-import { baseUrl, createMetadata } from '@/lib/metadata';
 import '@/styles/globals.css';
 import type { Viewport } from 'next';
-import { Inter } from 'next/font/google';
-import type { ReactNode } from 'react';
-import { Body } from './layout.client';
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
+import { baseUrl, createMetadata } from '@/lib/metadata';
+import { Body } from '@/app/layout.client';
 import { Providers } from './providers';
-
-const inter = Inter({
-  subsets: ['latin'],
-});
+import { AISearchTrigger } from '@/components/fumadocs/ai';
+import { MessageCircle } from 'lucide-react';
+import type { ReactNode } from 'react';
 
 export const metadata = createMetadata({
   title: {
@@ -26,15 +25,21 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      className={`${inter.className} dark`}
+      className={`${GeistSans.variable} ${GeistMono.variable}`}
       suppressHydrationWarning
     >
       <Body>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <AISearchTrigger>
+            <MessageCircle className="size-4" />
+            Ask AI
+          </AISearchTrigger>
+        </Providers>
       </Body>
     </html>
   );

@@ -4,9 +4,6 @@ description: Improved filtering, comprehensive event details, and calendar manag
 icon: Calendar
 ---
 
-import { Callout } from '@/components/fumadocs/callout';
-import { Info } from 'lucide-react';
-
 <Callout type="info" icon={<Info className="h-5 w-5" />}>
   Paris, the 2nd of March 2025.
 </Callout>
@@ -29,18 +26,9 @@ The [`GET /calendar_events`](/docs/api/reference/calendars/list_events) endpoint
 
 The `Attendee` object now includes a `name` field that provides the display name of the attendee when available from the calendar provider (Google, Microsoft).
 
-### Full Calendar Resync
-
-New [`POST /calendars/resync_all`](/docs/api/reference/calendars/resync_all_calendars) endpoint to initiate a complete refresh of all connected calendars:
-
-- Performs a deep sync with each calendar provider
-- Tracks success or failure for each calendar individually
-- Returns comprehensive results with successful syncs and detailed error messages
-
 ## Migration Guide
 
 1. Update your API clients to take advantage of the new filtering parameters
-2. Consider implementing the full calendar resync feature for scenarios where calendar data needs to be refreshed
 
 ## Related Updates
 

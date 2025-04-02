@@ -8,7 +8,7 @@ export async function GET(): Promise<Response> {
   const pages = source.getPages();
   const results = await Promise.all(
     pages.map(async (page) => {
-      const { structuredData } = page.data;
+      const { structuredData } = await page.data.load();
 
       return {
         id: page.url,

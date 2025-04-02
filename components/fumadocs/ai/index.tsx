@@ -29,7 +29,7 @@ export function AISearchTrigger(
           buttonVariants({
             variant: 'default',
           }),
-          'fixed bottom-4 right-4 z-10 gap-2 rounded-xl bg-fd-primary text-fd-primary-foreground shadow-lg backdrop-blur-lg md:bottom-8 md:right-8',
+          'bg-fd-primary text-fd-primary-foreground fixed right-4 bottom-4 z-10 gap-2 rounded-xl shadow-lg backdrop-blur-lg md:right-8 md:bottom-8',
           props.className,
         )}
       />
