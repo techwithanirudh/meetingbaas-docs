@@ -16,7 +16,7 @@ import type { Processor } from './markdown-processor';
 import Link from 'fumadocs-core/link';
 import {
   AIProvider,
-  EngineType,
+  type EngineType,
   type MessageRecord,
   useAI,
   useAIMessages,

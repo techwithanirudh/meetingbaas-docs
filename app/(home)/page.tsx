@@ -15,7 +15,7 @@ export default function DocsPage(): React.ReactElement {
       </p>
       <div className="mt-8 grid grid-cols-1 gap-4 text-left md:grid-cols-2">
         <Item href="/docs/api">
-          <Icon>
+          <Icon className="api">
             <WebhookIcon className="size-full" />
           </Icon>
           <h2 className="mb-2 text-lg font-semibold">Meeting BaaS API</h2>
@@ -26,7 +26,7 @@ export default function DocsPage(): React.ReactElement {
         </Item>
 
         <Item href="/docs/transcript-seeker">
-          <Icon>
+          <Icon className="transcript-seeker">
             <CaptionsIcon className="size-full" />
           </Icon>
           <h2 className="mb-2 text-lg font-semibold">Transcript Seeker</h2>
@@ -36,7 +36,7 @@ export default function DocsPage(): React.ReactElement {
           </p>
         </Item>
         <Item href="/docs/speaking-bots">
-          <Icon>
+          <Icon className="speaking-bots">
             <BotIcon className="size-full" />
           </Icon>
           <h2 className="mb-2 text-lg font-semibold">Speaking Bots</h2>
