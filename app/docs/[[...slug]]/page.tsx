@@ -19,6 +19,7 @@ import { Callout } from 'fumadocs-ui/components/callout';
 import { TypeTable } from 'fumadocs-ui/components/type-table';
 import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 import { Step, Steps } from 'fumadocs-ui/components/steps';
+import { ImageZoom } from 'fumadocs-ui/components/image-zoom'
 import { createMetadata } from '@/lib/metadata';
 import { openapi, source } from '@/lib/source';
 import { metadataImage } from '@/lib/metadata-image';
@@ -93,6 +94,7 @@ export default async function Page(props: {
             DocsCategory: ({ slugs = params.slug }: { slugs?: string[] }) => (
               <DocsCategory page={source.getPage(slugs)!} from={source} />
             ),
+            ImageZoom,
             ...(await import(
               '@/content/docs/api/community-and-support.client'
             )),
