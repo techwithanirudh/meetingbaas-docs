@@ -1,19 +1,7 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# deps
+/node_modules
 
-# dependencies
-node_modules
-/.pnp
-.pnp.js
-
-.map.ts
-
-# testing
-/coverage
-
-# outputs
-.turbo
-.next
-dist
+# generated content
 .contentlayer
 .content-collections
 .source
@@ -30,21 +18,14 @@ dist
 *.pem
 /.pnp
 .pnp.js
-
-# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# env
+# others
 .env*.local
 .env
-
-# vercel
 .vercel
-
-# typescript
-*.tsbuildinfo
 next-env.d.ts
 
 # 

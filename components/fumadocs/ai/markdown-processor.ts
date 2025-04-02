@@ -118,7 +118,7 @@ export function createProcessor(): Processor {
         jsxs,
         Fragment,
         components,
-      }) as Promise<ReactNode>;
+      }) as ReactNode;
     },
   };
 }
