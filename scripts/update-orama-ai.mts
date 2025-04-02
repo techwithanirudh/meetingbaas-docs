@@ -11,6 +11,15 @@ import remarkMdx from 'remark-mdx';
 import { remarkAutoTypeTable } from 'fumadocs-typescript';
 import { remarkInclude } from 'fumadocs-mdx/config';
 
+const processor = remark()
+  .use(remarkMdx)
+  .use(remarkInclude)
+  .use(remarkGfm)
+  .use(remarkAutoTypeTable)
+  .use(remarkDocGen, { generators: [fileGenerator()] })
+  .use(remarkInstall, { persist: { id: 'package-manager' } })
+  .use(remarkStringify);
+
 export async function updateOramaAi(): Promise<void> {
   const apiKey = process.env.ORAMA_PRIVATE_API_KEY;
   const index = process.env.ORAMA_AI_INDEX_ID;
@@ -42,7 +51,10 @@ export async function updateOramaAi(): Promise<void> {
       'speaking-bots': 'Speaking Bots, the Pipecat-powered bots',
     }[dir ?? ''];
 
-    const processed = await processContent(file, content);
+    const processed = await processor.process({
+      path: file,
+      value: content,
+    });
 
     records.push({
       id: file,
@@ -58,21 +70,4 @@ export async function updateOramaAi(): Promise<void> {
   console.log(`added ${records.length} records`);
   await indexManager.snapshot(records);
   await indexManager.deploy();
-}
-
-async function processContent(path: string, content: string): Promise<string> {
-  const file = await remark()
-    .use(remarkMdx)
-    .use(remarkInclude)
-    .use(remarkGfm)
-    .use(remarkAutoTypeTable)
-    .use(remarkDocGen, { generators: [fileGenerator()] })
-    .use(remarkInstall, { persist: { id: 'package-manager' } })
-    .use(remarkStringify)
-    .process({
-      path,
-      value: content,
-    });
-
-  return String(file);
 }
