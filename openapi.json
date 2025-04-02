@@ -34,7 +34,7 @@
             }
           }
         },
-        "security": [{ "ApiKeyAuth": [] }, { "LegacyApiKeyAuth": [] }]
+        "security": [{ "ApiKeyAuth": [] }]
       }
     },
     "/bots/{uuid}": {
@@ -2180,7 +2180,7 @@
       }
     }
   },
-  "security": [{ "ApiKeyAuth": [] }, { "LegacyApiKeyAuth": [] }],
+  "security": [{ "ApiKeyAuth": [] }],
   "tags": [
     {
       "name": "Webhooks",
