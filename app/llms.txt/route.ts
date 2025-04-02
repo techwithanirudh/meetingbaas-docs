@@ -39,7 +39,7 @@ export async function GET() {
       'speaking-bots': 'Speaking Bots, the Pipecat-powered bots',
     }[dir ?? ''];
 
-    const processed = await processor.process({
+    const processed: unknown = await processor.process({
       path: file,
       value: content,
     });
@@ -48,7 +48,7 @@ export async function GET() {
 
 ${data.description}
         
-${processed}`;
+${processed as string}`;
   });
 
   const scanned = await Promise.all(scan);

@@ -54,7 +54,7 @@ function SearchAIActions() {
 
   if (messages.length === 0) return null;
   return (
-    <div className="sticky bottom-0 bg-gradient-to-t from-fd-popover px-3 py-1.5 flex flex-row items-center justify-end gap-2 empty:hidden">
+    <div className="from-fd-popover sticky bottom-0 flex flex-row items-center justify-end gap-2 bg-gradient-to-t px-3 py-1.5 empty:hidden">
       {!loading && messages.at(-1)?.role === 'assistant' && (
         <button
           type="button"
@@ -62,7 +62,7 @@ function SearchAIActions() {
             buttonVariants({
               variant: 'secondary',
             }),
-            'text-fd-muted-foreground rounded-full gap-1.5',
+            'text-fd-muted-foreground gap-1.5 rounded-full',
           )}
           onClick={regenerateLast}
         >
@@ -104,7 +104,7 @@ function SearchAIInput(props: FormHTMLAttributes<HTMLFormElement>) {
     <form
       {...props}
       className={cn(
-        'flex flex-row items-start rounded-xl border pe-2 bg-fd-popover text-fd-popover-foreground transition-colors shadow-lg',
+        'bg-fd-popover text-fd-popover-foreground flex flex-row items-start rounded-xl border pe-2 shadow-lg transition-colors',
         loading && 'bg-fd-muted',
         props.className,
       )}
@@ -130,12 +130,12 @@ function SearchAIInput(props: FormHTMLAttributes<HTMLFormElement>) {
           className={cn(
             buttonVariants({
               variant: 'secondary',
-              className: 'rounded-full mt-2 gap-2',
+              className: 'mt-2 gap-2 rounded-full',
             }),
           )}
           onClick={abortAnswer}
         >
-          <Loader2 className="size-4 animate-spin text-fd-muted-foreground" />
+          <Loader2 className="text-fd-muted-foreground size-4 animate-spin" />
           Abort Answer
         </button>
       ) : (
@@ -144,7 +144,7 @@ function SearchAIInput(props: FormHTMLAttributes<HTMLFormElement>) {
           className={cn(
             buttonVariants({
               variant: 'ghost',
-              className: 'rounded-full mt-2 p-1.5',
+              className: 'mt-2 rounded-full p-1.5',
             }),
           )}
           disabled={message.length === 0}
@@ -208,7 +208,7 @@ function Input(props: TextareaHTMLAttributes<HTMLTextAreaElement>) {
         id="nd-ai-input"
         className={cn(
           shared,
-          'resize-none bg-transparent placeholder:text-fd-muted-foreground focus-visible:outline-none',
+          'placeholder:text-fd-muted-foreground resize-none bg-transparent focus-visible:outline-none',
         )}
         {...props}
       />
@@ -235,7 +235,7 @@ function Message({ message }: { message: MessageRecord }) {
     <div>
       <p
         className={cn(
-          'mb-1 text-xs font-medium text-fd-muted-foreground',
+          'text-fd-muted-foreground mb-1 text-xs font-medium',
           message.role === 'assistant' && 'text-fd-primary',
         )}
       >
@@ -250,7 +250,7 @@ function Message({ message }: { message: MessageRecord }) {
             <Link
               key={i}
               href={item.url}
-              className="block text-xs rounded-lg border p-3 hover:bg-fd-accent hover:text-fd-accent-foreground"
+              className="hover:bg-fd-accent hover:text-fd-accent-foreground block rounded-lg border p-3 text-xs"
             >
               <p className="font-medium">{item.title}</p>
               <p className="text-fd-muted-foreground">
@@ -295,14 +295,12 @@ function Markdown({ text }: { text: string }) {
     processor ??= createProcessor();
     let result = map.get(text);
 
-    if (!result) {
-      result = await processor
-        .process(text, {
-          ...defaultMdxComponents,
-          img: undefined, // use JSX
-        })
-        .catch(() => text);
-    }
+    result ??= await processor
+      .process(text, {
+        ...defaultMdxComponents,
+        img: undefined, // use JSX
+      })
+      .catch(() => text);
 
     map.set(text, result);
     setRendered(result);
@@ -343,7 +341,7 @@ export default function AISearch(props: DialogProps) {
       {props.children}
       <AIProvider type={type} loadEngine={props.open}>
         <DialogPortal>
-          <DialogOverlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm data-[state=closed]:animate-fd-fade-out data-[state=open]:animate-fd-fade-in" />
+          <DialogOverlay className="data-[state=closed]:animate-fd-fade-out data-[state=open]:animate-fd-fade-in fixed inset-0 z-50 bg-black/30 backdrop-blur-sm" />
 
           <DialogContent
             onOpenAutoFocus={(e) => {
@@ -351,16 +349,16 @@ export default function AISearch(props: DialogProps) {
               e.preventDefault();
             }}
             aria-describedby={undefined}
-            className="fixed bottom-20 left-1/2 z-50 w-[98vw] max-w-[860px] -translate-x-1/2 focus-visible:outline-none data-[state=closed]:animate-fd-dialog-out data-[state=open]:animate-fd-dialog-in"
+            className="data-[state=closed]:animate-fd-dialog-out data-[state=open]:animate-fd-dialog-in fixed bottom-20 left-1/2 z-50 w-[98vw] max-w-[860px] -translate-x-1/2 focus-visible:outline-none"
           >
             <ShowOnMessages>
-              <List className="bg-fd-popover rounded-xl mb-3 border shadow-lg">
+              <List className="bg-fd-popover mb-3 rounded-xl border shadow-lg">
                 <SearchAIMessages />
                 <SearchAIActions />
               </List>
             </ShowOnMessages>
             <SearchAIInput className="rounded-b-none border-b-0" />
-            <div className="flex flex-row gap-2 items-center bg-fd-muted text-fd-muted-foreground px-3 py-1.5 rounded-b-xl border-b border-x shadow-lg justify-between flex-wrap">
+            <div className="bg-fd-muted text-fd-muted-foreground flex flex-row flex-wrap items-center justify-between gap-2 rounded-b-xl border-x border-b px-3 py-1.5 shadow-lg">
               <div className="flex flex-row items-center">
                 <button
                   className={cn(
@@ -383,8 +381,8 @@ export default function AISearch(props: DialogProps) {
                   Agent
                 </button>
               </div>
-              <div className="flex flex-row gap-2 items-center">
-                <DialogTitle className="text-xs flex-1">
+              <div className="flex flex-row items-center gap-2">
+                <DialogTitle className="flex-1 text-xs">
                   Powered by{' '}
                   <a
                     href={
@@ -395,7 +393,7 @@ export default function AISearch(props: DialogProps) {
                           : 'https://sdk.vercel.ai'
                     }
                     target="_blank"
-                    className="font-medium text-fd-popover-foreground"
+                    className="text-fd-popover-foreground font-medium"
                     rel="noreferrer noopener"
                   >
                     {type === 'orama' && 'Orama AI'}
@@ -408,7 +406,7 @@ export default function AISearch(props: DialogProps) {
                 <DialogClose
                   aria-label="Close"
                   tabIndex={-1}
-                  className="rounded-full p-1.5 -me-1.5 hover:bg-fd-accent hover:text-fd-accent-foreground"
+                  className="hover:bg-fd-accent hover:text-fd-accent-foreground -me-1.5 rounded-full p-1.5"
                 >
                   <X className="size-4" />
                 </DialogClose>

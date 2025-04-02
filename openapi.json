@@ -8,10 +8,7 @@
     "version": "1.1"
   },
   "servers": [
-    {
-      "url": "https://api.meetingbaas.com",
-      "description": "Production server"
-    }
+    { "url": "https://api.meetingbaas.com", "description": "Production server" }
   ],
   "paths": {
     "/bots/": {
@@ -22,9 +19,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/JoinRequest"
-              }
+              "schema": { "$ref": "#/components/schemas/JoinRequest" }
             }
           },
           "required": true
@@ -34,21 +29,12 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JoinResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/JoinResponse" }
               }
             }
           }
         },
-        "security": [
-          {
-            "ApiKeyAuth": []
-          },
-          {
-            "LegacyApiKeyAuth": []
-          }
-        ]
+        "security": [{ "ApiKeyAuth": [] }, { "LegacyApiKeyAuth": [] }]
       }
     },
     "/bots/{uuid}": {
@@ -74,9 +60,7 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LeaveResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/LeaveResponse" }
               }
             }
           }
@@ -93,9 +77,7 @@
             "in": "query",
             "name": "bot_id",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
             "style": "form"
           }
         ],
@@ -104,9 +86,7 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Metadata"
-                }
+                "schema": { "$ref": "#/components/schemas/Metadata" }
               }
             }
           }
@@ -136,24 +116,14 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/DeleteResponse" }
               }
             }
           },
-          "401": {
-            "description": "no content"
-          },
-          "403": {
-            "description": "no content"
-          },
-          "404": {
-            "description": "no content"
-          },
-          "429": {
-            "description": "no content"
-          }
+          "401": { "description": "no content" },
+          "403": { "description": "no content" },
+          "404": { "description": "no content" },
+          "429": { "description": "no content" }
         }
       }
     },
@@ -391,20 +361,14 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RetranscribeBody"
-              }
+              "schema": { "$ref": "#/components/schemas/RetranscribeBody" }
             }
           },
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "description"
-          },
-          "202": {
-            "description": "no content"
-          }
+          "200": { "description": "description" },
+          "202": { "description": "no content" }
         }
       }
     },
@@ -412,16 +376,12 @@
       "get": {
         "tags": ["Webhooks"],
         "summary": "Webhook Events Documentation",
-        "description": "Meeting BaaS sends webhook events to your configured webhook URL when specific events occur.\n\n## Webhook Event Types\n\n### 1. `complete`\nSent when a bot successfully completes recording a meeting. Contains full transcription data and a link to the recording.\n```json\n{\n  \\\"event\\\": \\\"complete\\\",\n  \\\"data\\\": {\n    \\\"bot_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\",\n    \\\"transcript\\\": [\n      {\n        \\\"speaker\\\": \\\"John Doe\\\",\n        \\\"offset\\\": 1.5,\n        \\\"words\\\": [\n          {\n            \\\"start\\\": 1.5,\n            \\\"end\\\": 1.9,\n            \\\"word\\\": \\\"Hello\\\"\n          },\n          {\n            \\\"start\\\": 2.0,\n            \\\"end\\\": 2.4,\n            \\\"word\\\": \\\"everyone\\\"\n          }\n        ]\n      }\n    ],\n    \\\"speakers\\\": [\n      \\\"Jane Smith\\\",\n      \\\"John Doe\\\"\n    ],\n    \\\"mp4\\\": \\\"https://storage.example.com/recordings/video123.mp4?token=abc\\\",\n    \\\"event\\\": \\\"complete\\\"\n  }\n}\n```\n\nThe `complete` event includes:\n- **bot_id**: Unique identifier for the bot that completed recording\n- **speakers**: A set of speaker names identified in the meeting\n- **transcript**: Full transcript data with speaker identification and word timing\n- **mp4**: URL to the recording file (valid for 24 hours by default)\n- **event**: Event type identifier (\"complete\")\n\n### 2. `failed`\nSent when a bot fails to join or record a meeting. Contains error details.\n```json\n{\n  \\\"event\\\": \\\"failed\\\",\n  \\\"data\\\": {\n    \\\"bot_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\",\n    \\\"error\\\": \\\"meeting_not_found\\\",\n    \\\"message\\\": \\\"Could not join meeting: The meeting ID was not found or has expired\\\"\n  }\n}\n```\n\nThe `failed` event includes:\n- **bot_id**: Unique identifier for the bot that failed\n- **error**: Error code identifying the type of failure\n- **message**: Detailed human-readable error message\n\nCommon error types include:\n- `meeting_not_found`: The meeting ID or link was invalid or expired\n- `access_denied`: The bot was denied access to the meeting\n- `authentication_error`: Failed to authenticate with the meeting platform\n- `network_error`: Network connectivity issues during recording\n- `internal_error`: Internal server error\n\n### 3. `calendar.sync_events`\nSent when calendar events are synced. Contains information about which events were updated.\n```json\n{\n  \\\"event\\\": \\\"calendar.sync_events\\\",\n  \\\"data\\\": {\n    \\\"calendar_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\",\n    \\\"last_updated_ts\\\": \\\"2023-05-01T12:00:00Z\\\",\n    \\\"affected_event_uuids\\\": [\n      \\\"123e4567-e89b-12d3-a456-426614174001\\\",\n      \\\"123e4567-e89b-12d3-a456-426614174002\\\"\n    ]\n  }\n}\n```\n\nThe `calendar.sync_events` event includes:\n- **calendar_id**: UUID of the calendar that was synced\n- **last_updated_ts**: ISO-8601 timestamp of when the sync occurred\n- **affected_event_uuids**: Array of UUIDs for calendar events that were added, updated, or deleted\n\nThis event is triggered when:\n- Calendar data is synced with the external provider (Google, Microsoft)\n- Multiple events may be created, updated, or deleted in a single sync operation\n- Use this event to update your local cache of calendar events\n\n### 4. `transcription_complete`\nSent when transcription is completed separately from recording (e.g., after retranscribing).\n```json\n{\n  \\\"event\\\": \\\"transcription_complete\\\",\n  \\\"data\\\": {\n    \\\"bot_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\"\n  }\n}\n```\n\nThe `transcription_complete` event includes:\n- **bot_id**: Unique identifier for the bot with the completed transcription\n\nThis event is sent when:\n- You request a retranscription via the `/bots/retranscribe` endpoint\n- An asynchronous transcription process completes after the recording has ended\n\n## Setting Up Webhooks\n\nYou can configure webhooks in two ways:\n1. **Account-level webhook URL**: Set a default webhook URL for all bots in your account using the `/accounts/webhook_url` endpoint\n2. **Bot-specific webhook URL**: Provide a `webhook_url` parameter when creating a bot with the `/bots` endpoint\n\nYour webhook endpoint must:\n- Accept POST requests with JSON payload\n- Return a 2xx status code to acknowledge receipt\n- Process requests within 10 seconds to avoid timeouts\n- Handle each event type appropriately based on the event type\n\nAll webhook requests include:\n- `x-meeting-baas-api-key` header with your API key for verification\n- `content-type: application/json` header\n- JSON body containing the event details\n\n## Webhook Reliability\n\nIf your endpoint fails to respond or returns an error, the system will attempt to retry the webhook delivery. For critical events, we recommend implementing:\n\n- Idempotency handling to prevent duplicate processing of the same event\n- Proper logging of webhook receipts for audit purposes\n- Asynchronous processing to quickly acknowledge receipt before handling the event data\n\nFor security, always validate the API key in the `x-meeting-baas-api-key` header matches your API key.",
+        "description": "Meeting BaaS sends webhook events to your configured webhook URL when specific events occur.\n\n## Webhook Event Types\n\n### 1. `complete`\nSent when a bot successfully completes recording a meeting. Contains full transcription data and a link to the recording.\n```json\n{\n  \\\"event\\\": \\\"complete\\\",\n  \\\"data\\\": {\n    \\\"bot_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\",\n    \\\"transcript\\\": [\n      {\n        \\\"speaker\\\": \\\"John Doe\\\",\n        \\\"offset\\\": 1.5,\n        \\\"words\\\": [\n          {\n            \\\"start\\\": 1.5,\n            \\\"end\\\": 1.9,\n            \\\"word\\\": \\\"Hello\\\"\n          },\n          {\n            \\\"start\\\": 2.0,\n            \\\"end\\\": 2.4,\n            \\\"word\\\": \\\"everyone\\\"\n          }\n        ]\n      }\n    ],\n    \\\"speakers\\\": [\n      \\\"John Doe\\\",\n      \\\"Jane Smith\\\"\n    ],\n    \\\"mp4\\\": \\\"https://storage.example.com/recordings/video123.mp4?token=abc\\\",\n    \\\"event\\\": \\\"complete\\\"\n  }\n}\n```\n\nThe `complete` event includes:\n- **bot_id**: Unique identifier for the bot that completed recording\n- **speakers**: A set of speaker names identified in the meeting\n- **transcript**: Full transcript data with speaker identification and word timing\n- **mp4**: URL to the recording file (valid for 24 hours by default)\n- **event**: Event type identifier (\"complete\")\n\n### 2. `failed`\nSent when a bot fails to join or record a meeting. Contains error details.\n```json\n{\n  \\\"event\\\": \\\"failed\\\",\n  \\\"data\\\": {\n    \\\"bot_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\",\n    \\\"error\\\": \\\"meeting_not_found\\\",\n    \\\"message\\\": \\\"Could not join meeting: The meeting ID was not found or has expired\\\"\n  }\n}\n```\n\nThe `failed` event includes:\n- **bot_id**: Unique identifier for the bot that failed\n- **error**: Error code identifying the type of failure\n- **message**: Detailed human-readable error message\n\nCommon error types include:\n- `meeting_not_found`: The meeting ID or link was invalid or expired\n- `access_denied`: The bot was denied access to the meeting\n- `authentication_error`: Failed to authenticate with the meeting platform\n- `network_error`: Network connectivity issues during recording\n- `internal_error`: Internal server error\n\n### 3. `calendar.sync_events`\nSent when calendar events are synced. Contains information about which events were updated.\n```json\n{\n  \\\"event\\\": \\\"calendar.sync_events\\\",\n  \\\"data\\\": {\n    \\\"calendar_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\",\n    \\\"last_updated_ts\\\": \\\"2023-05-01T12:00:00Z\\\",\n    \\\"affected_event_uuids\\\": [\n      \\\"123e4567-e89b-12d3-a456-426614174001\\\",\n      \\\"123e4567-e89b-12d3-a456-426614174002\\\"\n    ]\n  }\n}\n```\n\nThe `calendar.sync_events` event includes:\n- **calendar_id**: UUID of the calendar that was synced\n- **last_updated_ts**: ISO-8601 timestamp of when the sync occurred\n- **affected_event_uuids**: Array of UUIDs for calendar events that were added, updated, or deleted\n\nThis event is triggered when:\n- Calendar data is synced with the external provider (Google, Microsoft)\n- Multiple events may be created, updated, or deleted in a single sync operation\n- Use this event to update your local cache of calendar events\n\n### 4. `transcription_complete`\nSent when transcription is completed separately from recording (e.g., after retranscribing).\n```json\n{\n  \\\"event\\\": \\\"transcription_complete\\\",\n  \\\"data\\\": {\n    \\\"bot_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\"\n  }\n}\n```\n\nThe `transcription_complete` event includes:\n- **bot_id**: Unique identifier for the bot with the completed transcription\n\nThis event is sent when:\n- You request a retranscription via the `/bots/retranscribe` endpoint\n- An asynchronous transcription process completes after the recording has ended\n\n## Setting Up Webhooks\n\nYou can configure webhooks in two ways:\n1. **Account-level webhook URL**: Set a default webhook URL for all bots in your account using the `/accounts/webhook_url` endpoint\n2. **Bot-specific webhook URL**: Provide a `webhook_url` parameter when creating a bot with the `/bots` endpoint\n\nYour webhook endpoint must:\n- Accept POST requests with JSON payload\n- Return a 2xx status code to acknowledge receipt\n- Process requests within 10 seconds to avoid timeouts\n- Handle each event type appropriately based on the event type\n\nAll webhook requests include:\n- `x-meeting-baas-api-key` header with your API key for verification\n- `content-type: application/json` header\n- JSON body containing the event details\n\n## Webhook Reliability\n\nIf your endpoint fails to respond or returns an error, the system will attempt to retry the webhook delivery. For critical events, we recommend implementing:\n\n- Idempotency handling to prevent duplicate processing of the same event\n- Proper logging of webhook receipts for audit purposes\n- Asynchronous processing to quickly acknowledge receipt before handling the event data\n\nFor security, always validate the API key in the `x-meeting-baas-api-key` header matches your API key.",
         "operationId": "webhook_documentation",
         "responses": {
           "200": {
             "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
+            "content": { "application/json": { "schema": {} } }
           }
         }
       }
@@ -430,16 +390,12 @@
       "get": {
         "tags": ["Webhooks"],
         "summary": "Bot Webhook Events Documentation",
-        "description": "Meeting BaaS sends the following webhook events related to bot recordings.\n\n## Bot Webhook Event Types\n\n### 1. `complete`\nSent when a bot successfully completes recording a meeting.\n\n**Payload Structure:**\n```json\n{\n  \\\"event\\\": \\\"complete\\\",\n  \\\"data\\\": {\n    \\\"bot_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\",\n    \\\"transcript\\\": [\n      {\n        \\\"speaker\\\": \\\"John Doe\\\",\n        \\\"offset\\\": 1.5,\n        \\\"words\\\": [\n          {\n            \\\"start\\\": 1.5,\n            \\\"end\\\": 1.9,\n            \\\"word\\\": \\\"Hello\\\"\n          },\n          {\n            \\\"start\\\": 2.0,\n            \\\"end\\\": 2.4,\n            \\\"word\\\": \\\"everyone\\\"\n          }\n        ]\n      }\n    ],\n    \\\"speakers\\\": [\n      \\\"John Doe\\\",\n      \\\"Jane Smith\\\"\n    ],\n    \\\"mp4\\\": \\\"https://storage.example.com/recordings/video123.mp4?token=abc\\\",\n    \\\"event\\\": \\\"complete\\\"\n  }\n}\n```\n\n**When it's triggered:**\n- After a bot successfully records and processes a meeting\n- After the recording is uploaded and made available\n- When all processing of the meeting recording is complete\n\n**What to do with it:**\n- Download the MP4 recording for storage in your system\n- Store the transcript data in your database\n- Update meeting status in your application\n- Notify users that the recording is available\n\n### 2. `failed`\nSent when a bot fails to join or record a meeting.\n\n**Payload Structure:**\n```json\n{\n  \\\"event\\\": \\\"failed\\\",\n  \\\"data\\\": {\n    \\\"bot_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\",\n    \\\"error\\\": \\\"meeting_not_found\\\",\n    \\\"message\\\": \\\"Could not join meeting: The meeting ID was not found or has expired\\\"\n  }\n}\n```\n\n**Common error types:**\n- `meeting_not_found`: The meeting ID or link was invalid or expired\n- `access_denied`: The bot was denied access to the meeting\n- `authentication_error`: Failed to authenticate with the meeting platform\n- `network_error`: Network connectivity issues during recording\n- `internal_error`: Internal server error\n\n**What to do with it:**\n- Log the failure for troubleshooting\n- Notify administrators or users about the failed recording\n- Attempt to reschedule if appropriate\n- Update meeting status in your system\n\n### 3. `transcription_complete`\nSent when transcription is completed separately from recording.\n\n**Payload Structure:**\n```json\n{\n  \\\"event\\\": \\\"transcription_complete\\\",\n  \\\"data\\\": {\n    \\\"bot_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\"\n  }\n}\n```\n\n**When it's triggered:**\n- After requesting retranscription via the API\n- When an asynchronous transcription job completes\n- When a higher quality or different language transcription becomes available\n\n**What to do with it:**\n- Update the transcript data in your system\n- Notify users that improved transcription is available\n- Run any post-processing on the new transcript data\n\n## Webhook Usage Tips\n\n- Each event includes the `bot_id` so you can correlate with your internal data\n- The complete event includes speaker identification and full transcript data\n- For downloading recordings, the mp4 URL is valid for 24 hours\n- Handle the webhook asynchronously and return 200 OK quickly to prevent timeouts\n\nFor security, always validate the API key in the `x-meeting-baas-api-key` header matches your API key.",
+        "description": "Meeting BaaS sends the following webhook events related to bot recordings.\n\n## Bot Webhook Event Types\n\n### 1. `complete`\nSent when a bot successfully completes recording a meeting.\n\n**Payload Structure:**\n```json\n{\n  \\\"event\\\": \\\"complete\\\",\n  \\\"data\\\": {\n    \\\"bot_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\",\n    \\\"transcript\\\": [\n      {\n        \\\"speaker\\\": \\\"John Doe\\\",\n        \\\"offset\\\": 1.5,\n        \\\"words\\\": [\n          {\n            \\\"start\\\": 1.5,\n            \\\"end\\\": 1.9,\n            \\\"word\\\": \\\"Hello\\\"\n          },\n          {\n            \\\"start\\\": 2.0,\n            \\\"end\\\": 2.4,\n            \\\"word\\\": \\\"everyone\\\"\n          }\n        ]\n      }\n    ],\n    \\\"speakers\\\": [\n      \\\"Jane Smith\\\",\n      \\\"John Doe\\\"\n    ],\n    \\\"mp4\\\": \\\"https://storage.example.com/recordings/video123.mp4?token=abc\\\",\n    \\\"event\\\": \\\"complete\\\"\n  }\n}\n```\n\n**When it's triggered:**\n- After a bot successfully records and processes a meeting\n- After the recording is uploaded and made available\n- When all processing of the meeting recording is complete\n\n**What to do with it:**\n- Download the MP4 recording for storage in your system\n- Store the transcript data in your database\n- Update meeting status in your application\n- Notify users that the recording is available\n\n### 2. `failed`\nSent when a bot fails to join or record a meeting.\n\n**Payload Structure:**\n```json\n{\n  \\\"event\\\": \\\"failed\\\",\n  \\\"data\\\": {\n    \\\"bot_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\",\n    \\\"error\\\": \\\"meeting_not_found\\\",\n    \\\"message\\\": \\\"Could not join meeting: The meeting ID was not found or has expired\\\"\n  }\n}\n```\n\n**Common error types:**\n- `meeting_not_found`: The meeting ID or link was invalid or expired\n- `access_denied`: The bot was denied access to the meeting\n- `authentication_error`: Failed to authenticate with the meeting platform\n- `network_error`: Network connectivity issues during recording\n- `internal_error`: Internal server error\n\n**What to do with it:**\n- Log the failure for troubleshooting\n- Notify administrators or users about the failed recording\n- Attempt to reschedule if appropriate\n- Update meeting status in your system\n\n### 3. `transcription_complete`\nSent when transcription is completed separately from recording.\n\n**Payload Structure:**\n```json\n{\n  \\\"event\\\": \\\"transcription_complete\\\",\n  \\\"data\\\": {\n    \\\"bot_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\"\n  }\n}\n```\n\n**When it's triggered:**\n- After requesting retranscription via the API\n- When an asynchronous transcription job completes\n- When a higher quality or different language transcription becomes available\n\n**What to do with it:**\n- Update the transcript data in your system\n- Notify users that improved transcription is available\n- Run any post-processing on the new transcript data\n\n## Webhook Usage Tips\n\n- Each event includes the `bot_id` so you can correlate with your internal data\n- The complete event includes speaker identification and full transcript data\n- For downloading recordings, the mp4 URL is valid for 24 hours\n- Handle the webhook asynchronously and return 200 OK quickly to prevent timeouts\n\nFor security, always validate the API key in the `x-meeting-baas-api-key` header matches your API key.",
         "operationId": "bot_webhook_documentation",
         "responses": {
           "200": {
             "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
+            "content": { "application/json": { "schema": {} } }
           }
         }
       }
@@ -453,11 +409,7 @@
         "responses": {
           "200": {
             "description": "",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
+            "content": { "application/json": { "schema": {} } }
           }
         }
       }
@@ -505,9 +457,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Calendar"
-                  }
+                  "items": { "$ref": "#/components/schemas/Calendar" }
                 }
               }
             }
@@ -522,9 +472,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCalendarParams"
-              }
+              "schema": { "$ref": "#/components/schemas/CreateCalendarParams" }
             }
           },
           "required": true
@@ -567,9 +515,7 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Calendar"
-                }
+                "schema": { "$ref": "#/components/schemas/Calendar" }
               }
             }
           }
@@ -593,11 +539,7 @@
             "style": "simple"
           }
         ],
-        "responses": {
-          "200": {
-            "description": "no content"
-          }
-        }
+        "responses": { "200": { "description": "no content" } }
       },
       "patch": {
         "tags": ["Calendars"],
@@ -620,9 +562,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCalendarParams"
-              }
+              "schema": { "$ref": "#/components/schemas/UpdateCalendarParams" }
             }
           },
           "required": true
@@ -665,9 +605,7 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Event"
-                }
+                "schema": { "$ref": "#/components/schemas/Event" }
               }
             }
           }
@@ -706,9 +644,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BotParam2"
-              }
+              "schema": { "$ref": "#/components/schemas/BotParam2" }
             }
           },
           "required": true
@@ -720,9 +656,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Event"
-                  }
+                  "items": { "$ref": "#/components/schemas/Event" }
                 }
               }
             }
@@ -764,9 +698,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Event"
-                  }
+                  "items": { "$ref": "#/components/schemas/Event" }
                 }
               }
             }
@@ -804,9 +736,7 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/BotParam3"
-              }
+              "schema": { "$ref": "#/components/schemas/BotParam3" }
             }
           },
           "required": true
@@ -818,9 +748,7 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Event"
-                  }
+                  "items": { "$ref": "#/components/schemas/Event" }
                 }
               }
             }
@@ -922,9 +850,7 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListEventResponse"
-                }
+                "schema": { "$ref": "#/components/schemas/ListEventResponse" }
               }
             }
           }
@@ -947,52 +873,26 @@
         "type": "object",
         "required": ["created_at", "email", "id", "status"],
         "properties": {
-          "company_name": {
-            "type": ["string", "null"]
-          },
-          "created_at": {
-            "$ref": "#/components/schemas/SystemTime"
-          },
-          "email": {
-            "type": "string"
-          },
-          "firstname": {
-            "type": ["string", "null"]
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "lastname": {
-            "type": ["string", "null"]
-          },
-          "phone": {
-            "type": ["string", "null"]
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32"
-          }
+          "company_name": { "type": ["string", "null"] },
+          "created_at": { "$ref": "#/components/schemas/SystemTime" },
+          "email": { "type": "string" },
+          "firstname": { "type": ["string", "null"] },
+          "id": { "type": "integer", "format": "int32" },
+          "lastname": { "type": ["string", "null"] },
+          "phone": { "type": ["string", "null"] },
+          "status": { "type": "integer", "format": "int32" }
         }
       },
       "AccountInfos": {
         "description": "Structure consisting account information.",
         "type": "object",
         "required": ["account"],
-        "properties": {
-          "account": {
-            "$ref": "#/components/schemas/Account"
-          }
-        }
+        "properties": { "account": { "$ref": "#/components/schemas/Account" } }
       },
       "ApiKeyResponse": {
         "type": "object",
         "required": ["api_key"],
-        "properties": {
-          "api_key": {
-            "type": "string"
-          }
-        }
+        "properties": { "api_key": { "type": "string" } }
       },
       "Attendee": {
         "type": "object",
@@ -1008,10 +908,7 @@
           }
         }
       },
-      "AudioFrequency": {
-        "type": "string",
-        "enum": ["16khz", "24khz"]
-      },
+      "AudioFrequency": { "type": "string", "enum": ["16khz", "24khz"] },
       "AutomaticLeaveRequest": {
         "type": "object",
         "properties": {
@@ -1019,13 +916,13 @@
             "description": "The timeout in seconds for the bot to wait for participants to join before leaving the meeting, defaults to 600 seconds",
             "type": ["integer", "null"],
             "format": "uint32",
-            "minimum": 0
+            "minimum": 0.0
           },
           "waiting_room_timeout": {
             "description": "The timeout in seconds for the bot to wait in the waiting room before leaving the meeting, defaults to 600 seconds",
             "type": ["integer", "null"],
             "format": "uint32",
-            "minimum": 0
+            "minimum": 0.0
           }
         }
       },
@@ -1033,16 +930,9 @@
         "type": "object",
         "required": ["bot", "duration", "params"],
         "properties": {
-          "bot": {
-            "$ref": "#/components/schemas/Bot2"
-          },
-          "duration": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "params": {
-            "$ref": "#/components/schemas/BotParam"
-          }
+          "bot": { "$ref": "#/components/schemas/Bot2" },
+          "duration": { "type": "integer", "format": "int64" },
+          "params": { "$ref": "#/components/schemas/BotParam" }
         }
       },
       "Bot2": {
@@ -1060,68 +950,33 @@
           "uuid"
         ],
         "properties": {
-          "account_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "bot_param_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "created_at": {
-            "$ref": "#/components/schemas/DateTime"
-          },
-          "diarization_v2": {
-            "type": "boolean"
-          },
-          "ended_at": {
-            "$ref": "#/components/schemas/OptionalDateTime"
-          },
-          "errors": {
-            "type": ["string", "null"]
-          },
-          "event_id": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "meeting_url": {
-            "type": "string"
-          },
-          "mp4_s3_path": {
-            "type": "string"
-          },
-          "reserved": {
-            "type": "boolean"
-          },
+          "account_id": { "type": "integer", "format": "int32" },
+          "bot_param_id": { "type": "integer", "format": "int32" },
+          "created_at": { "$ref": "#/components/schemas/DateTime" },
+          "diarization_v2": { "type": "boolean" },
+          "ended_at": { "$ref": "#/components/schemas/OptionalDateTime" },
+          "errors": { "type": ["string", "null"] },
+          "event_id": { "type": ["integer", "null"], "format": "int32" },
+          "id": { "type": "integer", "format": "int32" },
+          "meeting_url": { "type": "string" },
+          "mp4_s3_path": { "type": "string" },
+          "reserved": { "type": "boolean" },
           "scheduled_bot_id": {
             "type": ["integer", "null"],
             "format": "int32"
           },
-          "session_id": {
-            "type": ["string", "null"]
-          },
-          "uuid": {
-            "type": "string",
-            "format": "uuid"
-          }
+          "session_id": { "type": ["string", "null"] },
+          "uuid": { "type": "string", "format": "uuid" }
         }
       },
       "BotData": {
         "type": "object",
         "required": ["bot", "transcripts"],
         "properties": {
-          "bot": {
-            "$ref": "#/components/schemas/BotWithParams"
-          },
+          "bot": { "$ref": "#/components/schemas/BotWithParams" },
           "transcripts": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Transcript"
-            }
+            "items": { "$ref": "#/components/schemas/Transcript" }
           }
         }
       },
@@ -1143,175 +998,100 @@
         "properties": {
           "bots": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Bot"
-            }
+            "items": { "$ref": "#/components/schemas/Bot" }
           },
-          "has_more": {
-            "type": "boolean"
-          }
+          "has_more": { "type": "boolean" }
         }
       },
       "BotParam": {
         "type": "object",
         "required": ["bot_name", "extra", "webhook_url"],
         "properties": {
-          "bot_image": {
-            "type": ["string", "null"]
-          },
-          "bot_name": {
-            "type": "string"
-          },
-          "deduplication_key": {
-            "type": ["string", "null"]
-          },
-          "enter_message": {
-            "type": ["string", "null"]
-          },
-          "extra": {
-            "$ref": "#/components/schemas/Extra"
-          },
+          "bot_image": { "type": ["string", "null"] },
+          "bot_name": { "type": "string" },
+          "deduplication_key": { "type": ["string", "null"] },
+          "enter_message": { "type": ["string", "null"] },
+          "extra": { "$ref": "#/components/schemas/Extra" },
           "noone_joined_timeout": {
             "type": ["integer", "null"],
             "format": "int32"
           },
           "recording_mode": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/RecordingMode"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/RecordingMode" },
+              { "type": "null" }
             ]
           },
-          "speech_to_text_api_key": {
-            "type": ["string", "null"]
-          },
+          "speech_to_text_api_key": { "type": ["string", "null"] },
           "speech_to_text_provider": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/SpeechToTextProvider"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/SpeechToTextProvider" },
+              { "type": "null" }
             ]
           },
           "streaming_audio_frequency": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/AudioFrequency"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/AudioFrequency" },
+              { "type": "null" }
             ]
           },
-          "streaming_input": {
-            "type": ["string", "null"]
-          },
-          "streaming_output": {
-            "type": ["string", "null"]
-          },
+          "streaming_input": { "type": ["string", "null"] },
+          "streaming_output": { "type": ["string", "null"] },
           "waiting_room_timeout": {
             "type": ["integer", "null"],
             "format": "int32"
           },
-          "webhook_url": {
-            "type": "string"
-          }
+          "webhook_url": { "type": "string" }
         }
       },
       "BotParam2": {
         "type": "object",
         "required": ["bot_name", "extra"],
         "properties": {
-          "bot_image": {
-            "type": ["string", "null"]
-          },
-          "bot_name": {
-            "type": "string"
-          },
-          "deduplication_key": {
-            "type": ["string", "null"]
-          },
-          "enter_message": {
-            "type": ["string", "null"]
-          },
-          "extra": {
-            "$ref": "#/components/schemas/Extra"
-          },
+          "bot_image": { "type": ["string", "null"] },
+          "bot_name": { "type": "string" },
+          "deduplication_key": { "type": ["string", "null"] },
+          "enter_message": { "type": ["string", "null"] },
+          "extra": { "$ref": "#/components/schemas/Extra" },
           "noone_joined_timeout": {
             "type": ["integer", "null"],
             "format": "int32"
           },
           "recording_mode": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/RecordingMode"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/RecordingMode" },
+              { "type": "null" }
             ]
           },
           "speech_to_text": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/SpeechToText"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/SpeechToText" },
+              { "type": "null" }
             ]
           },
           "streaming_audio_frequency": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/AudioFrequency"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/AudioFrequency" },
+              { "type": "null" }
             ]
           },
-          "streaming_input": {
-            "type": ["string", "null"]
-          },
-          "streaming_output": {
-            "type": ["string", "null"]
-          },
+          "streaming_input": { "type": ["string", "null"] },
+          "streaming_output": { "type": ["string", "null"] },
           "waiting_room_timeout": {
             "type": ["integer", "null"],
             "format": "int32"
           },
-          "webhook_url": {
-            "type": ["string", "null"]
-          }
+          "webhook_url": { "type": ["string", "null"] }
         }
       },
       "BotParam3": {
         "type": "object",
         "properties": {
-          "bot_image": {
-            "default": null,
-            "type": ["string", "null"]
-          },
-          "bot_name": {
-            "type": ["string", "null"]
-          },
-          "deduplication_key": {
-            "default": null,
-            "type": ["string", "null"]
-          },
-          "enter_message": {
-            "default": null,
-            "type": ["string", "null"]
-          },
-          "extra": {
-            "default": null
-          },
+          "bot_image": { "default": null, "type": ["string", "null"] },
+          "bot_name": { "type": ["string", "null"] },
+          "deduplication_key": { "default": null, "type": ["string", "null"] },
+          "enter_message": { "default": null, "type": ["string", "null"] },
+          "extra": { "default": null },
           "noone_joined_timeout": {
             "default": null,
             "type": ["integer", "null"],
@@ -1321,17 +1101,11 @@
             "anyOf": [
               {
                 "anyOf": [
-                  {
-                    "$ref": "#/components/schemas/RecordingMode"
-                  },
-                  {
-                    "type": "null"
-                  }
+                  { "$ref": "#/components/schemas/RecordingMode" },
+                  { "type": "null" }
                 ]
               },
-              {
-                "type": "null"
-              }
+              { "type": "null" }
             ]
           },
           "speech_to_text": {
@@ -1339,17 +1113,11 @@
             "anyOf": [
               {
                 "anyOf": [
-                  {
-                    "$ref": "#/components/schemas/SpeechToText"
-                  },
-                  {
-                    "type": "null"
-                  }
+                  { "$ref": "#/components/schemas/SpeechToText" },
+                  { "type": "null" }
                 ]
               },
-              {
-                "type": "null"
-              }
+              { "type": "null" }
             ]
           },
           "streaming_audio_frequency": {
@@ -1357,35 +1125,21 @@
             "anyOf": [
               {
                 "anyOf": [
-                  {
-                    "$ref": "#/components/schemas/AudioFrequency"
-                  },
-                  {
-                    "type": "null"
-                  }
+                  { "$ref": "#/components/schemas/AudioFrequency" },
+                  { "type": "null" }
                 ]
               },
-              {
-                "type": "null"
-              }
+              { "type": "null" }
             ]
           },
-          "streaming_input": {
-            "default": null,
-            "type": ["string", "null"]
-          },
-          "streaming_output": {
-            "default": null,
-            "type": ["string", "null"]
-          },
+          "streaming_input": { "default": null, "type": ["string", "null"] },
+          "streaming_output": { "default": null, "type": ["string", "null"] },
           "waiting_room_timeout": {
             "default": null,
             "type": ["integer", "null"],
             "format": "int32"
           },
-          "webhook_url": {
-            "type": ["string", "null"]
-          }
+          "webhook_url": { "type": ["string", "null"] }
         }
       },
       "BotWithParams": {
@@ -1406,156 +1160,78 @@
           "webhook_url"
         ],
         "properties": {
-          "account_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "bot_image": {
-            "type": ["string", "null"]
-          },
-          "bot_name": {
-            "type": "string"
-          },
-          "bot_param_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "created_at": {
-            "$ref": "#/components/schemas/DateTime"
-          },
-          "deduplication_key": {
-            "type": ["string", "null"]
-          },
-          "diarization_v2": {
-            "type": "boolean"
-          },
-          "ended_at": {
-            "$ref": "#/components/schemas/OptionalDateTime"
-          },
-          "enter_message": {
-            "type": ["string", "null"]
-          },
-          "errors": {
-            "type": ["string", "null"]
-          },
-          "event_id": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          },
-          "extra": {
-            "$ref": "#/components/schemas/Extra"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "meeting_url": {
-            "type": "string"
-          },
-          "mp4_s3_path": {
-            "type": "string"
-          },
+          "account_id": { "type": "integer", "format": "int32" },
+          "bot_image": { "type": ["string", "null"] },
+          "bot_name": { "type": "string" },
+          "bot_param_id": { "type": "integer", "format": "int32" },
+          "created_at": { "$ref": "#/components/schemas/DateTime" },
+          "deduplication_key": { "type": ["string", "null"] },
+          "diarization_v2": { "type": "boolean" },
+          "ended_at": { "$ref": "#/components/schemas/OptionalDateTime" },
+          "enter_message": { "type": ["string", "null"] },
+          "errors": { "type": ["string", "null"] },
+          "event_id": { "type": ["integer", "null"], "format": "int32" },
+          "extra": { "$ref": "#/components/schemas/Extra" },
+          "id": { "type": "integer", "format": "int32" },
+          "meeting_url": { "type": "string" },
+          "mp4_s3_path": { "type": "string" },
           "noone_joined_timeout": {
             "type": ["integer", "null"],
             "format": "int32"
           },
           "recording_mode": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/RecordingMode"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/RecordingMode" },
+              { "type": "null" }
             ]
           },
-          "reserved": {
-            "type": "boolean"
-          },
+          "reserved": { "type": "boolean" },
           "scheduled_bot_id": {
             "type": ["integer", "null"],
             "format": "int32"
           },
-          "session_id": {
-            "type": ["string", "null"]
-          },
-          "speech_to_text_api_key": {
-            "type": ["string", "null"]
-          },
+          "session_id": { "type": ["string", "null"] },
+          "speech_to_text_api_key": { "type": ["string", "null"] },
           "speech_to_text_provider": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/SpeechToTextProvider"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/SpeechToTextProvider" },
+              { "type": "null" }
             ]
           },
           "streaming_audio_frequency": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/AudioFrequency"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/AudioFrequency" },
+              { "type": "null" }
             ]
           },
-          "streaming_input": {
-            "type": ["string", "null"]
-          },
-          "streaming_output": {
-            "type": ["string", "null"]
-          },
-          "uuid": {
-            "type": "string",
-            "format": "uuid"
-          },
+          "streaming_input": { "type": ["string", "null"] },
+          "streaming_output": { "type": ["string", "null"] },
+          "uuid": { "type": "string", "format": "uuid" },
           "waiting_room_timeout": {
             "type": ["integer", "null"],
             "format": "int32"
           },
-          "webhook_url": {
-            "type": "string"
-          }
+          "webhook_url": { "type": "string" }
         }
       },
       "Calendar": {
         "type": "object",
         "required": ["email", "google_id", "name", "uuid"],
         "properties": {
-          "email": {
-            "type": "string"
-          },
-          "google_id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "resource_id": {
-            "type": ["string", "null"]
-          },
-          "uuid": {
-            "type": "string",
-            "format": "uuid"
-          }
+          "email": { "type": "string" },
+          "google_id": { "type": "string" },
+          "name": { "type": "string" },
+          "resource_id": { "type": ["string", "null"] },
+          "uuid": { "type": "string", "format": "uuid" }
         }
       },
       "CalendarListEntry": {
         "type": "object",
         "required": ["email", "id", "is_primary"],
         "properties": {
-          "email": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "is_primary": {
-            "type": "boolean"
-          }
+          "email": { "type": "string" },
+          "id": { "type": "string" },
+          "is_primary": { "type": "boolean" }
         }
       },
       "CalendarUuidParam": {
@@ -1578,30 +1254,18 @@
           "platform"
         ],
         "properties": {
-          "oauth_client_id": {
-            "type": "string"
-          },
-          "oauth_client_secret": {
-            "type": "string"
-          },
-          "oauth_refresh_token": {
-            "type": "string"
-          },
-          "platform": {
-            "$ref": "#/components/schemas/Provider"
-          },
-          "raw_calendar_id": {
-            "type": ["string", "null"]
-          }
+          "oauth_client_id": { "type": "string" },
+          "oauth_client_secret": { "type": "string" },
+          "oauth_refresh_token": { "type": "string" },
+          "platform": { "$ref": "#/components/schemas/Provider" },
+          "raw_calendar_id": { "type": ["string", "null"] }
         }
       },
       "CreateCalendarResponse": {
         "type": "object",
         "required": ["calendar"],
         "properties": {
-          "calendar": {
-            "$ref": "#/components/schemas/Calendar"
-          }
+          "calendar": { "$ref": "#/components/schemas/Calendar" }
         }
       },
       "DailyTokenConsumption": {
@@ -1611,15 +1275,10 @@
           "consumption_by_service": {
             "$ref": "#/components/schemas/TokenConsumptionByService"
           },
-          "date": {
-            "type": "string"
-          }
+          "date": { "type": "string" }
         }
       },
-      "DateTime": {
-        "type": "string",
-        "format": "date-time"
-      },
+      "DateTime": { "type": "string", "format": "date-time" },
       "DeleteResponse": {
         "type": "object",
         "required": ["ok", "status"],
@@ -1661,29 +1320,17 @@
       "EndMeetingQuery": {
         "type": "object",
         "required": ["bot_uuid"],
-        "properties": {
-          "bot_uuid": {
-            "type": "string"
-          }
-        }
+        "properties": { "bot_uuid": { "type": "string" } }
       },
       "EndMeetingTrampolineQuery": {
         "type": "object",
         "required": ["bot_uuid"],
-        "properties": {
-          "bot_uuid": {
-            "type": "string"
-          }
-        }
+        "properties": { "bot_uuid": { "type": "string" } }
       },
       "EndMeetingTrampolineRequest": {
         "type": "object",
         "required": ["diarization_v2"],
-        "properties": {
-          "diarization_v2": {
-            "type": "boolean"
-          }
-        }
+        "properties": { "diarization_v2": { "type": "boolean" } }
       },
       "Event": {
         "type": "object",
@@ -1705,25 +1352,16 @@
         "properties": {
           "attendees": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Attendee"
-            }
+            "items": { "$ref": "#/components/schemas/Attendee" }
           },
           "bot_param": {
             "description": "Associated bot parameters if a bot is scheduled for this event",
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/BotParam"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/BotParam" },
+              { "type": "null" }
             ]
           },
-          "calendar_uuid": {
-            "type": "string",
-            "format": "uuid"
-          },
+          "calendar_uuid": { "type": "string", "format": "uuid" },
           "deleted": {
             "description": "Indicates whether this event has been deleted",
             "type": "boolean"
@@ -1771,10 +1409,7 @@
             "type": "string",
             "format": "date-time"
           },
-          "uuid": {
-            "type": "string",
-            "format": "uuid"
-          }
+          "uuid": { "type": "string", "format": "uuid" }
         }
       },
       "Extra": {
@@ -1785,33 +1420,21 @@
         "type": "object",
         "required": ["meeting_url", "message"],
         "properties": {
-          "meeting_url": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          }
+          "meeting_url": { "type": "string" },
+          "message": { "type": "string" }
         }
       },
       "GetAllBotsQuery": {
         "type": "object",
         "required": ["limit", "offset"],
         "properties": {
-          "bot_id": {
-            "type": ["string", "null"]
-          },
+          "bot_id": { "type": ["string", "null"] },
           "end_date": {
             "type": ["string", "null"],
             "format": "partial-date-time"
           },
-          "limit": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "offset": {
-            "type": "integer",
-            "format": "int32"
-          },
+          "limit": { "type": "integer", "format": "int32" },
+          "offset": { "type": "integer", "format": "int32" },
           "start_date": {
             "type": ["string", "null"],
             "format": "partial-date-time"
@@ -1821,48 +1444,26 @@
       "GetMeetingDataQuery": {
         "type": "object",
         "required": ["bot_id"],
-        "properties": {
-          "bot_id": {
-            "type": "string"
-          }
-        }
+        "properties": { "bot_id": { "type": "string" } }
       },
       "GetStartedAccount": {
         "type": "object",
         "required": ["email"],
         "properties": {
-          "email": {
-            "type": "string"
-          },
-          "firstname": {
-            "type": ["string", "null"]
-          },
-          "google_token_id": {
-            "type": ["string", "null"]
-          },
-          "lastname": {
-            "type": ["string", "null"]
-          },
-          "microsoft_token_id": {
-            "type": ["string", "null"]
-          }
+          "email": { "type": "string" },
+          "firstname": { "type": ["string", "null"] },
+          "google_token_id": { "type": ["string", "null"] },
+          "lastname": { "type": ["string", "null"] },
+          "microsoft_token_id": { "type": ["string", "null"] }
         }
       },
       "GetWebhookUrlResponse": {
         "type": "object",
-        "properties": {
-          "webhook_url": {
-            "type": ["string", "null"]
-          }
-        }
+        "properties": { "webhook_url": { "type": ["string", "null"] } }
       },
       "GetstartedQuery": {
         "type": "object",
-        "properties": {
-          "redirect_url": {
-            "type": ["string", "null"]
-          }
-        }
+        "properties": { "redirect_url": { "type": ["string", "null"] } }
       },
       "JoinRequest": {
         "type": "object",
@@ -1871,12 +1472,8 @@
           "automatic_leave": {
             "description": "The bot will leave the meeting automatically after the timeout, defaults to 600 seconds.",
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/AutomaticLeaveRequest"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/AutomaticLeaveRequest" },
+              { "type": "null" }
             ]
           },
           "bot_image": {
@@ -1884,9 +1481,7 @@
             "type": ["string", "null"],
             "format": "uri"
           },
-          "bot_name": {
-            "type": "string"
-          },
+          "bot_name": { "type": "string" },
           "deduplication_key": {
             "description": "We prevent multiple bots with same API key joining a meeting within 5 mins, unless overridden by deduplication_key.",
             "type": ["string", "null"]
@@ -1900,18 +1495,12 @@
             "default": null,
             "$ref": "#/components/schemas/Extra"
           },
-          "meeting_url": {
-            "type": "string"
-          },
+          "meeting_url": { "type": "string" },
           "recording_mode": {
             "description": "The recording mode for the bot, defaults to 'speaker_view'.",
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/RecordingMode"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/RecordingMode" },
+              { "type": "null" }
             ]
           },
           "reserved": {
@@ -1921,29 +1510,21 @@
           "speech_to_text": {
             "description": "The default speech to text provider is Gladia.",
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/SpeechToText"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/SpeechToText" },
+              { "type": "null" }
             ]
           },
           "start_time": {
             "description": "Unix timestamp (in milliseconds) for when the bot should join the meeting. The bot joins 4 minutes before the start time.",
             "type": ["integer", "null"],
             "format": "uint64",
-            "minimum": 0
+            "minimum": 0.0
           },
           "streaming": {
             "description": "WebSocket streams for 16kHz audio. Input stream receives audio sent to the bot. Output stream receives audio from the bot.",
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/StreamingApiParameter"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/StreamingApiParameter" },
+              { "type": "null" }
             ]
           },
           "webhook_url": {
@@ -1957,47 +1538,26 @@
         "type": "object",
         "required": ["bot_param_id", "meeting_url", "schedule_origin"],
         "properties": {
-          "bot_param_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "meeting_url": {
-            "type": "string"
-          },
-          "schedule_origin": {
-            "$ref": "#/components/schemas/ScheduleOrigin"
-          }
+          "bot_param_id": { "type": "integer", "format": "int32" },
+          "meeting_url": { "type": "string" },
+          "schedule_origin": { "$ref": "#/components/schemas/ScheduleOrigin" }
         },
         "additionalProperties": false
       },
       "JoinResponse": {
         "type": "object",
         "required": ["bot_id"],
-        "properties": {
-          "bot_id": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
+        "properties": { "bot_id": { "type": "string", "format": "uuid" } }
       },
       "JoinResponse2": {
         "type": "object",
         "required": ["bot_id"],
-        "properties": {
-          "bot_id": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
+        "properties": { "bot_id": { "type": "string", "format": "uuid" } }
       },
       "LeaveResponse": {
         "type": "object",
         "required": ["ok"],
-        "properties": {
-          "ok": {
-            "type": "boolean"
-          }
-        }
+        "properties": { "ok": { "type": "boolean" } }
       },
       "ListEventResponse": {
         "type": "object",
@@ -2006,9 +1566,7 @@
           "data": {
             "description": "Vector of calendar events matching the list criteria",
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Event"
-            }
+            "items": { "$ref": "#/components/schemas/Event" }
           },
           "next": {
             "description": "Optional url for fetching the next page of results if there are more results to fetch. The limit of events returned is 100. When None, there are no more results to fetch.",
@@ -2025,18 +1583,10 @@
           "platform"
         ],
         "properties": {
-          "oauth_client_id": {
-            "type": "string"
-          },
-          "oauth_client_secret": {
-            "type": "string"
-          },
-          "oauth_refresh_token": {
-            "type": "string"
-          },
-          "platform": {
-            "$ref": "#/components/schemas/Provider"
-          }
+          "oauth_client_id": { "type": "string" },
+          "oauth_client_secret": { "type": "string" },
+          "oauth_refresh_token": { "type": "string" },
+          "platform": { "$ref": "#/components/schemas/Provider" }
         }
       },
       "ListRawCalendarsResponse": {
@@ -2045,9 +1595,7 @@
         "properties": {
           "calendars": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CalendarListEntry"
-            }
+            "items": { "$ref": "#/components/schemas/CalendarListEntry" }
           }
         }
       },
@@ -2109,9 +1657,7 @@
           "recent_bots": {
             "description": "List of recent bots with metadata",
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RecentBotEntry"
-            }
+            "items": { "$ref": "#/components/schemas/RecentBotEntry" }
           }
         }
       },
@@ -2119,41 +1665,23 @@
         "type": "object",
         "required": ["password", "pseudo"],
         "properties": {
-          "app_signin_token": {
-            "type": ["string", "null"]
-          },
-          "google_chrome_token_id": {
-            "type": ["string", "null"]
-          },
-          "google_token_id": {
-            "type": ["string", "null"]
-          },
-          "microsoft_token_id": {
-            "type": ["string", "null"]
-          },
-          "password": {
-            "type": "string"
-          },
-          "pseudo": {
-            "type": "string"
-          }
+          "app_signin_token": { "type": ["string", "null"] },
+          "google_chrome_token_id": { "type": ["string", "null"] },
+          "google_token_id": { "type": ["string", "null"] },
+          "microsoft_token_id": { "type": ["string", "null"] },
+          "password": { "type": "string" },
+          "pseudo": { "type": "string" }
         }
       },
       "LoginQuery": {
         "type": "object",
-        "properties": {
-          "redirect_url": {
-            "type": ["string", "null"]
-          }
-        }
+        "properties": { "redirect_url": { "type": ["string", "null"] } }
       },
       "Metadata": {
         "type": "object",
         "required": ["bot_data", "content_deleted", "duration", "mp4"],
         "properties": {
-          "bot_data": {
-            "$ref": "#/components/schemas/BotData"
-          },
+          "bot_data": { "$ref": "#/components/schemas/BotData" },
           "content_deleted": {
             "description": "Indicates whether the recording has been deleted",
             "type": "boolean"
@@ -2169,18 +1697,11 @@
           }
         }
       },
-      "OptionalDateTime": {
-        "type": ["string", "null"],
-        "format": "date-time"
-      },
+      "OptionalDateTime": { "type": ["string", "null"], "format": "date-time" },
       "PostWebhookUrlRequest": {
         "type": "object",
         "required": ["webhook_url"],
-        "properties": {
-          "webhook_url": {
-            "type": "string"
-          }
-        }
+        "properties": { "webhook_url": { "type": "string" } }
       },
       "Provider": {
         "description": "Fields with value `\"simple\"` parse as `Kind::Simple`. Fields with value `\"fancy\"` parse as `Kind::SoFancy`.",
@@ -2255,11 +1776,7 @@
       "ReceivedMessageQuery": {
         "type": "object",
         "required": ["session_id"],
-        "properties": {
-          "session_id": {
-            "type": "string"
-          }
-        }
+        "properties": { "session_id": { "type": "string" } }
       },
       "RecentBotEntry": {
         "type": "object",
@@ -2312,10 +1829,7 @@
             "description": "URL of the meeting the bot joined",
             "type": "string"
           },
-          "name": {
-            "description": "Name of the bot",
-            "type": "string"
-          },
+          "name": { "description": "Name of the bot", "type": "string" },
           "session_id": {
             "description": "Session ID if the bot is active",
             "type": ["string", "null"]
@@ -2323,9 +1837,7 @@
           "speakers": {
             "description": "List of unique speaker names from the bot's transcripts",
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": { "type": "string" }
           }
         }
       },
@@ -2333,21 +1845,10 @@
         "type": "object",
         "required": ["end_time", "start_time", "text"],
         "properties": {
-          "end_time": {
-            "type": "number",
-            "format": "double"
-          },
-          "start_time": {
-            "type": "number",
-            "format": "double"
-          },
-          "text": {
-            "type": "string"
-          },
-          "user_id": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          }
+          "end_time": { "type": "number", "format": "double" },
+          "start_time": { "type": "number", "format": "double" },
+          "text": { "type": "string" },
+          "user_id": { "type": ["integer", "null"], "format": "int32" }
         }
       },
       "RecordingMode": {
@@ -2380,13 +1881,8 @@
             "items": {
               "type": "array",
               "items": [
-                {
-                  "type": "string",
-                  "format": "uuid"
-                },
-                {
-                  "type": "string"
-                }
+                { "type": "string", "format": "uuid" },
+                { "type": "string" }
               ],
               "maxItems": 2,
               "minItems": 2
@@ -2395,10 +1891,7 @@
           "synced_calendars": {
             "description": "List of calendar UUIDs that were successfully resynced with their calendar provider (Google, Microsoft)",
             "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
+            "items": { "type": "string", "format": "uuid" }
           }
         }
       },
@@ -2412,13 +1905,8 @@
             "items": {
               "type": "array",
               "items": [
-                {
-                  "type": "string",
-                  "format": "uuid"
-                },
-                {
-                  "type": "string"
-                }
+                { "type": "string", "format": "uuid" },
+                { "type": "string" }
               ],
               "maxItems": 2,
               "minItems": 2
@@ -2427,10 +1915,7 @@
           "synced_calendars": {
             "description": "List of calendar UUIDs that were successfully resynced",
             "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
+            "items": { "type": "string", "format": "uuid" }
           }
         }
       },
@@ -2438,32 +1923,20 @@
         "type": "object",
         "required": ["bot_uuid"],
         "properties": {
-          "bot_uuid": {
-            "type": "string"
-          },
+          "bot_uuid": { "type": "string" },
           "speech_to_text": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/SpeechToText"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/SpeechToText" },
+              { "type": "null" }
             ]
           },
-          "webhook_url": {
-            "type": ["string", "null"]
-          }
+          "webhook_url": { "type": ["string", "null"] }
         }
       },
       "RetryWebhookQuery": {
         "type": "object",
         "required": ["bot_uuid"],
-        "properties": {
-          "bot_uuid": {
-            "type": "string"
-          }
-        }
+        "properties": { "bot_uuid": { "type": "string" } }
       },
       "ScheduleOrigin": {
         "oneOf": [
@@ -2474,12 +1947,7 @@
               "Event": {
                 "type": "object",
                 "required": ["id"],
-                "properties": {
-                  "id": {
-                    "type": "integer",
-                    "format": "int32"
-                  }
-                }
+                "properties": { "id": { "type": "integer", "format": "int32" } }
               }
             },
             "additionalProperties": false
@@ -2491,12 +1959,7 @@
               "ScheduledBot": {
                 "type": "object",
                 "required": ["id"],
-                "properties": {
-                  "id": {
-                    "type": "integer",
-                    "format": "int32"
-                  }
-                }
+                "properties": { "id": { "type": "integer", "format": "int32" } }
               }
             },
             "additionalProperties": false
@@ -2505,24 +1968,16 @@
       },
       "SpeechToText": {
         "anyOf": [
-          {
-            "$ref": "#/components/schemas/SpeechToTextApiParameter"
-          },
-          {
-            "$ref": "#/components/schemas/SpeechToTextProvider"
-          }
+          { "$ref": "#/components/schemas/SpeechToTextApiParameter" },
+          { "$ref": "#/components/schemas/SpeechToTextProvider" }
         ]
       },
       "SpeechToTextApiParameter": {
         "type": "object",
         "required": ["provider"],
         "properties": {
-          "api_key": {
-            "type": ["string", "null"]
-          },
-          "provider": {
-            "$ref": "#/components/schemas/SpeechToTextProvider"
-          }
+          "api_key": { "type": ["string", "null"] },
+          "provider": { "$ref": "#/components/schemas/SpeechToTextProvider" }
         }
       },
       "SpeechToTextProvider": {
@@ -2531,31 +1986,19 @@
       },
       "StartRecordFailedQuery": {
         "type": "object",
-        "properties": {
-          "bot_uuid": {
-            "type": ["string", "null"]
-          }
-        }
+        "properties": { "bot_uuid": { "type": ["string", "null"] } }
       },
       "StreamingApiParameter": {
         "type": "object",
         "properties": {
           "audio_frequency": {
             "anyOf": [
-              {
-                "$ref": "#/components/schemas/AudioFrequency"
-              },
-              {
-                "type": "null"
-              }
+              { "$ref": "#/components/schemas/AudioFrequency" },
+              { "type": "null" }
             ]
           },
-          "input": {
-            "type": ["string", "null"]
-          },
-          "output": {
-            "type": ["string", "null"]
-          }
+          "input": { "type": ["string", "null"] },
+          "output": { "type": ["string", "null"] }
         }
       },
       "SyncResponse": {
@@ -2564,10 +2007,7 @@
           "affected_event_uuids": {
             "description": "UUIDs of affected events",
             "type": ["array", "null"],
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
+            "items": { "type": "string", "format": "uuid" }
           },
           "has_updates": {
             "description": "timestamp of last updated event if some events has been updated.",
@@ -2583,12 +2023,12 @@
           "nanos_since_epoch": {
             "type": "integer",
             "format": "uint32",
-            "minimum": 0
+            "minimum": 0.0
           },
           "secs_since_epoch": {
             "type": "integer",
             "format": "uint64",
-            "minimum": 0
+            "minimum": 0.0
           }
         }
       },
@@ -2607,87 +2047,40 @@
           "transcription_tokens"
         ],
         "properties": {
-          "duration": {
-            "type": "string"
-          },
-          "recording_tokens": {
-            "type": "string"
-          },
-          "streaming_input_hour": {
-            "type": "string"
-          },
-          "streaming_input_tokens": {
-            "type": "string"
-          },
-          "streaming_output_hour": {
-            "type": "string"
-          },
-          "streaming_output_tokens": {
-            "type": "string"
-          },
-          "transcription_byok_hour": {
-            "type": "string"
-          },
-          "transcription_byok_tokens": {
-            "type": "string"
-          },
-          "transcription_hour": {
-            "type": "string"
-          },
-          "transcription_tokens": {
-            "type": "string"
-          }
+          "duration": { "type": "string" },
+          "recording_tokens": { "type": "string" },
+          "streaming_input_hour": { "type": "string" },
+          "streaming_input_tokens": { "type": "string" },
+          "streaming_output_hour": { "type": "string" },
+          "streaming_output_tokens": { "type": "string" },
+          "transcription_byok_hour": { "type": "string" },
+          "transcription_byok_tokens": { "type": "string" },
+          "transcription_hour": { "type": "string" },
+          "transcription_tokens": { "type": "string" }
         }
       },
       "TokenConsumptionQuery": {
         "type": "object",
         "required": ["end_date", "start_date"],
         "properties": {
-          "end_date": {
-            "type": "string",
-            "format": "partial-date-time"
-          },
-          "start_date": {
-            "type": "string",
-            "format": "partial-date-time"
-          }
+          "end_date": { "type": "string", "format": "partial-date-time" },
+          "start_date": { "type": "string", "format": "partial-date-time" }
         }
       },
       "Transcript": {
         "type": "object",
         "required": ["bot_id", "id", "speaker", "start_time", "words"],
         "properties": {
-          "bot_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "end_time": {
-            "type": ["number", "null"],
-            "format": "double"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "lang": {
-            "type": ["string", "null"]
-          },
-          "speaker": {
-            "type": "string"
-          },
-          "start_time": {
-            "type": "number",
-            "format": "double"
-          },
-          "user_id": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          },
+          "bot_id": { "type": "integer", "format": "int32" },
+          "end_time": { "type": ["number", "null"], "format": "double" },
+          "id": { "type": "integer", "format": "int32" },
+          "lang": { "type": ["string", "null"] },
+          "speaker": { "type": "string" },
+          "start_time": { "type": "number", "format": "double" },
+          "user_id": { "type": ["integer", "null"], "format": "int32" },
           "words": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Word"
-            }
+            "items": { "$ref": "#/components/schemas/Word" }
           }
         }
       },
@@ -2695,92 +2088,38 @@
         "type": "object",
         "required": ["bot_id", "speaker", "start_time"],
         "properties": {
-          "bot_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "end_time": {
-            "type": ["number", "null"],
-            "format": "double"
-          },
-          "lang": {
-            "type": ["string", "null"]
-          },
-          "speaker": {
-            "type": "string"
-          },
-          "start_time": {
-            "type": "number",
-            "format": "double"
-          },
-          "user_id": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          }
+          "bot_id": { "type": "integer", "format": "int32" },
+          "end_time": { "type": ["number", "null"], "format": "double" },
+          "lang": { "type": ["string", "null"] },
+          "speaker": { "type": "string" },
+          "start_time": { "type": "number", "format": "double" },
+          "user_id": { "type": ["integer", "null"], "format": "int32" }
         }
       },
       "Transcript3": {
         "type": "object",
         "required": ["bot_id", "id", "speaker", "start_time"],
         "properties": {
-          "bot_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "end_time": {
-            "type": ["number", "null"],
-            "format": "double"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "lang": {
-            "type": ["string", "null"]
-          },
-          "speaker": {
-            "type": "string"
-          },
-          "start_time": {
-            "type": "number",
-            "format": "double"
-          },
-          "user_id": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          }
+          "bot_id": { "type": "integer", "format": "int32" },
+          "end_time": { "type": ["number", "null"], "format": "double" },
+          "id": { "type": "integer", "format": "int32" },
+          "lang": { "type": ["string", "null"] },
+          "speaker": { "type": "string" },
+          "start_time": { "type": "number", "format": "double" },
+          "user_id": { "type": ["integer", "null"], "format": "int32" }
         }
       },
       "Transcript4": {
         "type": "object",
         "required": ["id"],
         "properties": {
-          "bot_id": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          },
-          "end_time": {
-            "type": ["number", "null"],
-            "format": "double"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "lang": {
-            "type": ["string", "null"]
-          },
-          "speaker": {
-            "type": ["string", "null"]
-          },
-          "start_time": {
-            "type": ["number", "null"],
-            "format": "double"
-          },
-          "user_id": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          }
+          "bot_id": { "type": ["integer", "null"], "format": "int32" },
+          "end_time": { "type": ["number", "null"], "format": "double" },
+          "id": { "type": "integer", "format": "int32" },
+          "lang": { "type": ["string", "null"] },
+          "speaker": { "type": ["string", "null"] },
+          "start_time": { "type": ["number", "null"], "format": "double" },
+          "user_id": { "type": ["integer", "null"], "format": "int32" }
         }
       },
       "UpdateCalendarParams": {
@@ -2792,34 +2131,22 @@
           "platform"
         ],
         "properties": {
-          "oauth_client_id": {
-            "type": "string"
-          },
-          "oauth_client_secret": {
-            "type": "string"
-          },
-          "oauth_refresh_token": {
-            "type": "string"
-          },
-          "platform": {
-            "$ref": "#/components/schemas/Provider"
-          }
+          "oauth_client_id": { "type": "string" },
+          "oauth_client_secret": { "type": "string" },
+          "oauth_refresh_token": { "type": "string" },
+          "platform": { "$ref": "#/components/schemas/Provider" }
         }
       },
       "UserTokensResponse": {
         "type": "object",
         "required": ["available_tokens", "total_tokens_purchased"],
         "properties": {
-          "available_tokens": {
-            "type": "string"
-          },
+          "available_tokens": { "type": "string" },
           "last_purchase_date": {
             "type": ["string", "null"],
             "format": "partial-date-time"
           },
-          "total_tokens_purchased": {
-            "type": "string"
-          }
+          "total_tokens_purchased": { "type": "string" }
         }
       },
       "UuidParam": {
@@ -2827,66 +2154,33 @@
         "type": "object",
         "required": ["uuid"],
         "properties": {
-          "uuid": {
-            "description": "The UUID identifier",
-            "type": "string"
-          }
+          "uuid": { "description": "The UUID identifier", "type": "string" }
         }
       },
       "Version": {
         "type": "object",
         "required": ["build_date", "build_timestamp", "location"],
         "properties": {
-          "build_date": {
-            "type": "string"
-          },
-          "build_timestamp": {
-            "type": "string"
-          },
-          "location": {
-            "type": "string"
-          }
+          "build_date": { "type": "string" },
+          "build_timestamp": { "type": "string" },
+          "location": { "type": "string" }
         }
       },
       "Word": {
         "type": "object",
         "required": ["bot_id", "end_time", "id", "start_time", "text"],
         "properties": {
-          "bot_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "end_time": {
-            "type": "number",
-            "format": "double"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "start_time": {
-            "type": "number",
-            "format": "double"
-          },
-          "text": {
-            "type": "string"
-          },
-          "user_id": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          }
+          "bot_id": { "type": "integer", "format": "int32" },
+          "end_time": { "type": "number", "format": "double" },
+          "id": { "type": "integer", "format": "int32" },
+          "start_time": { "type": "number", "format": "double" },
+          "text": { "type": "string" },
+          "user_id": { "type": ["integer", "null"], "format": "int32" }
         }
       }
     }
   },
-  "security": [
-    {
-      "ApiKeyAuth": []
-    },
-    {
-      "LegacyApiKeyAuth": []
-    }
-  ],
+  "security": [{ "ApiKeyAuth": [] }, { "LegacyApiKeyAuth": [] }],
   "tags": [
     {
       "name": "Webhooks",

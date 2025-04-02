@@ -15,8 +15,7 @@ Both your app's credentials (service level) and user's credentials (user level) 
 ##### Detecting and fixing the issue
 
 1. You can detect this by periodically checking the calendar status using the [Get Calendar](/docs/api/reference/calendars/get_calendar) endpoint
-2. The [Resync All Calendars](/docs/api/reference/calendars/resync_all_calendars) endpoint will return detailed error information for calendars with authentication issues
-3. You should implement a monitoring strategy using this route to detect these failures and prompt users to reconnect their calendars
+2. You should implement a monitoring strategy using this route to detect these failures and prompt users to reconnect their calendars
 
 When this occurs, you need to, depending on whether it is your app's credentials or the user's credentials that are expired, you have 2 choices:
 
