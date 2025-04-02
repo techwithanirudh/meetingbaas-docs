@@ -6,7 +6,7 @@ import type {
 import { OramaClient } from '@oramacloud/client';
 
 const context =
-  'The user is a web developer who has basic programming knowledge, and has questions about MeetingBaas\'s APIs.';
+  "The user is a web developer who has basic programming knowledge, and has questions about MeetingBaas's APIs.";
 const endpoint = process.env.NEXT_PUBLIC_ORAMA_AI_ENDPOINT;
 const apiKey = process.env.NEXT_PUBLIC_ORAMA_AI_API_KEY;
 

@@ -57,7 +57,7 @@ export default async function Page(props: {
       editOnGithub={{
         repo,
         owner,
-        sha: "main",
+        sha: 'main',
         path,
       }}
       article={{
@@ -93,7 +93,9 @@ export default async function Page(props: {
             DocsCategory: ({ slugs = params.slug }: { slugs?: string[] }) => (
               <DocsCategory page={source.getPage(slugs)!} from={source} />
             ),
-            ...(await import('@/content/docs/api/community-and-support.client')),
+            ...(await import(
+              '@/content/docs/api/community-and-support.client'
+            )),
           }}
         />
         {page.data.index ? <DocsCategory page={page} from={source} /> : null}

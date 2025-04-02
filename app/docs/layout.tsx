@@ -39,7 +39,14 @@ const docsOptions: DocsLayoutProps = {
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
-  return <DocsLayout {...docsOptions} nav={{ ...docsOptions.nav, mode: 'top' }}
-    tabMode="navbar">
-    <DocsGradient />{children}</DocsLayout>;
+  return (
+    <DocsLayout
+      {...docsOptions}
+      nav={{ ...docsOptions.nav, mode: 'top' }}
+      tabMode="navbar"
+    >
+      <DocsGradient />
+      {children}
+    </DocsLayout>
+  );
 }
