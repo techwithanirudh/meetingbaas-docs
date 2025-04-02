@@ -21,7 +21,7 @@ import { Accordion, Accordions } from 'fumadocs-ui/components/accordion';
 import { createMetadata } from '@/lib/metadata';
 import { openapi, source } from '@/lib/source';
 import { metadataImage } from '@/lib/metadata-image';
-import { File, Folder, Files } from 'fumadocs-ui/components/files';
+import { Files, File, Folder } from '@/components/fumadocs/files';
 import { Mermaid } from '@theguild/remark-mermaid/mermaid';
 import type { MDXComponents } from 'mdx/types';
 import defaultMdxComponents from 'fumadocs-ui/mdx';

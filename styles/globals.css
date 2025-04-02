@@ -120,9 +120,3 @@
     --color-fd-primary: var(--speaking-bots-color) !important;
   }
 }
-
-@layer base {
-  [data-theme-toggle] {
-    @apply !hidden;
-  }
-}
