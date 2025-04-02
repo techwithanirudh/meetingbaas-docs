@@ -1,2 +1,2 @@
 export const repo = 'docs';
-export const owner = 'MeetingBaas';
+export const owner = 'Meeting-Baas';
