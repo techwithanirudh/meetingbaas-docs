@@ -2,5 +2,5 @@
 export default {
   singleQuote: true,
   endOfLine: 'lf',
-  plugins: ["prettier-plugin-tailwindcss"],
+  plugins: ['prettier-plugin-tailwindcss'],
 };

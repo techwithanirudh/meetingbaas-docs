@@ -13,7 +13,7 @@ export function IconContainer({
     <div
       {...props}
       className={cn(
-        'rounded-md border bg-linear-to-b from-muted to-secondary p-0.5 shadow-md [a[data-active=true]_&]:from-primary/60 [a[data-active=true]_&]:to-primary [a[data-active=true]_&]:text-primary-foreground',
+        'from-muted to-secondary [a[data-active=true]_&]:from-primary/60 [a[data-active=true]_&]:to-primary [a[data-active=true]_&]:text-primary-foreground rounded-md border bg-linear-to-b p-0.5 shadow-md',
         props.className,
       )}
     >

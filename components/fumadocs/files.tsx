@@ -20,7 +20,7 @@ export function Files({
 }: HTMLAttributes<HTMLDivElement>): React.ReactElement {
   return (
     <div
-      className={cn('not-prose rounded-md border bg-fd-card p-2', className)}
+      className={cn('not-prose bg-fd-card rounded-md border p-2', className)}
       {...props}
     >
       {props.children}
@@ -62,7 +62,7 @@ export function File({
         {name}
       </div>
       {description && (
-        <div className="text-xs text-fd-primary/80">{description}</div>
+        <div className="text-fd-primary/80 text-xs">{description}</div>
       )}
     </div>
   );
@@ -84,7 +84,7 @@ export function Folder({
           {name}
         </div>
         {description && (
-          <div className="text-xs text-fd-primary/80">{description}</div>
+          <div className="text-fd-primary/80 text-xs">{description}</div>
         )}
       </CollapsibleTrigger>
       <CollapsibleContent>
