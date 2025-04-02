@@ -28,6 +28,7 @@ import type { MDXComponents } from 'mdx/types';
 import defaultMdxComponents from 'fumadocs-ui/mdx';
 import { AutoTypeTable } from 'fumadocs-typescript/ui';
 import { createGenerator } from 'fumadocs-typescript';
+import { repo, owner } from '@/lib/github';
 
 const generator = createGenerator();
 
@@ -41,7 +42,7 @@ export default async function Page(props: {
 
   if (!page) notFound();
 
-  // const path = `content/docs/${page.file.path}`;
+  const path = `content/docs/${page.file.path}`;
   const { body: Mdx, toc, lastModified } = await page.data.load();
 
   return (
@@ -53,12 +54,12 @@ export default async function Page(props: {
         style: 'clerk',
         single: false,
       }}
-      // editOnGithub={{
-      //   repo: "docs",
-      //   owner: "Meeting-Baas",
-      //   sha: "main",
-      //   path,
-      // }}
+      editOnGithub={{
+        repo,
+        owner,
+        sha: "main",
+        path,
+      }}
       article={{
         className: 'max-sm:pb-16',
       }}

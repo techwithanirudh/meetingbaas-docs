@@ -72,6 +72,7 @@
 
 @layer base {
   :root {
+    --color-fd-background: 	hsl(168, 29%, 97%) !important;
     --color-fd-primary: hsl(176 100% 43%) !important;
     --color-fd-foreground: hsl(240, 6%, 25%) !important;
 
