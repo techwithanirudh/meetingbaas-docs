@@ -19,9 +19,9 @@ const config: NextConfig = {
   },
   serverExternalPackages: [
     'ts-morph',
+    'twoslash',
     'typescript',
     'oxc-transform',
-    'twoslash',
     'shiki',
   ],
   images: {
