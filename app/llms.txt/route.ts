@@ -1,57 +1,59 @@
-import * as fs from 'node:fs/promises';
+import { promises as fs } from 'node:fs';
 import fg from 'fast-glob';
 import matter from 'gray-matter';
 import path from 'node:path';
-import { remark } from 'remark';
-import remarkGfm from 'remark-gfm';
-import { fileGenerator, remarkDocGen, remarkInstall } from 'fumadocs-docgen';
-import remarkStringify from 'remark-stringify';
-import remarkMdx from 'remark-mdx';
-import { remarkAutoTypeTable } from 'fumadocs-typescript';
-import { remarkInclude } from 'fumadocs-mdx/config';
+import { baseUrl } from '@/lib/metadata';
 
 export const revalidate = false;
 
-const processor = remark()
-  .use(remarkMdx)
-  .use(remarkInclude)
-  .use(remarkGfm)
-  .use(remarkAutoTypeTable)
-  .use(remarkDocGen, { generators: [fileGenerator()] })
-  .use(remarkInstall, { persist: { id: 'package-manager' } })
-  .use(remarkStringify);
+function removeExtension(filePath: string) {
+  return path.join(path.dirname(filePath), path.basename(filePath, path.extname(filePath)));
+}
 
 export async function GET() {
+  const url = (path: string): string => new URL(path, baseUrl).toString();
+
   const files = await fg([
     './content/docs/**/*.mdx',
     '!./content/docs/api/reference/**/*',
   ]);
 
-  const scan = files.map(async (file) => {
-    const fileContent = await fs.readFile(file);
-    const { content, data } = matter(fileContent.toString());
+  type DocEntry = { title: string; description: string; file: string };
+  const groupedDocs: Record<string, DocEntry[]> = {};
 
-    const dir = path.dirname(file).split(path.sep).at(3);
-    const category = {
-      api: 'MeetingBaas API, the main purpose of the documentation',
-      'transcript-seeker':
-        'Transcript Seeker, the open-source transcription playground',
-      'speaking-bots': 'Speaking Bots, the Pipecat-powered bots',
-    }[dir ?? ''];
+  const categoryMapping: Record<string, string> = {
+    api: 'MeetingBaas API',
+    'transcript-seeker': 'Transcript Seeker',
+    'speaking-bots': 'Speaking Bots',
+  };
 
-    const processed: unknown = await processor.process({
-      path: file,
-      value: content,
+  for (const file of files) {
+    const fileContent = await fs.readFile(file, 'utf8');
+    const { data } = matter(fileContent);
+    const dir = path.dirname(file).split(path.sep).at(3) ?? '';
+
+    const category = categoryMapping[dir] ?? 'Others';
+
+    if (!groupedDocs[category]) groupedDocs[category] = [];
+    groupedDocs[category].push({
+      title: data.title || 'Untitled',
+      description: data.description || `More information about ${category}'s ${data.title || 'Untitled'}`,
+      file,
     });
-    return `file: ${file}
-# ${category}: ${data.title}
+  }
 
-${data.description}
-        
-${processed as string}`;
+  let markdownOutput = '# Docs\n\n';
+
+  Object.entries(groupedDocs).forEach(([category, docs]) => {
+    markdownOutput += `## ${category}\n\n`;
+    docs.forEach(({ title, description, file }) => {
+      const docUrl = url(removeExtension(file.replace('./content/docs/', '')));
+      markdownOutput += `- [${title}](${docUrl}): ${description}\n`;
+    });
+    markdownOutput += '\n';
   });
 
-  const scanned = await Promise.all(scan);
-
-  return new Response(scanned.join('\n\n'));
+  return new Response(markdownOutput, {
+    headers: { 'Content-Type': 'text/markdown' },
+  });
 }
