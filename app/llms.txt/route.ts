@@ -6,12 +6,20 @@ import { baseUrl } from '@/lib/metadata';
 
 export const revalidate = false;
 
-function removeExtension(filePath: string) {
-  return path.join(path.dirname(filePath), path.basename(filePath, path.extname(filePath)));
-}
+const removeExtension = (filePath: string) =>
+  path.join(path.dirname(filePath), path.basename(filePath, path.extname(filePath)));
+
+const normalizeUrlPath = (filePath: string): string => {
+  let relPath = filePath.replace('./content/docs/', '');
+  let normalized = removeExtension(relPath);
+  if (path.basename(normalized) === 'index') {
+    normalized = path.dirname(normalized);
+  }
+  return '/docs/' + normalized;
+};
 
 export async function GET() {
-  const url = (path: string): string => new URL(path, baseUrl).toString();
+  const url = (p: string): string => new URL(p, baseUrl).toString();
 
   const files = await fg([
     './content/docs/**/*.mdx',
@@ -31,13 +39,14 @@ export async function GET() {
     const fileContent = await fs.readFile(file, 'utf8');
     const { data } = matter(fileContent);
     const dir = path.dirname(file).split(path.sep).at(3) ?? '';
-
     const category = categoryMapping[dir] ?? 'Others';
 
     if (!groupedDocs[category]) groupedDocs[category] = [];
     groupedDocs[category].push({
       title: data.title || 'Untitled',
-      description: data.description || `More information about ${category}'s ${data.title || 'Untitled'}`,
+      description:
+        data.description ||
+        `More information about ${category}'s ${data.title || 'Untitled'}`,
       file,
     });
   }
@@ -47,7 +56,8 @@ export async function GET() {
   Object.entries(groupedDocs).forEach(([category, docs]) => {
     markdownOutput += `## ${category}\n\n`;
     docs.forEach(({ title, description, file }) => {
-      const docUrl = url(removeExtension(file.replace('./content/docs/', '')));
+      const normalizedPath = normalizeUrlPath(file);
+      const docUrl = url(normalizedPath);
       markdownOutput += `- [${title}](${docUrl}): ${description}\n`;
     });
     markdownOutput += '\n';
